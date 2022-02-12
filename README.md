@@ -161,7 +161,12 @@ log.error("程序执行可能出错\n变量没有定义")
 log.fatal("正在执行程序{a} + {b} , {sex} {name}...",{a:1,b:1,sex:true,name:"voerka"})
 
 ```
+输出效果如下：
+
+![](./images/log11.jpg)
+
 第二个参数也可以是一个返回`[]`或`{}`插值变量列表的函数.
+
 ```javascript
 log.warn("My name is {name}, age is {age}",()=> ({name:"Voerka",age:1}))
 ```
