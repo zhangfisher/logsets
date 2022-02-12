@@ -1,0 +1,169 @@
+import ansicolor  from "ansicolor";
+const { isEscaped,strip } = ansicolor
+
+export function isClass(cls){
+    let result = false
+    if (typeof(cls) === 'function' && cls.prototype) {
+        try {
+            cls.arguments && cls.caller;
+        } catch(e) {
+            result=true
+        }
+    }
+    return result;
+}
+export function isClassInstance(obj){
+    return obj.constructor && obj.constructor.toString().startsWith("class") 
+}
+
+export function firstUpper(str){
+    return str.charAt(0).toUpperCase()+str.substring(1)
+}
+
+/**
+ *  字符串居中填充
+ *  paddingCenter("a",5,"*")  == "**a**"
+ * 
+ * @param {*} s 
+ * @param {*} width 
+ * @param {*} fillChar 
+ * @returns 
+ */
+export function paddingCenter(s,width,fillChar=" ") { 
+    let len = getStringWidth(String(s))
+    let llength=parseInt((width-len)/2)
+    return new Array(llength).fill(fillChar).join("")+s+new Array(width-len-llength).fill(fillChar).join("")
+} 
+export function paddingStart(s,width,fillChar=" ") { 
+    let len = getStringWidth(String(s)) 
+    if(len>=width) return s
+    return new Array(width-len).fill(fillChar).join("")  + s 
+} 
+
+export function paddingEnd(s,width,fillChar=" ") { 
+    let len = getStringWidth(String(s)) 
+    if(len>=width) return s
+    return s + new Array(width-len).fill(fillChar).join("")
+} 
+
+export function repeatChars(count,char){
+    return new Array(count).fill(char).join("")
+}
+
+function getSignalLineWidth(s){
+    let str = String(s)
+    var realLength = 0, len = str.length, charCode = -1;
+    for (var i = 0; i < len; i++) {
+        charCode = str.charCodeAt(i);
+        if (charCode >= 0 && charCode <= 128) realLength += 1;
+        else realLength += 2;
+    }
+    return realLength;  
+} 
+
+// 获取字符串长度，中文按2个字符表示，多行字符串取其中最长的一行
+// 如果是着色过的会自动去掉着色再计算
+export function getStringWidth(str){  
+    if(isPlainObject(str) || Array.isArray(str)) str = JSON.stringify(str)
+    if(typeof(str)!=="string") str = String(str)
+    if(isEscaped(str)) str = strip(str)
+    return Math.max(...String(str).split("\n").map(s=>getSignalLineWidth(s))    )
+} 
+
+// 返回指定内空是否是基本的数据类型
+export function isBaseDataType(value){
+    return !(Array.isArray(value) || isPlainObject(value))
+}
+
+/**
+ * 截断字符串未尾的字符
+ *
+ * trimEndChars("abc123xyz","xyz") == "abc123"
+ * trimEndChars("abc123\n","\n") == "abc123"
+ *
+ * @param chars
+ * @returns {string}
+ */
+export function trimEndChars(str,chars){
+    if(chars){
+        let index =  str.lastIndexOf(chars)
+        if(index+chars.length===str.length){
+            return str.substr(0,index)
+        }
+    }
+    return str.valueOf()
+}
+// 截取字符串，超过显示省略号，支持中文
+export function cutstr(str, len) {
+    if(getStringWidth(str)<=len) return str
+    if(len<4) len = 4 
+    var str_length = 0;
+    var str_len = 0;
+    let str_cut = new String();
+    str_len = str.length;
+    for (var i = 0; i < str_len; i++) {
+        let a = str.charAt(i);
+        str_length++;
+        if (escape(a).length > 4) {            
+            str_length++;//中文字符的长度经编码之后大于4  
+        }
+        str_cut = str_cut.concat(a);
+        if (str_length >= len-3) {
+            str_cut = str_cut.concat("...");
+            if(getSignalLineWidth(str_cut)>len) str_cut = str_cut.substr(0,str_cut.length-1)
+            return str_cut;
+        }
+    }
+    //如果给定字符串小于指定长度，则返回源字符串；  
+    if (str_length < len) {
+        return str;
+    } 
+}
+/**
+ * 截断字符串
+ * truncateString("123456789",3,"*") == "123*456*789"
+ * truncateString("123456789",3) == 第一行："123 第二行：456 第三行：*789
+ * @param {*} s 
+ * @param {*} width 
+ * @param {*} fillChar 
+ */
+export function truncateString(s,width=80,fillChar="\n"){
+    if(s.length<=width) return s
+    let lines=[] , index = 0
+    while(index<s.length){
+        lines.push(s.substr(index,width))
+        index+=width
+    } 
+    return lines.join(fillChar)
+}
+ 
+export function getDataType(v){
+	if (v === null)  return 'Null' 
+	if (v === undefined) return 'Undefined'  
+    if(isClass(v)) return 'Class'
+    if(isClassInstance(v)) return 'Instance'
+    if(isAsyncFunction(v)) return "AsyncFunction"
+    if(typeof(v)==="function")  return "Function"
+	return v.constructor && v.constructor.name;
+};
+
+export function isPlainObject(obj){
+    if (typeof obj !== 'object' || obj === null) return false;
+    var proto = Object.getPrototypeOf(obj);
+    if (proto === null) return true;
+    var baseProto = proto;
+
+    while (Object.getPrototypeOf(baseProto) !== null) {
+        baseProto = Object.getPrototypeOf(baseProto);
+    }
+    return proto === baseProto; 
+}
+
+
+export function isAsyncFunction(fn){
+    return Object.prototype.toString.call(fn) === '[object AsyncFunction]' 
+}
+
+export function isRegexp(value) {
+	return Object.prototype.toString.call(value) === '[object RegExp]';
+}
