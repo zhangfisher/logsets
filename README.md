@@ -9,9 +9,9 @@
 # 安装
 
 ```shell
-npm install coloredLog
-yarn add coloredLog
-pnpm add coloredLog
+npm install logsets
+yarn add logsets
+pnpm add logsets
 ```
 
 # 指南
@@ -19,7 +19,7 @@ pnpm add coloredLog
 ## 模板字符串输出
 
 ```javascript
-import createLogger from "coloredLog"
+import createLogger from "logsets"
 const log = createLogger({...})
 log("My name is {}","tom")
 log("{a}+{b}={c}",{a:1,b:1,c:2})
@@ -36,7 +36,7 @@ log.print(arg1,arg2,arg3,.....)
 ```
 
 ```javascript
-import createLogger from "coloredLog"
+import createLogger from "coloredLogger"
 const log = createLogger({...})
 
 log.print("String",true,100,()=>{},[1,2,3])
@@ -59,7 +59,7 @@ log.print({name:"tom",age:100,admin:true,posts:["a","b"],values:[1,2,3]},()=>"he
 - **基本用法**
 
 ```javascript
-import createLogger from "coloredLog"
+import createLogger from "coloredLogger"
 const log = createLogger({...})
 
 log.format({
@@ -83,7 +83,7 @@ log.format({
 对数组或对象成员数量当超过指定值时，显示省略号并备注总数量。
 
 ```javascript
-import createLogger from "coloredLog"
+import createLogger from "coloredLogger"
 const log = createLogger({...})
 
 log.format({
@@ -117,7 +117,7 @@ log.format({
 **可以配置紧凑模式输出。**
 
 ```javascript
-import createLogger from "coloredLog"
+import createLogger from "coloredLogger"
 const log = createLogger({...})
 
 log.format({
@@ -151,7 +151,7 @@ log.fatal("<模块字符串>",[位置插值变量列表] || {插值变量列表}
 示例如下：
 
 ```javascript
-import createLogger from "coloredLog"
+import createLogger from "coloredLogger"
 const log = createLogger({...})
 log.debug("正在执行程序{},还需要{}秒...",["logs",9])
 log.info("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9})
@@ -184,13 +184,13 @@ log.config({
 
 ## 表格输出
 
-`coloredLog`支持额外引入table插件用来输出表格
+`logsets`支持额外引入`table`插件用来输出表格
 
 ### 基本用法 
 
 ```javascript
-import createLogger from "coloredLog"
-import TablePlugin from "coloredLog/plugins/table"
+import createLogger from "coloredLogger"
+import TablePlugin from "coloredLogger/plugins/table"
 
 const log = createLogger({...})
 log.use(TablePlugin)
@@ -249,7 +249,23 @@ table.render()
 
 ### 单元格着色
 
-`table.addRow`进行增加行时，会根据`coloredLog` 全局配置按不同的数据类型显示不同的颜色。
+`table.addRow`进行增加行时，会根据`logsets` 全局配置按不同的数据类型显示不同的颜色。
+
+### 单元格里显示着色对象
+
+默认情况下，在单元格里面显示`{...}`或`[...]`时会将之转化为字符串进行显示，而不是像`format`方法一样进行格式化关色后输出。需要额外配置`colorize=2`才会进行着色输出。
+
+```javascript
+table = log.table({  
+   colorize:2,    
+})
+```
+
+colorize参数用来控制是否对单元格内容进行着色。
+
+- **0 :** 禁用着色输出
+- **1 :** 对简单数据类型进行着色，默认值
+- **2** ：对表单元里面的对象和数组进行着色,需要额外的计算   
 
 ### API
 
@@ -349,7 +365,7 @@ addFooter(content,
 
 # 配置
 
-`coloredLog`支持丰富的配置参数，可以自定义输出样式。
+`logsets`支持丰富的配置参数，可以自定义输出样式。
 
 ## 默认配置
 
@@ -357,7 +373,7 @@ addFooter(content,
 
 
 ```javascript
-import createLogger from "coloredLog"
+import createLogger from "coloredLogger"
 const log = createLogger({
     indent: "  ",                                           // 缩进
     singleQuotes: false,                                    // 显示单引号 

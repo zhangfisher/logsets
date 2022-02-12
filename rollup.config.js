@@ -27,7 +27,7 @@ export default  [
                 exclude: 'node_modules/**'
             }),
             clear({targets:["dist"]}),
-            //uglify()
+            uglify()
         ],
         external:["@babel/runtime"]
     },
@@ -51,7 +51,7 @@ export default  [
                 babelHelpers:"runtime", 
                 exclude: 'node_modules/**',
             }), 
-            //uglify()
+            uglify()
         ],
         external:["@babel/runtime"]
     } 
