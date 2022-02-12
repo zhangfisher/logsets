@@ -1,5 +1,3 @@
-# coloredLog
-
 在终端输出带颜色的文本，支持以下特性：
 
 - 支持按不同数据类型以不同的颜色显示，并且可以配置
@@ -8,7 +6,7 @@
 - 支持自动格式化显示`{}`和`[]`类型
 - 支持强大的表格输出
 
-## 安装
+# 安装
 
 ```shell
 npm install coloredLog
@@ -16,9 +14,9 @@ yarn add coloredLog
 pnpm add coloredLog
 ```
 
-## 指南
+# 指南
 
-### 模板字符串输出
+## 模板字符串输出
 
 ```javascript
 import createLogger from "coloredLog"
@@ -30,7 +28,7 @@ log("{a}+{b}={c}",{a:1,b:1,c:2})
 
 ![image](./images/log.jpg)
 
-### 按数据类型输出
+## 按数据类型输出
 
 提供`print`方法，用来连续输出多个经过着色的参数。
 ```
@@ -54,7 +52,7 @@ log.print({name:"tom",age:100,admin:true,posts:["a","b"],values:[1,2,3]},()=>"he
 
 ![image](./images/log2.jpg)
 
-### 格式化输出对象
+## 格式化输出对象
 
 提供`format`方法，用来带缩进格式和着色过的对象
 
@@ -138,7 +136,7 @@ log.format({
 
 ![image](./images/log4.jpg)
 
-### 输出日志级别
+## 输出日志级别
 
 按指定级别输出日志，并会对插值变量进行着色。
 
@@ -184,11 +182,11 @@ log.config({
 - **time**：当前时间
 - **message**：文本信息
 
-### 表格输出
+## 表格输出
 
 `coloredLog`支持额外引入table插件用来输出表格
 
-#### 基本用法 
+### 基本用法 
 
 ```javascript
 import createLogger from "coloredLog"
@@ -238,7 +236,7 @@ table.render()
 
 ![image](./images/log6.jpg)
 
-#### 控制表格线样式 
+### 控制表格线样式 
 
 当`grid=1`时，输出效果如下：
 
@@ -249,15 +247,15 @@ table.render()
 
 ![image](./images/log8.jpg)
 
-#### 单元格着色
+### 单元格着色
 
 `table.addRow`进行增加行时，会根据`coloredLog` 全局配置按不同的数据类型显示不同的颜色。
 
-#### API
+### API
 
 table实例具有以下方法：
 
-##### addHeader 
+#### addHeader 
  增加表头，一个表格只能指定一个表头，并且表头不支持多行标题。
 
 ```javascript
@@ -271,7 +269,7 @@ addHeader("序号","名称",">地址")          // 地址列右对齐
 addHeader("序号","名称","<地址")          // 地址列左对齐
 ```
 
-##### addRow 
+#### addRow 
 
 表格支持添加任意多的普通表行。
 
@@ -301,7 +299,7 @@ table.render()
 
     ![](./images/log9.jpg)
 
-##### addSummary 
+#### addSummary 
 增加汇总行，汇总行用来合并所有单元格并显示内容。
 
 ```javascript
@@ -319,7 +317,7 @@ addSummary(
 
     效果图参阅上文。
 
-##### addFooter 
+#### addFooter 
 增加表尾，一个表格只能显示一个表尾。
 
 
@@ -341,7 +339,7 @@ addFooter(content,
 
 - 默认情况下`merge=true`，即`addFooter("内容")===addFooter("内容",{merge:true})`。
 
-##### addSeparator
+#### addSeparator
 
 当`grid=0`或`grid=1`即不显示网格线时用来增加一条分割线。
 
@@ -349,11 +347,11 @@ addFooter(content,
     addSeparator()   // 无参数
 ```
 
-## 配置
+# 配置
 
 `coloredLog`支持丰富的配置参数，可以自定义输出样式。
 
-### 默认配置
+## 默认配置
 
 完整配置如下：
 
@@ -426,7 +424,7 @@ const log = createLogger({
 
 以上是默认的配置，一般情况不需要进行修改覆盖。
 
-### 数据类型显示样式
+## 数据类型显示样式
 
 各种数据类型均可以配置显示样式，支持配置`Array`、`Object`、`Function`、`AsyncFunction`、`Error`、`Date`、`Null`、`Undefuned`、`Boolean`、`Number`、`String`、`Class`、`Instance`，`Symbol`、`Regexp`。
 
