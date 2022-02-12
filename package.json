@@ -24,13 +24,13 @@
   "dependencies": {
     "ansicolor": "^1.1.100",    
     "deepmerge": "^4.2.2",
+    "core-js": "^3.21.0",
     "@babel/runtime-corejs3": "^7.17.0",
     "get-own-enumerable-property-symbols": "^3.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.17.2",
     "@babel/plugin-transform-runtime": "^7.17.0",
-    "core-js": "^3.21.0",
     "@babel/preset-env": "^7.16.11",
     "@babel/runtime": "^7.17.2",
     "@rollup/plugin-babel": "^5.3.0",
