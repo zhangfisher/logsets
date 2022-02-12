@@ -21,6 +21,10 @@
   },
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitee.com/zhangfisher/logsets.git"
+  },
   "dependencies": {
     "ansicolor": "^1.1.100",    
     "deepmerge": "^4.2.2",
