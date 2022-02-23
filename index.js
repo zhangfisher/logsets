@@ -31,28 +31,30 @@ let ParamRegExp = /\{\w*\}/g
  * @param {*} params
  * @returns
  */
-String.prototype.params = function (params) {
-  let result = this.valueOf()
-  if (typeof params === 'object') {
-    for (let name in params) {
-      result = result.replace('{' + name + '}', params[name])
+ if(!String.prototype.hasOwnProperty("params")){
+    String.prototype.params = function (params) {
+    let result = this.valueOf()
+    if (typeof params === 'object') {
+        for (let name in params) {
+        result = result.replace('{' + name + '}', params[name])
+        }
+    } else {
+        let i = 0
+        for (let match of result.match(ParamRegExp) || []) {
+        if (i < arguments.length) {
+            result = result.replace(match, arguments[i])
+            i += 1
+        }
+        }
     }
-  } else {
-    let i = 0
-    for (let match of result.match(ParamRegExp) || []) {
-      if (i < arguments.length) {
-        result = result.replace(match, arguments[i])
-        i += 1
-      }
+    return result
     }
-  }
-  return result
-}
+}               
 String.prototype.trimBeginChars = function (chars) {
   if (chars) {
     let index = this.indexOf(chars)
     if (index === 0) {
-      return this.substr(chars.length)
+      return this.substr(chars.length)              
     }
   }
   return this.valueOf()
@@ -181,20 +183,20 @@ function format (value,options={}) {
  * @param  {...any} args
  */
 function printTemplate (message, ...args) {
-  console.log(getColorizedTemplate(message, ...args))
+  console.log(getColorizedTemplate.call(this,message, ...args))
 }
 
 /**
  *
- *  const log = coloredLog({})
- *  log("{a}+{b}",{a:1,b:2})                        // 变量插值输出
- *  log("{}+{}",1,2)                                // 位置参数插值输出
- *  log.print(...)
- *  log.config({compact:true}).print(...)         // 设置全局配置
- *  log.set().print(...)                          // 设置临时配置
- *  log("this is {a}+{b}",{a:1,b:2})
- *  log.info("this is {a}+{b}",{a:1,b:2})
- *  log.warn("this is {a}+{b}",1,2)
+ *  const logger = createLogger({})
+ *  logger.log("{a}+{b}",{a:1,b:2})                        // 变量插值输出
+ *  logger.log("{}+{}",1,2)                                // 位置参数插值输出
+ *  logger.print(...)
+ *  logger.config({compact:true}).print(...)         // 设置全局配置
+ *  logger.set().print(...)                          // 设置临时配置
+ *  logger.log("this is {a}+{b}",{a:1,b:2})
+ *  logger.info("this is {a}+{b}",{a:1,b:2})
+ *  logger.warn("this is {a}+{b}",1,2)
  *
  *
  * @param {*} options
@@ -202,8 +204,9 @@ function printTemplate (message, ...args) {
 
 export default function createLogger (options = {}) {
   let context = deepmerge(DefaultOptions, options)
-  let log = (message, ...args) => {
-    printTemplate(message, ...args)
+  let log = {}
+  log.log = (message, ...args) => {
+    printTemplate.call(context,message, ...args)
   }
   log.print = (...args) => print.call(context, ...args)
   log.format = (...args) => format.call(context, ...args)

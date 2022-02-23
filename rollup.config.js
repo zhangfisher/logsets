@@ -2,8 +2,9 @@
 import clear from 'rollup-plugin-clear'
 import { uglify } from "rollup-plugin-uglify";
 import { babel } from '@rollup/plugin-babel'; 
-import  resolve from "@rollup/plugin-node-resolve"
 import commonjs from '@rollup/plugin-commonjs';
+
+// import  resolve from "@rollup/plugin-node-resolve"
 
 export default  [
     {
@@ -14,7 +15,7 @@ export default  [
                 format:"es" 
             },
             {
-                file: 'dist/index.js', 
+                file: 'dist/index.cjs', 
                 exports:"default",        
                 format:"cjs" 
             }
@@ -39,7 +40,7 @@ export default  [
                 format:"es" 
             },
             {
-                file: 'dist/table.plugin.js', 
+                file: 'dist/table.plugin.cjs', 
                 exports:"default",    
                 format:"cjs" 
             }

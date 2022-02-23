@@ -1,6 +1,4 @@
-import {isPlainObject, isRegexp} from "./utils.js" 
-import getOwnEnumPropSymbols from 'get-own-enumerable-property-symbols';
-
+import {isPlainObject, isRegexp,getOwnEnumPropSymbols} from "./utils.js"  
 
 /**
  * 获取对象的键名对齐的长度
@@ -122,7 +120,7 @@ export default function stringifyObject(input, options, pad) {
 		if (isPlainObject(input)) {
 			let objectKeys = [
 				...Object.keys(input),
-				...getOwnEnumPropSymbols.default(input),
+				...getOwnEnumPropSymbols(input),
 			];
 
 			if (options.filter) {

@@ -20,6 +20,13 @@ export function firstUpper(str){
     return str.charAt(0).toUpperCase()+str.substring(1)
 }
 
+// 获取所有给定对象所有自有的Symbol值的可枚举属性的数组
+export function getOwnEnumPropSymbols(obj){
+	return Object
+    .getOwnPropertySymbols(obj)
+    .filter((keySymbol) => Object.prototype.propertyIsEnumerable.call(obj, keySymbol));
+}
+ 
 /**
  *  字符串居中填充
  *  paddingCenter("a",5,"*")  == "**a**"

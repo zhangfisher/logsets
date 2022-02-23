@@ -20,33 +20,33 @@ pnpm add logsets
 
 ```javascript
 import createLogger from "logsets"
-const log = createLogger({...})
-log("My name is {}","tom")
-log("{a}+{b}={c}",{a:1,b:1,c:2})
+const logger = createLogger({...})
+logger.log("My name is {}","tom")
+logger.log("{a}+{b}={c}",{a:1,b:1,c:2})
 ```
 输出效果如下：
 
-![image](./images/log.jpg)
+![image](./images/logger.jpg)
 
 ## 按数据类型输出
 
 提供`print`方法，用来连续输出多个经过着色的参数。
 ```
-log.print(arg1,arg2,arg3,.....)
+logger.print(arg1,arg2,arg3,.....)
 ```
 
 ```javascript
 import createLogger from "coloredLogger"
 const log = createLogger({...})
 
-log.print("String",true,100,()=>{},[1,2,3])
-log.print(null,undefined)
-log.print(/^colored$/g)
-log.print(new Error("Value Error"))
-log.print(new Date())  
-log.print(class A{})
-log.print(new (class X{})())
-log.print({name:"tom",age:100,admin:true,posts:["a","b"],values:[1,2,3]},()=>"hello")
+logger.print("String",true,100,()=>{},[1,2,3])
+logger.print(null,undefined)
+logger.print(/^colored$/g)
+logger.print(new Error("Value Error"))
+logger.print(new Date())  
+logger.print(class A{})
+logger.print(new (class X{})())
+logger.print({name:"tom",age:100,admin:true,posts:["a","b"],values:[1,2,3]},()=>"hello")
 ```
 输出效果如下：
 
@@ -60,9 +60,9 @@ log.print({name:"tom",age:100,admin:true,posts:["a","b"],values:[1,2,3]},()=>"he
 
 ```javascript
 import createLogger from "coloredLogger"
-const log = createLogger({...})
+const logger = createLogger({...})
 
-log.format({
+logger.format({
     name:"tom",
     age:11,
     admin:true,
@@ -84,9 +84,9 @@ log.format({
 
 ```javascript
 import createLogger from "coloredLogger"
-const log = createLogger({...})
+const logger = createLogger({...})
 
-log.format({
+logger.format({
     values:new Array(10).fill(0).map((v,i)=>i+1),
     users:{
         tom:{name:"tom",age:21,sex:true},
@@ -118,16 +118,16 @@ log.format({
 
 ```javascript
 import createLogger from "coloredLogger"
-const log = createLogger({...})
+const logger = createLogger({...})
 
-log.format({
+logger.format({
     values:new Array(10).fill(0).map((v,i)=>i+1),
     users:{
         tom:{name:"tom",age:21,sex:true},
         ...,
         jack12:{name:"jack",age:21,sex:false}, 
     }
-},,{Array:{maxItems:5,compact:true},Object:{maxItems:5,compact:true}})
+},{Array:{maxItems:5,compact:true},Object:{maxItems:5,compact:true}})
 
 ```
 `compact`参数用来指示采用紧凑模式输出
@@ -141,11 +141,11 @@ log.format({
 按指定级别输出日志，并会对插值变量进行着色。
 
 ```javascript
-log.debug("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
-log.info("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
-log.warn("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
-log.error("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
-log.fatal("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
+logger.debug("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
+logger.info("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
+logger.warn("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
+logger.error("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
+logger.fatal("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
 ```
 
 示例如下：
@@ -153,12 +153,12 @@ log.fatal("<模块字符串>",[位置插值变量列表] || {插值变量列表}
 ```javascript
 import createLogger from "coloredLogger"
 const log = createLogger({...})
-log.debug("正在执行程序{},还需要{}秒...",["logs",9])
-log.info("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9})
-log.warn("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9},"Line:123")
-log.warn("程序执行可能出错\n变量没有定义")
-log.error("程序执行可能出错\n变量没有定义")
-log.fatal("正在执行程序{a} + {b} , {sex} {name}...",{a:1,b:1,sex:true,name:"voerka"})
+logger.debug("正在执行程序{},还需要{}秒...",["logs",9])
+logger.info("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9})
+logger.warn("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9},"Line:123")
+logger.warn("程序执行可能出错\n变量没有定义")
+logger.error("程序执行可能出错\n变量没有定义")
+logger.fatal("正在执行程序{a} + {b} , {sex} {name}...",{a:1,b:1,sex:true,name:"voerka"})
 
 ```
 输出效果如下：
@@ -168,13 +168,13 @@ log.fatal("正在执行程序{a} + {b} , {sex} {name}...",{a:1,b:1,sex:true,name
 第二个参数也可以是一个返回`[]`或`{}`插值变量列表的函数.
 
 ```javascript
-log.warn("My name is {name}, age is {age}",()=> ({name:"Voerka",age:1}))
+logger.warn("My name is {name}, age is {age}",()=> ({name:"Voerka",age:1}))
 ```
 
 输出样式可以通过`template`参数配置模块字符串。 
 
 ```javascript
-log.config({
+logger.config({
     template:"[{level}] {datetime} - {message}"
 })
 ```
@@ -198,9 +198,9 @@ import createLogger from "coloredLogger"
 import TablePlugin from "coloredLogger/plugins/table"
 
 const log = createLogger({...})
-log.use(TablePlugin)
+logger.use(TablePlugin)
 
-const table = log.table({       
+const table = logger.table({       
     colorize:1,              // 是否需要颜色化 0-禁用着色,1-简单着色 2-对表单元里面的对象和数组进行着色,需要额外的计算
     grid:2,                  		// 表格线样式,0=不显示表格线,1=只显示垂直表格线,2=显示完整表格线
     maxColWidth:32,          		// 最大列宽,超过会显示省略号
@@ -261,7 +261,7 @@ table.render()
 默认情况下，在单元格里面显示`{...}`或`[...]`时会将之转化为字符串进行显示，而不是像`format`方法一样进行格式化关色后输出。需要额外配置`colorize=2`才会进行着色输出。
 
 ```javascript
-table = log.table({  
+table = logger.table({  
    colorize:2,    
 })
 ```
@@ -301,7 +301,7 @@ addRow(<单元格内容>,<单元格内容>,...,<单元格内容>)
 一般情况下，单元格的数量应该与`addHeader`中列数量一致。如果`addRow`的参数个数大于`addHeader`的参数个数，会自动扩展列，取最大的列数量进行显示。
 
 ```javascript
-table = log.table({ 
+table = logger.table({ 
     grid:2,
     maxColWidth:12,                                    
 })
@@ -480,7 +480,7 @@ const log = createLogger({
 **举例如下：**
 
 ```javascript
-log.config({
+logger.config({
     Boolean:"bgLightRed,white"
 })
 ```

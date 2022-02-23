@@ -1,16 +1,16 @@
 import createLogger from "./index.js" 
 import  tablePlugin from "./table.plugin.js" 
 
-const log = createLogger()
-log.use(tablePlugin)
-log.print(/^colored$/g)
-// log.print("I am very cool!",true,3,[1,2,3,4],"Voerka",{a:1,b:2},null,undefined,[{a:1}])
+const logger = createLogger()
+logger.use(tablePlugin)
+logger.print(/^colored$/g)
+// logger.print("I am very cool!",true,3,[1,2,3,4],"Voerka",{a:1,b:2},null,undefined,[{a:1}])
 
-// log("I am {}, age is {}","voerka",1,true,null)
-// log("{a} + {b} == 3 {a} ",{a:1111,b:2})
+// logger.log("I am {}, age is {}","voerka",1,true,null)
+// logger.log("{a} + {b} == 3 {a} ",{a:1111,b:2})
 const t= new Date()
 function getUserInfo(){
-    console.log("getUserInfo")
+    console.logger.log("getUserInfo")
 }
 class MyError extends Error {
     constructor(message) {
@@ -18,31 +18,31 @@ class MyError extends Error {
     }
 }
  
-// log.print({posts:["a","b"],values:[1,2,3],z:()=>{}})
-log.print({z:()=>{}})
-log("My name is {}","tom")
-log("{a}+{b}={c}",{a:1,b:1,c:2})
+// logger.print({posts:["a","b"],values:[1,2,3],z:()=>{}})
+logger.print({z:()=>{}})
+logger.log("My name is {}","tom")
+logger.log("{a}+{b}={c}",{a:1,b:1,c:2})
 
-log.print("String",true,100,()=>{},[1,2,3])
-log.print(null,undefined)
-log.print(/^colored$/g)
-log.print(new Error("Value Error"))
-log.print(new Date())  
-log.print(class A{})
-log.print(new (class X{})())
-log.print({name:"tom",age:100,admin:true,posts:["a","b"],values:[1,2,3]},()=>"hello")
+logger.print("String",true,100,()=>{},[1,2,3])
+logger.print(null,undefined)
+logger.print(/^colored$/g)
+logger.print(new Error("Value Error"))
+logger.print(new Date())  
+logger.print(class A{})
+logger.print(new (class X{})())
+logger.print({name:"tom",age:100,admin:true,posts:["a","b"],values:[1,2,3]},()=>"hello")
 
-log.format("{a}+{b}={c}",{a:1,b:1,c:2})
+logger.format("{a}+{b}={c}",{a:1,b:1,c:2})
 
-log("My name is {}", "Voerka")
-log("My name is {}, age is {}", "Voerka", 1)
-log("{a}+{b}={c}", {a:1,b:2,c:3})
-log.print({numbers:[1,2,3,4,5,6,7,1,1,1,1,1,1,1,1,1,1,1,1,1,5,6,7,1,1,1,1,1,1,1,1,1,1,1,1], fooc: true, barops: 42,seescvx:"mass",x:null,y:undefined,z:()=>{},reg:/^12323$/,obj:{
+logger.log("My name is {}", "Voerka")
+logger.log("My name is {}, age is {}", "Voerka", 1)
+logger.log("{a}+{b}={c}", {a:1,b:2,c:3})
+logger.print({numbers:[1,2,3,4,5,6,7,1,1,1,1,1,1,1,1,1,1,1,1,1,5,6,7,1,1,1,1,1,1,1,1,1,1,1,1], fooc: true, barops: 42,seescvx:"mass",x:null,y:undefined,z:()=>{},reg:/^12323$/,obj:{
     x:1,y:2,z:[1,2,3,4,5,6,7,1,1,1,1,1,1,1,1,1,1,1,1,1,5,6,7,1,1,1,1,1,1,1,1,1,1,1,1]
 }})
 
 
-log.format({
+logger.format({
     values:new Array(10).fill(0).map((v,i)=>i+1),
     users:{
         tom:{name:"tom",age:21,sex:true},
@@ -64,7 +64,7 @@ log.format({
 
 
 
-log.format({
+logger.format({
     name:"tom",
     age:11,
     admin:true,
@@ -80,12 +80,12 @@ log.format({
 // { price: "100", amt: 10 }  ] ,
 // time:t ,error:new MyError("BCXCCC"),callback:getUserInfo }
 
-// log(o1)
+// logger.log(o1)
  
 
 
 
-log.config({
+logger.config({
     Object:{maxItems:5,compact:true}
 }).format({
     users:{
@@ -114,16 +114,16 @@ log.config({
 })
 
 
-log.debug("正在执行程序{},还需要{}秒...",["logs",9])
-log.info("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9})
-log.warn("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9},"Line:123")
-log.warn("程序执行可能出错\n变量没有定义")
-log.error("程序执行可能出错\n变量没有定义")
-log.fatal("执行程序{a} + {b}发生致命错误",{a:1,b:1})
+logger.debug("正在执行程序{},还需要{}秒...",["logs",9])
+logger.info("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9})
+logger.warn("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9},"Line:123")
+logger.warn("程序执行可能出错\n变量没有定义")
+logger.error("程序执行可能出错\n变量没有定义")
+logger.fatal("执行程序{a} + {b}发生致命错误",{a:1,b:1})
 
-log.warn("My name is {name}, age is {age}",()=> ({name:"Voerka",age:1}))
+logger.warn("My name is {name}, age is {age}",()=> ({name:"Voerka",age:1}))
 
-let table = log.table({
+let table = logger.table({
     colorize:1,
     grid:1,
 })
@@ -143,7 +143,7 @@ table.render()
   
 
 
-table = log.table({
+table = logger.table({
     colorize:1,
     grid:2,
     maxColWidth:12,                                    
