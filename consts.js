@@ -51,7 +51,7 @@ export const DefaultOptions ={
     },
     Instance : {
         style:"lightBlue",
-        format:value=>`<Class(${value.constructor.name})>`
+        format:value=>`<${value.constructor.name.firstUpper()}()>`
     },
     Date     : {
         style:"lightBlue",

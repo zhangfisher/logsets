@@ -17,7 +17,21 @@ class MyError extends Error {
         super(message) 
     }
 }
- 
+async function delay(n=100){
+    return new Promise(resolve=>{
+        setTimeout(resolve,n)
+    })
+}
+
+
+logger.log("------------")
+for(let i = 0 ; i < 100; i++){
+    await delay(10)
+    logger.print("已下载",i,"%",{end:"\r"})
+}
+logger.print("")
+logger.log("------------")
+
 // logger.print({posts:["a","b"],values:[1,2,3],z:()=>{}})
 logger.print({z:()=>{}})
 logger.log("My name is {}","tom")
@@ -29,7 +43,7 @@ logger.print(/^colored$/g)
 logger.print(new Error("Value Error"))
 logger.print(new Date())  
 logger.print(class A{})
-logger.print(new (class X{})())
+logger.print(new (class User{})())
 logger.print({name:"tom",age:100,admin:true,posts:["a","b"],values:[1,2,3]},()=>"hello")
 
 logger.format("{a}+{b}={c}",{a:1,b:1,c:2})

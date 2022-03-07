@@ -18,22 +18,59 @@ pnpm add logsets
 
 ## 模板字符串输出
 
+对模板字符串进行插值后输出着色后的字符串。
+
+```javascript
+    log("<模板字符串>",<变量1>,<变量1>,...,{end:"\n",append:" "})
+    log("<模板字符串>",<变量1>,<变量1>,...)
+    log("<模板字符串>",{<变量1>:<值>,<变量1>:<值>},)
+    log("<模板字符串>",{<变量1>:<值>,<变量1>:<值>},{end:"\n",append:" "})
+```
+**输出配置参数：**
+```javascript
+{
+    end:"\n",          // 行结束字符，默认是换行会导致打印下一行，如\r则不会换行而只是回到行首
+    append:" "         // 每个输出参数自动追加的字符，默认是一个空格
+}
+```
+**示例如下：**
 ```javascript
 import createLogger from "logsets"
 const logger = createLogger({...})
-logger.log("My name is {}","tom")
+// 命名插值变量
 logger.log("{a}+{b}={c}",{a:1,b:1,c:2})
+// 位置插值变量
+logger.log("My name is {}","tom")
+logger.log("{a}+{b}={c}",1,1,2)
 ```
-输出效果如下：
+**输出效果如下：**
 
 ![image](./images/logger.jpg)
+
+
+默认情况下，每次执行`log`方法完成后均会导致换行输出。`log`方法还支持配置输出参数:
+```javascript
+for(let i =0 ;  i<=100; i++){
+  logger.log("正在下载:{}",i,{end:"\r"})          // 每行输出时最后打印\r回车符，回到行头，从而可以实现下载进度的更新。
+}
+logger.log()   // 换行
+```
+**配置参数**
+当log的参数大于=2个并且最后一个参数是{}时，将最后一个参数视为是输出配置参数。
+
 
 ## 按数据类型输出
 
 提供`print`方法，用来连续输出多个经过着色的参数。
+```javascript
+    print(arg1,arg2,arg3,.....)
+    print(arg1,arg2,arg3,.....,{end:"\n",append:" "}) // 增加可选的输出参数
 ```
-logger.print(arg1,arg2,arg3,.....)
-```
+**输出配置参数：**
+
+同`log`方法.
+
+**示例**
 
 ```javascript
 import createLogger from "coloredLogger"

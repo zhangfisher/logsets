@@ -1,13 +1,42 @@
 import colorize, { getColorizeFunction } from './colorize.js'
 import deepmerge from 'deepmerge'
 import { DefaultOptions } from './consts.js'
-import {  firstUpper, isPlainObject,  paddingCenter  } from './utils.js'
+import {  firstUpper, isPlainObject,  paddingCenter,isPlainFunction  } from './utils.js'
 
 const DEBUG = 'DEBUG'
 const INFO = 'INFO'
 const WARN = 'WARN'
 const ERROR = 'ERROR'
 const FATAL = 'FATAL'
+
+/**
+ * 当参数大于2个，并且最后一个参数是一个{}时，视为控制配置参数
+ * 
+ * consoleOuput(1,{
+ *    append:" ",            // 默认每一个参数后面添加的字符串，默认空格 
+ *    end:0 | 1 | 2, // 结束字符
+ *        0=不追加,这次就可以实现多次输出在一行中
+ *        1=是否回车，即回退到行尾，用来实现覆写
+ *        2=换行符
+ * })
+ * 
+ * @param  {...any} texts 
+ */
+function consoleOuput(...texts){
+    let options = {
+        append:" ",
+        end:"\n"  //换行符
+    }
+    if(texts.length>=2 && isPlainObject(texts[texts.length-1])){
+        Object.assign(options,texts.pop())
+    }
+    texts.forEach(text=>{
+        process.stdout.write(text+options.append)
+    }) 
+    if(options.end){
+        process.stdout.write(options.end) 
+    }
+}
 
 // 'foreground colors'
 //     .red.green.yellow.blue.magenta.cyan.white.darkGray.black
@@ -136,7 +165,7 @@ function logOutput (level, message, args, memo) {
   if (memo) {
     output += getColorizeFunction(this.levels.memo)(`(${memo})`)
   }
-  console.log(output)
+  consoleOuput(output)
 }
 
 /**
@@ -151,23 +180,36 @@ function logOutput (level, message, args, memo) {
  * this=logger.options
  **/
 function print () {
-  console.log(
-    ...Array.from(arguments).map(arg => {
-      if (typeof arg === 'function') {
-        try{arg = arg()}catch{}
+    let args = [...arguments]
+    let options = {end:"\n",append:" "}
+    if(arguments.length>=2 && isPlainObject(arguments[arguments.length-1])){
+        args = args.slice(0,arguments.length-1)
+        Object.assign(options,arguments[arguments.length-1])
     }
-      if(typeof(arg)==="string"){
-          return arg
-      }else{
-          return colorize(arg, this)
-      }      
-    })
-  )
+    
+
+    consoleOuput(
+        ...Array.from(args).map(arg => {
+            if (isPlainFunction(arg)) {
+                try{
+                    arg = arg()
+                }catch{
+                    arg = "ERROR"
+                }
+            }
+            if(typeof(arg)==="string"){
+                return arg
+            }else{
+                return colorize(arg, this)
+            }      
+        }),
+        options
+    )
 }
  
 function format (value,options={}) {
   if (typeof value === 'function') value = value()
-  console.log(colorize(
+  consoleOuput(colorize(
         value,
         deepmerge(this, deepmerge({
            Array: { compact: false },
@@ -183,7 +225,7 @@ function format (value,options={}) {
  * @param  {...any} args
  */
 function printTemplate (message, ...args) {
-  console.log(getColorizedTemplate.call(this,message, ...args))
+  consoleOuput(getColorizedTemplate.call(this,message, ...args))
 }
 
 /**

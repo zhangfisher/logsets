@@ -54,7 +54,7 @@ const DefaultTableOptions  = {
  * @param {*} options
  */
  function createTable (logOptions,options = {}) {
-    const log = this 
+    const logger = this 
     let tableOptions = deepmerge(DefaultTableOptions,options)
     let headerData, footerData, bodyData = []  
     let totalCols = 1, colStyles = []   // [{width:10,align:'left'},...]
@@ -493,18 +493,18 @@ const DefaultTableOptions  = {
       },
       render () {
         const [header, body, footer] = calcTableLayout()
-        if(header) renderHeader.call(log,{header, body, footer})
-        renderBody.call(log,{header, body, footer})
-        if(footer) renderFooter.call(log,{header, body, footer})
+        if(header) renderHeader.call(logger,{header, body, footer})
+        renderBody.call(logger,{header, body, footer})
+        if(footer) renderFooter.call(logger,{header, body, footer})
       }
     }
 }
   
 /**
  * 
- * @param {*} log 
+ * @param {*} logger      日志实例对象，可以调用logger.log()等方法
  * @param {*} context  当前表格的上下文配置参数
  */
-export default function(log,context){
-    log.table = (opts)=>createTable.call(log,context,opts)
+export default function(logger,context){
+    logger.table = (opts)=>createTable.call(logger,context,opts)
 }

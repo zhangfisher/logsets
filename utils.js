@@ -45,8 +45,7 @@ export function paddingStart(s,width,fillChar=" ") {
     let len = getStringWidth(String(s)) 
     if(len>=width) return s
     return new Array(width-len).fill(fillChar).join("")  + s 
-} 
-
+}  
 export function paddingEnd(s,width,fillChar=" ") { 
     let len = getStringWidth(String(s)) 
     if(len>=width) return s
@@ -165,7 +164,9 @@ export function isPlainObject(obj){
     }
     return proto === baseProto; 
 }
-
+export function isPlainFunction(obj){
+    return typeof obj === 'function' && !isClass(obj)
+}
 
 export function isAsyncFunction(fn){
     return Object.prototype.toString.call(fn) === '[object AsyncFunction]' 
