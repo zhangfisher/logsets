@@ -12,6 +12,15 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}\\demo.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "进度条",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}\\progressbar.demo.js"
         }
     ]
 }

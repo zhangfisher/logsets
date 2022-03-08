@@ -6,7 +6,9 @@ import ansicolor from 'ansicolor'
 import { isClass,isPlainObject,isAsyncFunction,getDataType, isRegexp,firstUpper } from './utils.js';
 import { DefaultOptions } from './consts.js';
   
-
+Object.assign(ansicolor.rgb,{
+    bgDarkGray: [13,213,33]
+})
  /** 
  'foreground colors'
     .red.green.yellow.blue.magenta.cyan.white.darkGray.black

@@ -259,6 +259,7 @@ export default function createLogger (options = {}) {
   log.fatal = (...args) => logOutput.call(context, FATAL, ...args)
   log.use = (plugin) => plugin(log,context)  
   log.colorize = (arg) => colorize(arg, context)
+  log.getColorizer = getColorizeFunction
   log.options = context
   log.config = opts => {
     if (isPlainObject(opts)) {
