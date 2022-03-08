@@ -1,0 +1,273 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 debug pnpm:package-manifest": {
+    "initial": {
+      "name": "logsets",
+      "version": "1.0.6",
+      "description": "",
+      "main": "dist/index.cjs",
+      "module": "dist/index.mjs",
+      "type": "module",
+      "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "rollup -c"
+      },
+      "exports": {
+        ".": {
+          "import": "./dist/index.mjs",
+          "require": "./dist/index.cjs"
+        },
+        "./plugins/table": {
+          "import": "./dist/table.plugin.mjs",
+          "require": "./dist/table.plugin.cjs"
+        }
+      },
+      "author": "",
+      "license": "ISC",
+      "repository": {
+        "type": "git",
+        "url": "git+https://gitee.com/zhangfisher/logsets.git"
+      },
+      "dependencies": {
+        "@babel/runtime-corejs3": "^7.17.0",
+        "ansicolor": "^1.1.100",
+        "core-js": "^3.21.0",
+        "deepmerge": "^4.2.2"
+      },
+      "devDependencies": {
+        "@babel/core": "^7.17.2",
+        "@babel/cli ": "^7.17.0",
+        "@babel/preset-env": "^7.16.11",
+        "@babel/runtime": "^7.17.2",
+        "@rollup/plugin-babel": "^5.3.0",
+        "@rollup/plugin-commonjs": "^21.0.1",
+        "rollup-plugin-clear": "^2.0.7",
+        "rollup-plugin-uglify": "^6.0.4"
+      }
+    },
+    "prefix": "D:\\Code\\logsets"
+  },
+  "2 debug pnpm:context": {
+    "currentLockfileExists": false,
+    "storeDir": "D:\\.pnpm-store\\v3",
+    "virtualStoreDir": "D:\\Code\\logsets\\node_modules\\.pnpm"
+  },
+  "3 debug pnpm:stage": {
+    "prefix": "D:\\Code\\logsets",
+    "stage": "resolution_started"
+  },
+  "4 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmmirror.com/@babel/core/7.17.2",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@babel/core",
+      "rawSpec": "^7.17.2"
+    }
+  },
+  "5 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmmirror.com/@babel/preset-env/7.16.11",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@babel/preset-env",
+      "rawSpec": "^7.16.11"
+    }
+  },
+  "6 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmmirror.com/@babel/runtime/7.17.2",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@babel/runtime",
+      "rawSpec": "^7.17.2"
+    }
+  },
+  "7 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmmirror.com/@rollup/plugin-babel/5.3.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@rollup/plugin-babel",
+      "rawSpec": "^5.3.0"
+    }
+  },
+  "8 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmmirror.com/@rollup/plugin-commonjs/21.0.1",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@rollup/plugin-commonjs",
+      "rawSpec": "^21.0.1"
+    }
+  },
+  "9 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmmirror.com/rollup-plugin-clear/2.0.7",
+    "wanted": {
+      "dependentId": ".",
+      "name": "rollup-plugin-clear",
+      "rawSpec": "^2.0.7"
+    }
+  },
+  "10 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmmirror.com/rollup-plugin-uglify/6.0.4",
+    "wanted": {
+      "dependentId": ".",
+      "name": "rollup-plugin-uglify",
+      "rawSpec": "^6.0.4"
+    }
+  },
+  "11 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmmirror.com/@babel/runtime-corejs3/7.17.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@babel/runtime-corejs3",
+      "rawSpec": "^7.17.0"
+    }
+  },
+  "12 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmmirror.com/ansicolor/1.1.100",
+    "wanted": {
+      "dependentId": ".",
+      "name": "ansicolor",
+      "rawSpec": "^1.1.100"
+    }
+  },
+  "13 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmmirror.com/core-js/3.21.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "core-js",
+      "rawSpec": "^3.21.0"
+    }
+  },
+  "14 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmmirror.com/deepmerge/4.2.2",
+    "wanted": {
+      "dependentId": ".",
+      "name": "deepmerge",
+      "rawSpec": "^4.2.2"
+    }
+  },
+  "15 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/@babel/preset-env/7.16.11",
+    "requester": "D:\\Code\\logsets",
+    "status": "found_in_store"
+  },
+  "16 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/@babel/preset-env/7.16.11",
+    "requester": "D:\\Code\\logsets",
+    "status": "resolved"
+  },
+  "17 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/@babel/core/7.17.2",
+    "requester": "D:\\Code\\logsets",
+    "status": "found_in_store"
+  },
+  "18 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/@babel/core/7.17.2",
+    "requester": "D:\\Code\\logsets",
+    "status": "resolved"
+  },
+  "19 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/@rollup/plugin-babel/5.3.0",
+    "requester": "D:\\Code\\logsets",
+    "status": "found_in_store"
+  },
+  "20 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/@rollup/plugin-babel/5.3.0",
+    "requester": "D:\\Code\\logsets",
+    "status": "resolved"
+  },
+  "21 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/rollup-plugin-clear/2.0.7",
+    "requester": "D:\\Code\\logsets",
+    "status": "found_in_store"
+  },
+  "22 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/rollup-plugin-clear/2.0.7",
+    "requester": "D:\\Code\\logsets",
+    "status": "resolved"
+  },
+  "23 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/@rollup/plugin-commonjs/21.0.1",
+    "requester": "D:\\Code\\logsets",
+    "status": "found_in_store"
+  },
+  "24 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/@rollup/plugin-commonjs/21.0.1",
+    "requester": "D:\\Code\\logsets",
+    "status": "resolved"
+  },
+  "25 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/rollup-plugin-uglify/6.0.4",
+    "requester": "D:\\Code\\logsets",
+    "status": "found_in_store"
+  },
+  "26 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/rollup-plugin-uglify/6.0.4",
+    "requester": "D:\\Code\\logsets",
+    "status": "resolved"
+  },
+  "27 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/@babel/runtime/7.17.2",
+    "requester": "D:\\Code\\logsets",
+    "status": "found_in_store"
+  },
+  "28 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/@babel/runtime/7.17.2",
+    "requester": "D:\\Code\\logsets",
+    "status": "resolved"
+  },
+  "29 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/ansicolor/1.1.100",
+    "requester": "D:\\Code\\logsets",
+    "status": "found_in_store"
+  },
+  "30 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/ansicolor/1.1.100",
+    "requester": "D:\\Code\\logsets",
+    "status": "resolved"
+  },
+  "31 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/deepmerge/4.2.2",
+    "requester": "D:\\Code\\logsets",
+    "status": "found_in_store"
+  },
+  "32 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/deepmerge/4.2.2",
+    "requester": "D:\\Code\\logsets",
+    "status": "resolved"
+  },
+  "33 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/@babel/runtime-corejs3/7.17.0",
+    "requester": "D:\\Code\\logsets",
+    "status": "found_in_store"
+  },
+  "34 debug pnpm:progress": {
+    "packageId": "registry.npmmirror.com/@babel/runtime-corejs3/7.17.0",
+    "requester": "D:\\Code\\logsets",
+    "status": "resolved"
+  },
+  "35 debug pnpm:fetching-progress": {
+    "attempt": 1,
+    "packageId": "registry.npmmirror.com/core-js/3.21.0",
+    "size": 224454,
+    "status": "started"
+  },
+  "36 error pnpm": {
+    "code": "ERR_PNPM_FETCH_404",
+    "hint": "@babel/cli  is not in the npm registry, or you have no permission to fetch it.\n\nNo authorization header was set for the request.",
+    "request": {
+      "url": "https://registry.npmjs.org/@babel%2Fcli%20"
+    },
+    "response": {
+      "size": 0
+    },
+    "pkgName": "@babel/cli ",
+    "pkgsStack": [],
+    "err": {
+      "name": "pnpm",
+      "message": "GET https://registry.npmjs.org/@babel%2Fcli%20: Not Found - 404",
+      "code": "ERR_PNPM_FETCH_404",
+      "stack": "pnpm: GET https://registry.npmjs.org/@babel%2Fcli%20: Not Found - 404\n    at RetryOperation._fn (C:\\Users\\Administrator\\AppData\\Roaming\\npm\\pnpm-global\\5\\node_modules\\.pnpm\\registry.npmmirror.com+pnpm@6.32.3\\node_modules\\pnpm\\dist\\pnpm.cjs:85709:19)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"
+    }
+  }
+}

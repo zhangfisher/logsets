@@ -3,6 +3,7 @@ import clear from 'rollup-plugin-clear'
 import { uglify } from "rollup-plugin-uglify";
 import { babel } from '@rollup/plugin-babel'; 
 import commonjs from '@rollup/plugin-commonjs';
+import { terser } from "rollup-plugin-terser";
 
 // import  resolve from "@rollup/plugin-node-resolve"
 
@@ -28,7 +29,7 @@ export default  [
                 exclude: 'node_modules/**'
             }),
             clear({targets:["dist"]}),
-            uglify()
+            terser()
         ],
         external:["@babel/runtime"]
     },
@@ -52,7 +53,7 @@ export default  [
                 babelHelpers:"runtime", 
                 exclude: 'node_modules/**',
             }), 
-            uglify()
+            terser()
         ],
         external:["@babel/runtime"]
     } 

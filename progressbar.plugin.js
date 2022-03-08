@@ -51,7 +51,21 @@ const DefaultProgressbarOptions  = {
         char  : " ",
         speed : 100,      // 当type     = infinite时滑块移动速度
         size  : 4,        // 当type     = infinite时滑块大小
-    }   
+    },
+    status:{   
+        stop:{
+            style:"",
+            char:"✋",
+        },
+        complete:{
+            style:"",
+            char:"✔️"
+        },
+        error:{
+            style:"",
+            char:"❌",            
+        }
+    }  
 }
 
 
@@ -90,7 +104,8 @@ function createProgressbar(context,options){
         return new Array(opts.width).fill(opts.background.char).join("")
     }
     // 常规进度条，进度由value,min,max控制
-    function renderProgressbar(value){ 
+    function renderProgressbar(value,{status}={}){  
+        opts.value = value
         // 计算滑块大小，当value>min时显示为1，当value<max时显示为width-1
         let sliderLenght = parseInt(value/(opts.max-opts.min) * opts.width)
         if(value > opts.min && value === sliderLenght) sliderLenght = 1
@@ -99,15 +114,19 @@ function createProgressbar(context,options){
         // 背景条
         let bg =new Array(opts.width - sliderLenght).fill(opts.background.char).join("")
         let emptyBg = new Array(opts.width).fill(opts.background.char).join("")
+
         // 显示文本
-        let text  = opts.dispaly.params({value,percent:getPercent(value,opts.max),max:opts.max,min:opts.min})
-
+        let statusText = ""
+        if(status && status in opts.status){
+            const state = opts.status[status]
+            statusText = logger.getColorizer(state.style)(state.char)
+        }else{
+            statusText = opts.dispaly.params({value,percent:getPercent(value,opts.max),max:opts.max,min:opts.min})
+        } 
         // 清除进度条
-        logger.print(`${opts.title}${bgColorizer(emptyBg)} ${text}`,{end:"\r"})
+        logger.print(`${opts.title}${bgColorizer(emptyBg)} ${statusText}`,{end:"\r"})
         // 绘制进度条
-        logger.print(`${opts.title}${sliderColorizer(slider)}${bgColorizer(bg)} ${text}`,{end:"\r"})
-        // 退格到最后的滑块位置
-
+        logger.print(`${opts.title}${sliderColorizer(slider)}${bgColorizer(bg)} ${statusText}`,{end:"\r"})
     }
     function hideCursor(){
         process.stdout.write(`${"\x1b"}[?25l`) 
@@ -120,24 +139,33 @@ function createProgressbar(context,options){
         begin(){
             hideCursor()
         },
-        value(n){
-            
-            renderProgressbar(n)
-            
+        value(n){          
+            if(n>opts.max) n = opts.max
+            if(n<opts.min) n = opts.min
+            if(n===opts.max) {
+                return this.end()
+            }else{
+                renderProgressbar(n)      
+            }
         },
-        end(){            
+        end(){          
+            renderProgressbar(opts.max,{status:"complete"})  
             showCursor()
+            process.stdout.write("\n") 
+        }, 
+        stop(n){            
+            if(!n) n = opts.value 
+            renderProgressbar(n,{status:"stop"})  
+            showCursor()
+            process.stdout.write("\n") 
         },
-        /**
-         * 当调用此方法时，会对最后一个滑块进行闪烁，用来提示工作正在进行中
-         */
-        tick(){
-
+        error(n){           
+            if(!n) n = opts.value 
+            renderProgressbar(n,{status:"error"})  
+            showCursor()
+            process.stdout.write("\n") 
         }
-
     }
-  
-
 }
 /**
  * 
