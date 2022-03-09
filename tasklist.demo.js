@@ -20,7 +20,7 @@ const taskData = [
 
 for(let task of taskData){
     tasks.add(task.title)
-    await delay(3000)
+    await delay(1000)
     tasks[task.result](task.note)
 }
  

@@ -49,13 +49,13 @@ import deepmerge from 'deepmerge'
 
 const DefaultTreeOptions  = {
     root: "Root",    
-    width: 72,                  // 当显示备注信息时，树的总宽度
-    indent:" ",                // 缩进字符
+    width: 60,                      // 当显示备注信息时，树的总宽度
+    indent:" ",                     // 缩进字符
     node:{
-        symbol:"√",                 // 节点符号
+        style:"",                   // 默认节点样式
     },
-    note:{                      // 节点备注
-        visible:true,
+    note:{                          // 节点备注
+        enable:false,
         style:"darkGrey",               // 文本样式
         char:".", 
     }     
@@ -75,15 +75,16 @@ function createTree(context,options){
         curLevel++
     }
     function renderNode(text,options={}){ 
-        const {style} = options
-        let parentIndents = new Array(curLevel-1).fill("│   ").join("")
-        let nodeLine = "├── "
+        const {style,last} = options
+        const levelsIndent = new Array(curLevel-1).fill("│   ").join("")
+        const treeLine =last ? "└── " : "├── "
         let note =  options.note || ""
-        if(opts.note.visible){
-            const noteOffset = opts.width - parentIndents.length - nodeLine.length - getStringWidth(text)
+
+        if(opts.note.enable){
+            const noteOffset = opts.width - levelsIndent.length - treeLine.length - getStringWidth(text) 
             note = colorizer("darkGray")(new Array(noteOffset).fill(opts.note.char).join("")) + colorizer(opts.note.style)(note)
         }
-        consoleOuput(`${opts.indent}${parentIndents}${nodeLine}${opts.node.symbol} ${text}${note}`)
+        consoleOuput(`${opts.indent}${levelsIndent}${treeLine}${colorizer(style)(text)}${note}`)
     }
     renderRoot()
     return {
@@ -96,10 +97,7 @@ function createTree(context,options){
         endChildren(){
             curLevel--
             if(curLevel===0) curLevel=0
-        },
-        render(){
-
-        },
+        }
     }
 
 

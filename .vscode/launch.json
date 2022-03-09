@@ -30,6 +30,15 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}\\tasklist.demo.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "树结构",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}\\tree.demo.js"
         }
     ]
 }

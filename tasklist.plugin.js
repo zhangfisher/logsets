@@ -50,7 +50,7 @@ const DefaultTaskListOptions  = {
     title     : "",         // 显示标题     
     indent    : "  ",       // 列表缩进 
     style     : "",         // 标题样式
-    width     : 80,         // 列表总宽度
+    width     : 60,         // 列表总宽度
     refInterval:200,        // 列表项渲染间隔
     progressbar:{
         style:"darkGray",           // 进度条样式
