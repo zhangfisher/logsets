@@ -173,6 +173,10 @@ logger.format({
 
 ![image](./images/log4.jpg)
 
+## 显示分割条
+
+logger.separator(width)可以输出一条横线分割。
+
 ## 输出日志级别
 
 按指定级别输出日志，并会对插值变量进行着色。
@@ -404,6 +408,14 @@ addFooter(content,
 ```javascript
     addSeparator()   // 无参数
 ```
+
+## 进度条
+
+
+
+## 任务列表
+
+
 
 # 配置
 

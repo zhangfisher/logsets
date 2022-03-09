@@ -503,8 +503,8 @@ const DefaultTableOptions  = {
 /**
  * 
  * @param {*} logger      日志实例对象，可以调用logger.log()等方法
- * @param {*} context  当前表格的上下文配置参数
+ * @param {*} context     全局配置参数
  */
 export default function(logger,context){
-    logger.table = (opts)=>createTable.call(logger,context,opts)
+    logger.table = (opts={})=>createTable.call(logger,context,opts)
 }

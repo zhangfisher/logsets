@@ -6,7 +6,16 @@ import commonjs from '@rollup/plugin-commonjs';
 import { terser } from "rollup-plugin-terser";
 
 // import  resolve from "@rollup/plugin-node-resolve"
-
+const plugins =  [
+    //resolve(),
+    commonjs(),
+    babel({
+        babelHelpers:"runtime", 
+        exclude: 'node_modules/**'
+    }),
+    clear({targets:["dist"]}),
+    terser()
+]
 export default  [
     {
         input:  './index.js', 
@@ -21,16 +30,7 @@ export default  [
                 format:"cjs" 
             }
         ],
-        plugins: [
-            //resolve(),
-            commonjs(),
-            babel({
-                babelHelpers:"runtime", 
-                exclude: 'node_modules/**'
-            }),
-            clear({targets:["dist"]}),
-            terser()
-        ],
+        plugins,
         external:["@babel/runtime"]
     },
     {
@@ -46,15 +46,39 @@ export default  [
                 format:"cjs" 
             }
         ],
-        plugins: [
-            //resolve(),
-            commonjs(),
-            babel({
-                babelHelpers:"runtime", 
-                exclude: 'node_modules/**',
-            }), 
-            terser()
+        plugins,
+        external:["@babel/runtime"]
+    },
+    {
+        input:  './progressbar.plugin.js', 
+        output: [
+            {
+                file: 'dist/progressbar.plugin.mjs', 
+                format:"es" 
+            },
+            {
+                file: 'dist/progressbar.plugin.cjs', 
+                exports:"default",    
+                format:"cjs" 
+            }
         ],
+        plugins,
+        external:["@babel/runtime"]
+    },
+    {
+        input:  './tasklist.plugin.js', 
+        output: [
+            {
+                file: 'dist/tasklist.plugin.mjs', 
+                format:"es" 
+            },
+            {
+                file: 'dist/tasklist.plugin.cjs', 
+                exports:"default",    
+                format:"cjs" 
+            }
+        ],
+        plugins,
         external:["@babel/runtime"]
     } 
 ]

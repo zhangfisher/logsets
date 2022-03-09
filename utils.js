@@ -28,6 +28,41 @@ export function getOwnEnumPropSymbols(obj){
 }
  
 /**
+ * 当参数大于2个，并且最后一个参数是一个{}时，视为控制配置参数
+ * 
+ * consoleOuput(1,{
+ *    append:" ",            // 默认每一个参数后面添加的字符串，默认空格 
+ *    end: "\n"              // 结束字符
+ * })
+ * 
+ * @param  {...any} texts 
+ */
+export function consoleOuput(...texts){
+    let options = {
+        append:" ",
+        end:"\n"  //换行符
+    }
+    if(texts.length>=2 && isPlainObject(texts[texts.length-1])){
+        Object.assign(options,texts.pop())
+    }
+    texts.forEach(text=>{
+        process.stdout.write(text+options.append)
+    }) 
+    if(options.end){
+        process.stdout.write(options.end) 
+    }
+}
+export function newline(){
+    process.stdout.write("\n") 
+}
+export function hideCursor(){
+    process.stdout.write(`${"\x1b"}[?25l`) 
+}
+export function showCursor(){
+    process.stdout.write(`${"\x1b"}[?25h`) 
+}
+
+/**
  *  字符串居中填充
  *  paddingCenter("a",5,"*")  == "**a**"
  * 

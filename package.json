@@ -17,6 +17,14 @@
     "./plugins/table": {
       "import": "./dist/table.plugin.mjs",
       "require": "./dist/table.plugin.cjs"
+    },
+    "./plugins/progressbar": {
+      "import": "./dist/progressbar.plugin.mjs",
+      "require": "./dist/progressbar.plugin.cjs"
+    },
+    "./plugins/tasklist": {
+      "import": "./dist/tasklist.plugin.mjs",
+      "require": "./dist/tasklist.plugin.cjs"
     }
   },
   "author": "",

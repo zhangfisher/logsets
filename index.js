@@ -1,7 +1,8 @@
 import colorize, { getColorizeFunction } from './colorize.js'
 import deepmerge from 'deepmerge'
 import { DefaultOptions } from './consts.js'
-import {  firstUpper, isPlainObject,  paddingCenter,isPlainFunction  } from './utils.js'
+import {  firstUpper, isPlainObject,  paddingCenter,isPlainFunction,consoleOuput  } from './utils.js'
+import ansicolor from 'ansicolor'
 
 const DEBUG = 'DEBUG'
 const INFO = 'INFO'
@@ -9,34 +10,6 @@ const WARN = 'WARN'
 const ERROR = 'ERROR'
 const FATAL = 'FATAL'
 
-/**
- * 当参数大于2个，并且最后一个参数是一个{}时，视为控制配置参数
- * 
- * consoleOuput(1,{
- *    append:" ",            // 默认每一个参数后面添加的字符串，默认空格 
- *    end:0 | 1 | 2, // 结束字符
- *        0=不追加,这次就可以实现多次输出在一行中
- *        1=是否回车，即回退到行尾，用来实现覆写
- *        2=换行符
- * })
- * 
- * @param  {...any} texts 
- */
-function consoleOuput(...texts){
-    let options = {
-        append:" ",
-        end:"\n"  //换行符
-    }
-    if(texts.length>=2 && isPlainObject(texts[texts.length-1])){
-        Object.assign(options,texts.pop())
-    }
-    texts.forEach(text=>{
-        process.stdout.write(text+options.append)
-    }) 
-    if(options.end){
-        process.stdout.write(options.end) 
-    }
-}
 
 // 'foreground colors'
 //     .red.green.yellow.blue.magenta.cyan.white.darkGray.black
@@ -260,7 +233,9 @@ export default function createLogger (options = {}) {
   log.use = (plugin) => plugin(log,context)  
   log.colorize = (arg) => colorize(arg, context)
   log.getColorizer = getColorizeFunction
+  log.separator=(n=80,char="─")=>{consoleOuput(new Array(n).fill(char).join(''))}
   log.options = context
+  log.colorize = ansicolor
   log.config = opts => {
     if (isPlainObject(opts)) {
       context = deepmerge(context, opts)

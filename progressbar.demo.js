@@ -21,11 +21,13 @@ progressbar.end()
 logger.log("")
 
 progressbar.begin()
-progressbar.stop(36)
+progressbar.value(82)
+progressbar.stop(logger.colorize.red("下载停止"))
 logger.log("")
  
- 
-progressbar.error(80)
+progressbar.begin()
+progressbar.value(36)
+progressbar.error(logger.colorize.yellow("下载失败"))
 logger.log("")
 
 

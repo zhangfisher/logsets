@@ -21,6 +21,15 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}\\progressbar.demo.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "任务列表",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}\\tasklist.demo.js"
         }
     ]
 }
