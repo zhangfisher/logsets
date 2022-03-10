@@ -47,7 +47,6 @@ import deepmerge from 'deepmerge'
 import { consoleOutput, getStringWidth,hideCursor,showCursor,newline, paddingEnd } from './utils.js' 
 
 const DefaultTaskListOptions  = { 
-    title     : "",         // 显示标题     
     indent    : "  ",       // 列表缩进 
     style     : "",         // 标题样式
     width     : 60,         // 列表总宽度
@@ -123,7 +122,6 @@ function createTaskList(context,options){
             }
             // 文本内容
             title = getColorizer(opts.style)(title)
-
             // 显示进度条
             let progressbarWidth = opts.width - getStringWidth(title) 
             let progressbar = ""

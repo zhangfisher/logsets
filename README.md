@@ -413,6 +413,8 @@ addFooter(content,
 
 显示一个滚动的进度条。
 
+### 基本用法
+
 ```javascript
 import createLogger from "logsets"
 import progressbarPlugin from ""
@@ -436,6 +438,8 @@ progressbar.end()  		 // 结束进度条
 `progressbar.demo.js`输出效果如下：
 
 ![](progressbar.png)
+
+### 配置参数
 
 `progressbar`支持以下配置参数：
 
@@ -466,11 +470,245 @@ progressbar.end()  		 // 结束进度条
 - `width`用来指定进度条的宽度，默认是`60`个字符。
 - `background`用来控制进度条的背景，默认是暗灰色空格。
 - `slider`用来控制进度值，默认是白色空格。
-- 当调用
 
+### API
 
+- **progressbar.begin()**
+
+  开始一个进度条，开始时会隐藏光标
+
+- **progressbar.value(n)**
+
+  更新进度
+
+- **progressbar.end(note)**
+
+  结束进度条，结束后换行
+
+- **progressbar.stop(note)**
+
+  停止进度条，`note`参数会显示在进度条右侧。
+
+- **progressbar.error(note)**
+
+  进度条出错，`note`参数会显示在进度条右侧。
 
 ## 任务列表
+
+显示正在进行的任务列表，能显示任务的状态。
+
+### 基本用法
+
+```javascript
+import createLogger from "logsets"
+import tasklistPlugin from ""
+const logger = createLogger({...})
+logger.use(tasklistPlugin)
+
+// 创建一个任务列表
+let tasks = logger.tasklist({})
+
+// 新增一个任务列表项
+tasks.add("开始扫描文件")
+// 增加后，任务列表项会处于运行状态，需要分别调用complete/error/stop/skip/todo等结束运行状态
+tasks.complete("OK")
+
+tasks.add("准备对文件进行预处理")
+tasks.error("ERROR:文件没有找到")
+
+tasks.add("读取文件并编译成exe文件")
+tasks.skip("SKIP")
+
+tasks.add("任务处理被停止")
+tasks.stop("STOP")
+
+tasks.add("任务待办状态")
+tasks.todo("TODO")  
+
+
+```
+
+运行后的效果如下：
+
+![](.\images\tasklist.demo.gif)
+
+### 配置参数
+
+以下所有配置参数均为可选，仅当您对默认样式不满意时进行定制。
+
+```javascript
+ { 
+    indent    : "  ",       // 列表项缩进字符 
+    style     : "",         // 标题样式，可以用red,bgYellow等组合，参阅输出样式
+    width     : 60,         // 列表项总宽度
+    refInterval:200,        // 列表项渲染间隔,以ms为单位
+    progressbar:{
+        style:"darkGray",   // 进度条样式,默认是深灰色
+        char:".",           // 进度条字符，当任务处于运行状态时会动态显示
+    },
+    // 当新任务项后会自动running，后续可以调用方法结束任务
+    status:{   
+        running:{
+            style:"white",
+            symbol:"-",
+            note:""
+        },        
+        complete:{
+            style:"green",
+            symbol:"√",
+            note:"OK"
+        },
+        error:{
+            style:"red",
+            symbol:"×",
+            note:"ERROR"            
+        },
+        skip:{
+            style:"yellow",
+            symbol:"○",
+            note:"SKIP"
+        },
+        stop:{
+            style:"red",
+            symbol:"●",
+            note:"STOP"
+        },
+        todo:{
+            style:"lightCyan",
+            symbol:"□",
+            note:"TODO"
+        }
+    }  
+}
+```
+
+除以上`running`、`complete`、`error`、`skip`、`stop`、`todo`任务状态外，还支持自定义状态。
+
+```javascript
+let tasks = logger.tasklist({
+    status:{
+        connected:{
+            symbol:"*",
+            style:"green"
+        }
+    }
+})
+tasks.add("正在连接")
+tasks.connected()
+```
+
+### API
+
+- **tasks.add(title)**
+
+  新增加一个任务，增加后会自动进入运行状态，如果上一个任务还在进行中会自动完成。
+
+- **tasks.<状态名称>(note)**
+
+  使当前正在进行的任务结束并进入指定的状态，传入的可选的`note`参数显示在最右侧。
+
+## 横幅
+
+显示一个广告横幅
+
+### 基本用法
+
+```javascript
+import createLogger from "./index.js" 
+import BannerPlugin from "./banner.plugin.js"
+
+const logger = createLogger()
+logger.use(BannerPlugin)
+
+let banner = logger.banner({ })
+
+banner.add("Logsets Utility Toolkit")
+banner.add("Output color elements at the terminal")
+banner.add("Version: ",1)
+banner.add("Release: ","2022-01-01")
+banner.render()
+```
+
+输出效果如下：
+
+![](.\images\banner1.png)
+
+```javascript
+banner = logger.banner({ 
+    width:60
+})
+banner.add("Logsets工具库")
+banner.add("在终端命令行输出彩色文本",{style:"darkGray"})
+banner.add()          // 输出空行
+banner.add("版本: ",1)
+banner.add("网站: ","http://www.logsets.com",{align: 'left',style:["","lightBlue"]})
+banner.add("发布日期: ","2022-01-01",{align: 'right',style:["","lightMagenta"]})
+banner.add("作者: ","fisher",{align: 'right',style:["","lightCyan"]})
+banner.add("许可证: ","MIT ","GPL ","Apache 2.0",{style:["","red"]})
+banner.render()
+```
+
+![](D:\Code\logsets\images\banner2.png)
+
+
+
+### 配置参数
+
+```javascript
+{
+    indent       : " ",                          // 横幅整体缩进
+    border       : {
+        style    : "lightGray",                  // 边框颜色
+        width    : 1                             // 边框宽度,0-不显示，1-单线框,2-双线框
+    },
+    // 第一行自动作为标题行
+    title        : {
+        align    : "center",                       // 标题对齐方式     
+        style    : ["","","green,bright","",""],   // 标题样式颜色
+        wrapper  : "☆ ☆ ☆"                       // 标题包裹符号,用来装饰 
+    },
+    align        : "center",                     // 横幅行默认对齐方式，默认居中
+    paddingLeft  : 4,                            // 左右空白宽度，以字符为单位
+    paddingRight : 4,
+    paddingTop   : 1,                            // 顶部和底部空白行
+    paddingBottom: 1
+}
+```
+
+### API
+
+- **banner.add(arg1,arg2,...,{options})**
+
+  增加行，支持多个输出参数，每个参数均会按照logger的数据类型的配色进行输出。
+
+  如果最后一个参数是一个{}，则支持配置额外的样式和参数。
+
+  ```javascript
+  banner.add(arg1,arg2,...,{
+  	align:"center | left | right"，            // 整体居中、居左、居右
+      // 指定该行整行的色彩
+      style:"<色彩样式>"，						   
+   	// 可以为每一个参数指定颜色。
+      style:[
+             "<第1个参数的色彩样式>",
+             "<第2个参数的色彩样式>",
+             "<第3个参数的色彩样式>",
+             ...,
+             "<第n个参数的色彩样式>"
+      ]
+  	//当参数个数与style数组长度不匹配时，会取最后一个style[style.length-1] 
+  })
+  
+  // text1显示红色，text2/text3/text4显示黄色
+  banner.add("text1","text2","text3","text4",{style:["red","yellow"]})
+  
+  ```
+
+  
+
+
+
+## 树
 
 
 

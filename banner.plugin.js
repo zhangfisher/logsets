@@ -49,17 +49,7 @@ function createBanner(context,options){
     let opts = deepmerge(DefaultBannersOptions,options)
     const colorizer = logger.getColorizer 
 
-    let lines = []  // [{text,style,align}]
-    function calcLayout(){
-        // 计算最大行宽度
-        let totalWidth = lines.reduce((width,line)=>{
-            return Math.max(width,getStringWidth(line.text.join("")))
-        },0) + opts.padding.length * 2
-
-
-
-
-    } 
+    let lines = []  // [{text,style,align}] 
     function renderBanner(){
         // 计算最大行宽度
         const paddingLeft = new Array(opts.paddingLeft).fill(" ").join("")

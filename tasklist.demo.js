@@ -4,7 +4,16 @@ import TaskListPlugin from "./tasklist.plugin.js"
 const logger = createLogger()
 logger.use(TaskListPlugin)
 
-let tasks = logger.tasklist()
+let tasks = logger.tasklist({
+    title:"所有任务:",
+    status:{
+        connected:{
+            style:"green",
+            symbol:"C",
+            note:"连接成功"
+        }
+    }
+})
 
 async function delay(n=10){
     return new Promise(resolve=>setTimeout(resolve,n))
@@ -23,7 +32,9 @@ for(let task of taskData){
     await delay(1000)
     tasks[task.result](task.note)
 }
- 
+tasks.add("正在连接")
+tasks.connected()
+
 // logger.separator()
  
 // for(let task of taskData){
