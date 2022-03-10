@@ -1,7 +1,7 @@
 import colorize, { getColorizeFunction } from './colorize.js'
 import deepmerge from 'deepmerge'
 import { DefaultOptions } from './consts.js'
-import {  firstUpper, isPlainObject,  paddingCenter,isPlainFunction,consoleOuput  } from './utils.js'
+import {  firstUpper, isPlainObject,  paddingCenter,isPlainFunction,consoleOutput  } from './utils.js'
 import ansicolor from 'ansicolor'
 
 const DEBUG = 'DEBUG'
@@ -138,7 +138,7 @@ function logOutput (level, message, args, memo) {
   if (memo) {
     output += getColorizeFunction(this.levels.memo)(`(${memo})`)
   }
-  consoleOuput(output)
+  consoleOutput(output)
 }
 
 /**
@@ -161,7 +161,7 @@ function print () {
     }
     
 
-    consoleOuput(
+    consoleOutput(
         ...Array.from(args).map(arg => {
             if (isPlainFunction(arg)) {
                 try{
@@ -182,7 +182,7 @@ function print () {
  
 function format (value,options={}) {
   if (typeof value === 'function') value = value()
-  consoleOuput(colorize(
+  consoleOutput(colorize(
         value,
         deepmerge(this, deepmerge({
            Array: { compact: false },
@@ -198,7 +198,7 @@ function format (value,options={}) {
  * @param  {...any} args
  */
 function printTemplate (message, ...args) {
-  consoleOuput(getColorizedTemplate.call(this,message, ...args))
+  consoleOutput(getColorizedTemplate.call(this,message, ...args))
 }
 
 /**
@@ -233,9 +233,9 @@ export default function createLogger (options = {}) {
   log.use = (plugin) => plugin(log,context)  
   log.colorize = (arg) => colorize(arg, context)
   log.getColorizer = getColorizeFunction
-  log.separator=(n=80,char="─")=>{consoleOuput(new Array(n).fill(char).join(''))}
+  log.separator=(n=80,char="─")=>{consoleOutput(new Array(n).fill(char).join(''))}
   log.options = context
-  log.colorize = ansicolor
+  log.colors = ansicolor
   log.config = opts => {
     if (isPlainObject(opts)) {
       context = deepmerge(context, opts)

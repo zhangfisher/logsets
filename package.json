@@ -25,6 +25,10 @@
     "./plugins/tasklist": {
       "import": "./dist/tasklist.plugin.mjs",
       "require": "./dist/tasklist.plugin.cjs"
+    },
+    "./plugins/banner": {
+      "import": "./dist/banner.plugin.mjs",
+      "require": "./dist/banner.plugin.cjs"
     }
   },
   "author": "",
@@ -42,6 +46,7 @@
   "devDependencies": {
     "@babel/cli": "^7.17.0",
     "@babel/core": "^7.17.2",
+    "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
     "@babel/runtime": "^7.17.2",
     "@rollup/plugin-babel": "^5.3.0",

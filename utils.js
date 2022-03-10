@@ -30,14 +30,14 @@ export function getOwnEnumPropSymbols(obj){
 /**
  * 当参数大于2个，并且最后一个参数是一个{}时，视为控制配置参数
  * 
- * consoleOuput(1,{
+ * consoleOutput(1,{
  *    append:" ",            // 默认每一个参数后面添加的字符串，默认空格 
  *    end: "\n"              // 结束字符
  * })
  * 
  * @param  {...any} texts 
  */
-export function consoleOuput(...texts){
+export function consoleOutput(...texts){
     let options = {
         append:" ",
         end:"\n"  //换行符
@@ -86,6 +86,23 @@ export function paddingEnd(s,width,fillChar=" ") {
     if(len>=width) return s
     return s + new Array(width-len).fill(fillChar).join("")
 } 
+// 获取左边连续的字符串
+export function getLeftRepeatChars(s,char=" "){
+    let r = []
+    for(let i=0;i<=s.length;i++){
+        if(s[i]!==char) break
+        r.push(char)
+    } 
+    return r.join("")
+}
+export function getRightRepeatChars(s,char=" "){
+    let r = []
+    for(let i=s.length-1;i>=0;i--){
+        if(s[i]!==char) break
+        r.push(char)
+    } 
+    return r.join("")
+}
 
 export function repeatChars(count,char){
     return new Array(count).fill(char).join("")

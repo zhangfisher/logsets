@@ -1,6 +1,5 @@
 
-import clear from 'rollup-plugin-clear'
-import { uglify } from "rollup-plugin-uglify";
+import clear from 'rollup-plugin-clear' 
 import { babel } from '@rollup/plugin-babel'; 
 import commonjs from '@rollup/plugin-commonjs';
 import { terser } from "rollup-plugin-terser";
@@ -80,5 +79,37 @@ export default  [
         ],
         plugins,
         external:["@babel/runtime"]
-    } 
+    },
+    {
+        input:  './banner.plugin.js', 
+        output: [
+            {
+                file: 'dist/banner.plugin.mjs', 
+                format:"es" 
+            },
+            {
+                file: 'dist/banner.plugin.cjs', 
+                exports:"default",    
+                format:"cjs" 
+            }
+        ],
+        plugins,
+        external:["@babel/runtime"]
+    },
+    {
+        input:  './tree.plugin.js', 
+        output: [
+            {
+                file: 'dist/tree.plugin.mjs', 
+                format:"es" 
+            },
+            {
+                file: 'dist/tree.plugin.cjs', 
+                exports:"default",    
+                format:"cjs" 
+            }
+        ],
+        plugins,
+        external:["@babel/runtime"]
+    }  
 ]

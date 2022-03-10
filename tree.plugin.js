@@ -42,7 +42,7 @@
 
  */
 
-import { consoleOuput, getStringWidth } from "./utils.js"
+import { consoleOutput, getStringWidth } from "./utils.js"
 import deepmerge from 'deepmerge'
 
 
@@ -62,7 +62,7 @@ const DefaultTreeOptions  = {
 } 
 
 
-const symbols = "√×●"
+//const symbols = "√×●"
 
 function createTree(context,options){
     const logger = this 
@@ -71,7 +71,7 @@ function createTree(context,options){
     let curLevel = 0                  // 当前层级
 
     function renderRoot(){
-        consoleOuput(colorizer("bright")(`${opts.indent}${opts.root}`))
+        consoleOutput(colorizer("bright")(`${opts.indent}${opts.root}`))
         curLevel++
     }
     function renderNode(text,options={}){ 
@@ -84,7 +84,7 @@ function createTree(context,options){
             const noteOffset = opts.width - levelsIndent.length - treeLine.length - getStringWidth(text) 
             note = colorizer("darkGray")(new Array(noteOffset).fill(opts.note.char).join("")) + colorizer(opts.note.style)(note)
         }
-        consoleOuput(`${opts.indent}${levelsIndent}${treeLine}${colorizer(style)(text)}${note}`)
+        consoleOutput(`${opts.indent}${levelsIndent}${treeLine}${colorizer(style)(text)}${note}`)
     }
     renderRoot()
     return {
@@ -106,7 +106,7 @@ function createTree(context,options){
 /**
  * 
  * @param {*} log 
- * @param {*} context  当前表格的上下文配置参数
+ * @param {*} context  当前上下文配置参数
  */
  export default function(logger,context){
     logger.tree = (opts={})=>createTree.call(logger,context,opts)

@@ -73,7 +73,7 @@ logger.log()   // 换行
 **示例**
 
 ```javascript
-import createLogger from "coloredLogger"
+import createLogger from "logsets"
 const log = createLogger({...})
 
 logger.print("String",true,100,()=>{},[1,2,3])
@@ -96,7 +96,7 @@ logger.print({name:"tom",age:100,admin:true,posts:["a","b"],values:[1,2,3]},()=>
 - **基本用法**
 
 ```javascript
-import createLogger from "coloredLogger"
+import createLogger from "logsets"
 const logger = createLogger({...})
 
 logger.format({
@@ -120,7 +120,7 @@ logger.format({
 对数组或对象成员数量当超过指定值时，显示省略号并备注总数量。
 
 ```javascript
-import createLogger from "coloredLogger"
+import createLogger from "logsets"
 const logger = createLogger({...})
 
 logger.format({
@@ -154,7 +154,7 @@ logger.format({
 **可以配置紧凑模式输出。**
 
 ```javascript
-import createLogger from "coloredLogger"
+import createLogger from "logsets"
 const logger = createLogger({...})
 
 logger.format({
@@ -192,7 +192,7 @@ logger.fatal("<模块字符串>",[位置插值变量列表] || {插值变量列�
 示例如下：
 
 ```javascript
-import createLogger from "coloredLogger"
+import createLogger from "logsets"
 const log = createLogger({...})
 logger.debug("正在执行程序{},还需要{}秒...",["logs",9])
 logger.info("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9})
@@ -235,8 +235,8 @@ logger.config({
 ### 基本用法 
 
 ```javascript
-import createLogger from "coloredLogger"
-import TablePlugin from "coloredLogger/plugins/table"
+import createLogger from "logsets"
+import TablePlugin from "logsets/plugins/table"
 
 const log = createLogger({...})
 logger.use(TablePlugin)
@@ -411,6 +411,63 @@ addFooter(content,
 
 ## 进度条
 
+显示一个滚动的进度条。
+
+```javascript
+import createLogger from "logsets"
+import progressbarPlugin from ""
+const logger = createLogger({...})
+logger.use(progressbarPlugin)
+
+const pbar = logger.progressbar({
+    title     : "下载进度",
+    //...其他配置参数...
+})
+
+progressbar.begin()   	// 开始启动进度条
+for(let i = 0 ; i <= 60; i++){
+    await delay()
+    progressbar.value(i) // 更新进度条
+}
+progressbar.end()  		 // 结束进度条
+
+```
+
+`progressbar.demo.js`输出效果如下：
+
+![](progressbar.png)
+
+`progressbar`支持以下配置参数：
+
+```javascript
+{
+    title:"<显示标题>"
+    theme     : "",       // 可选主题色，内置支持default,red,green
+    max       : 100,      // 进度最大值
+    min       : 0,        // 进度最小值
+    value     : 0,        // 当前值   
+    // 显示在最后的备注字符串,支持插值变量{value} {percent} {max} {min}
+    dispaly   : "{percent}%",
+    width     : 60,       // 进度条宽度 
+    background: {         // 进度条样式
+        show  : true,     // 是否显示背景，默认显示，不显示时只显示进度条滑块
+        style : "bgDarkGray",       // 进度条样式
+        char  : " "
+    },       
+    slider    : {                // 滑块字符
+        style : "bgWhite",       // 进度条样式
+        char  : " ",             // 
+    } 
+}
+```
+
+- 所有参数均是可选的，大部份情况下只需要配置`max`、`min`参数即可。
+- `dispaly`参数用来控制当进度条正在执行时显示在右侧的信息，支持插值变量`{value}` `{percent}`、` {max} `、`{min}`，比如"{percent}%"显示百分比，"{value}/{max}"显示当前进度值与最大值。
+- `width`用来指定进度条的宽度，默认是`60`个字符。
+- `background`用来控制进度条的背景，默认是暗灰色空格。
+- `slider`用来控制进度值，默认是白色空格。
+- 当调用
+
 
 
 ## 任务列表
@@ -427,7 +484,7 @@ addFooter(content,
 
 
 ```javascript
-import createLogger from "coloredLogger"
+import createLogger from "logsets"
 const log = createLogger({
     indent: "  ",                                           // 缩进
     singleQuotes: false,                                    // 显示单引号 

@@ -21,19 +21,20 @@ progressbar.end()
  */
 
 import deepmerge from 'deepmerge'
-import { hideCursor,showCursor,consoleOuput } from './utils.js'
+import { hideCursor,showCursor,consoleOutput } from './utils.js'
 
 // 预设的主题样式
 const PresetThemes = {
     default:["bgWhite","bgDarkGray"],
     red:["bgRed","bgDarkGray"],
+    red:["bgGreen","bgDarkGray"],
 }
 
 const DefaultProgressbarOptions  = { 
     title     : "",       // 显示标题
     theme     : "",       // 一些预设好的主题配色,
-    max       : 100,      // 当type     = normal时,最大值
-    min       : 0,        // 当type     = normal时,最小值
+    max       : 100,      // 最大值
+    min       : 0,        // 最小值
     value     : 0,        // 当前值   
     dispaly   : "{percent}%", // 备注字符串,支持插值变量{value} {percent} {max} {min}
     width     : 60,       // 进度条宽度 
@@ -52,8 +53,6 @@ const DefaultProgressbarOptions  = {
 function getPercent(value,max){
     return Math.round(value/max*10000)/100
 }
-
-const ProgressbarTypes =["normal","infinite","greedySnake"]
 
 function createProgressbar(context,options){
     const logger = this 

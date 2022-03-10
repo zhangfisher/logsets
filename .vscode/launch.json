@@ -16,6 +16,15 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "表格",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}\\table.demo.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "进度条",
             "skipFiles": [
                 "<node_internals>/**"
@@ -39,6 +48,15 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}\\tree.demo.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "横幅",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}\\banner.demo.js"
         }
     ]
 }

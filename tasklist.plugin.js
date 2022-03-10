@@ -44,7 +44,7 @@ tasks.next()
  */
 
 import deepmerge from 'deepmerge'
-import { consoleOuput, getStringWidth,hideCursor,showCursor,newline, paddingEnd } from './utils.js' 
+import { consoleOutput, getStringWidth,hideCursor,showCursor,newline, paddingEnd } from './utils.js' 
 
 const DefaultTaskListOptions  = { 
     title     : "",         // 显示标题     
@@ -141,7 +141,7 @@ function createTaskList(context,options){
             // 显示note
             let note =listNote || opts.status[status].note
             note = getColorizer(opts.status[status].style)(note)
-            consoleOuput(`${opts.indent}${symbol} ${title}${progressbar}${note}`,{end:"\r"})
+            consoleOutput(`${opts.indent}${symbol} ${title}${progressbar}${note}`,{end:"\r"})
         }
         self.start = function(){
             timer = setInterval(()=>{

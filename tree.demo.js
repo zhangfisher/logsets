@@ -13,7 +13,7 @@ const tree = logger.tree({
 
 tree.addNode("readme.md")
 tree.addNode("package.json")
-tree.addNode("个人简历.doc",{note:logger.colorize.green("√")})
+tree.addNode("个人简历.doc",{note:logger.colors.green("√")})
 tree.addNode("网络组网方案.docx")
 tree.addNode("工资清单.xlsx") 
 tree.addNode("<src>",{style:"yellow"}) 
