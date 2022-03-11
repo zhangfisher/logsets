@@ -34,6 +34,8 @@ logger.log("------------")
 
 // logger.print({posts:["a","b"],values:[1,2,3],z:()=>{}})
 logger.print({z:()=>{}})
+
+logger.log("{a}+{b}={c}",{a:1,b:1,c:2})
 logger.log("My name is {}","tom")
 logger.log("{a}+{b}={c}",{a:1,b:1,c:2})
 

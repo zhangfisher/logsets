@@ -45,7 +45,7 @@ logger.log("{a}+{b}={c}",1,1,2)
 ```
 **输出效果如下：**
 
-![image](./images/logger.jpg)
+![image](./images/log.jpg)
 
 
 默认情况下，每次执行`log`方法完成后均会导致换行输出。`log`方法还支持配置输出参数:
