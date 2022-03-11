@@ -530,7 +530,7 @@ tasks.todo("TODO")
 
 运行后的效果如下：
 
-![](.\images\tasklist.demo.gif)
+![](./images/tasklist.demo.gif)
 
 ### 配置参数
 
@@ -631,7 +631,7 @@ banner.render()
 
 输出效果如下：
 
-![](.\images\banner1.png)
+![](./images/banner1.png)
 
 ```javascript
 banner = logger.banner({ 
@@ -648,8 +648,7 @@ banner.add("许可证: ","MIT ","GPL ","Apache 2.0",{style:["","red"]})
 banner.render()
 ```
 
-![](.\images\banner2.png)
-
+![](./images/banner2.png)
 
 
 ### 配置参数
