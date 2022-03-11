@@ -823,6 +823,30 @@ tree.addNode("工资清单.xlsx",{last:true})
 
     开始和结束一个子节点集。
 
+## 输出彩色内容
+
+`logsets`依赖于`ansicolors`，并且将其挂在了`logsets.colors`下，因此也可以直接调用来生成彩色内容。
+
+```javascript
+import createLogger from "./index.js" 
+import TreePlugin from "./tree.plugin.js"
+
+const logger = createLogger()
+
+console.log(ogger.colors.red(text))
+console.log(logger.colors.green(text))
+console.log(logger.colors.yellow(text))
+console.log(logger.colors.blue(text))
+console.log(logger.colors.magenta(text))
+console.log(logger.colors.cyan(text))
+console.log(logger.colors.white(text))
+console.log(logger.colors.darkGray(text))
+console.log(logger.colors.black())
+/.......更加的着色方法请参考ansicolor文档
+```
+
+`logger.colors===ansicolor`实例，可参考其文档。
+
 # 全局配置
 
 `logsets`支持丰富的配置参数，可以自定义输出样式。
@@ -949,4 +973,8 @@ logger.config({
 在上述所有功能中均会使用一个`style`参数来配置自定义的显示样式。
 
 `style`参数是一个使用`,`分割的字符串，可以同时应用`1-N`个字符串色彩和样式。比如`style="bgLightRed,white"`代表采用**亮红色背景**，**白色文本**方式显示。
+
+# 版本历史
+
+**最新版本**：`1.0.7`
 
