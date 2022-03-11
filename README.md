@@ -175,7 +175,7 @@ logger.format({
 
 ## 显示分割条
 
-logger.separator(width)可以输出一条横线分割。
+`logger.separator(width)`可以输出一条水平分割线， `width`参数是可选的，默认是`60`。
 
 ## 输出日志级别
 
@@ -437,7 +437,7 @@ progressbar.end()  		 // 结束进度条
 
 `progressbar.demo.js`输出效果如下：
 
-![](progressbar.png)
+![](./images/progressbar.png)
 
 ### 配置参数
 
@@ -473,23 +473,23 @@ progressbar.end()  		 // 结束进度条
 
 ### API
 
-- **progressbar.begin()**
+- **begin()**
 
   开始一个进度条，开始时会隐藏光标
 
-- **progressbar.value(n)**
+- **value(n)**
 
   更新进度
 
-- **progressbar.end(note)**
+- **end(note)**
 
   结束进度条，结束后换行
 
-- **progressbar.stop(note)**
+- **stop(note)**
 
   停止进度条，`note`参数会显示在进度条右侧。
 
-- **progressbar.error(note)**
+- **error(note)**
 
   进度条出错，`note`参数会显示在进度条右侧。
 
@@ -599,11 +599,11 @@ tasks.connected()
 
 ### API
 
-- **tasks.add(title)**
+- **add(title)**
 
   新增加一个任务，增加后会自动进入运行状态，如果上一个任务还在进行中会自动完成。
 
-- **tasks.<状态名称>(note)**
+- **<状态名称>(note)**
 
   使当前正在进行的任务结束并进入指定的状态，传入的可选的`note`参数显示在最右侧。
 
@@ -648,7 +648,7 @@ banner.add("许可证: ","MIT ","GPL ","Apache 2.0",{style:["","red"]})
 banner.render()
 ```
 
-![](D:\Code\logsets\images\banner2.png)
+![](.\images\banner2.png)
 
 
 
@@ -677,7 +677,7 @@ banner.render()
 
 ### API
 
-- **banner.add(arg1,arg2,...,{options})**
+- **add(arg1,arg2,...,{options})**
 
   增加行，支持多个输出参数，每个参数均会按照logger的数据类型的配色进行输出。
 
@@ -705,8 +705,6 @@ banner.render()
   ```
 
   
-
-
 
 ## 树
 
@@ -809,7 +807,7 @@ tree.addNode("工资清单.xlsx",{last:true})
 
 ### API
 
-- **tree.addNode(text,{style,note,last})**
+- **addNode(text,{style,note,last})**
 
     增加一个树节点
 
@@ -819,7 +817,7 @@ tree.addNode("工资清单.xlsx",{last:true})
 
     `last`用来提示这是当前最后一个节点，当添加节点时，树线默认显示`├── `，当`last=true`时，则显示`└── `，这样就可以确保最后一个子节点显示正确。
 
-- `tree.beginChildren()`、`tree.endChildren()`
+- `beginChildren()`、`endChildren()`
 
     开始和结束一个子节点集。
 
