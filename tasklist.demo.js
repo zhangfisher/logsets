@@ -25,6 +25,7 @@ const taskData = [
     {title:"读取文件并编译成exe文件",result:"skip",note:"SKIP"},
     {title:"任务处理被停止",result:"stop",note:"STOP"},
     {title:"任务待办状态",result:"todo",note:"TODO"},
+    {title:["下载文件：{},大小:{}, 已下载{}","package.json",122,344],result:"todo",note:"TODO"},
 ]
 
 for(let task of taskData){

@@ -78,7 +78,7 @@ export default function stringifyObject(input, options, pad) {
 			seen.push(input);
             let returnValue
             let addOverflowTag = options.Array.maxItems>0 &&  input.length > options.Array.maxItems
-            if(options.Array.compact){
+            if(options.Array.compact===true || (options.compact===true && options.Array.compact!==false)){
                 returnValue = '[ '+ input.map((element, i) => {    
                     if(addOverflowTag && i===options.Array.maxItems){
                         return "...";
@@ -135,7 +135,7 @@ export default function stringifyObject(input, options, pad) {
 			seen.push(input);
             let returnValue
             let addOverflowTag = options.Object.maxItems>0 &&  objectKeys.length > options.Object.maxItems
-            if(options.Object.compact){
+            if(options.Object.compact===true || (options.compact===true && options.Object.compact!==false)){
                 returnValue = '{' + objectKeys.map((element, i) => {
                     if(addOverflowTag && i===options.Object.maxItems){
                         return  "..." 

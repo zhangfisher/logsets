@@ -110,7 +110,7 @@ logger.format({
     age:11,
     admin:true,
     posts:["经理","主任"],
-    addtrss:{
+    address:{
         company:"中华人民共和国北京市二环路",
         family:"福建省泉州市惠安路1512号"
     }
@@ -170,7 +170,7 @@ logger.format({
         ...,
         jack12:{name:"jack",age:21,sex:false}, 
     }
-},{Array:{maxItems:5,compact:true},Object:{maxItems:5,compact:true}})
+},{compact:true, Array:{maxItems:5},Object:{maxItems:5}})
 
 ```
 `compact`参数用来指示采用紧凑模式输出
@@ -178,6 +178,11 @@ logger.format({
 输出效果如下：
 
 ![image](./images/log4.jpg)
+
+也可以单独控制Array和Object类型是否采用紧凑模式输出。
+```javascript
+logger.format({...},{compact:true, Array:{maxItems:5,compact:false},Object:{maxItems:5}})
+```
 
 ## 显示分割条
 
@@ -507,7 +512,7 @@ progressbar.end()  		 // 结束进度条
 
 ```javascript
 import createLogger from "logsets"
-import tasklistPlugin from ""
+import tasklistPlugin from "logsets/plugins/tasklist"
 const logger = createLogger({...})
 logger.use(tasklistPlugin)
 
@@ -531,6 +536,8 @@ tasks.stop("STOP")
 tasks.add("任务待办状态")
 tasks.todo("TODO")  
 
+// 任务描述还支持按数字类型进行着色显示
+tasks.add(["下载文件:{},已下载{}","package.json",123])
 
 ```
 
@@ -569,6 +576,11 @@ tasks.todo("TODO")
             symbol:"×",
             note:"ERROR"            
         },
+        fail:{
+            style:"red",
+            symbol:"×",
+            note:"FAIL"            
+        },
         skip:{
             style:"yellow",
             symbol:"○",
@@ -588,7 +600,7 @@ tasks.todo("TODO")
 }
 ```
 
-除以上`running`、`complete`、`error`、`skip`、`stop`、`todo`任务状态外，还支持自定义状态。
+除以上`running`、`complete`、`error`、`fail`、`skip`、`stop`、`todo`任务状态外，还支持自定义状态。
 
 ```javascript
 let tasks = logger.tasklist({
@@ -608,6 +620,7 @@ tasks.connected()
 - **add(title)**
 
   新增加一个任务，增加后会自动进入运行状态，如果上一个任务还在进行中会自动完成。
+  如果`title`是数组，则内部会调用`log`方法输出。因此，任务标题也支持对插值变量进行着色后输出。
 
 - **<状态名称>(note)**
 
@@ -978,6 +991,11 @@ logger.config({
 `style`参数是一个使用`,`分割的字符串，可以同时应用`1-N`个字符串色彩和样式。比如`style="bgLightRed,white"`代表采用**亮红色背景**，**白色文本**方式显示。
 
 # 版本历史
+
+## 1.0.8
+
+- format方法可以通过{compact:true}配置支持采用紧凑模式输出。
+
 
 **最新版本**：`1.0.7`
 

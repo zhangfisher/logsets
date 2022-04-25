@@ -18,12 +18,10 @@ export const DefaultOptions ={
     template: "[{level}] {datetime} - {message}",           // 模板
     compact:false,                                          // 是否采用紧凑模式输出
     Array:{
-        compact : true,                                     // 是否采用紧凑模式输出
         maxItems: 100,                                      // 数组最大长度，超过则显示省略号
         memo    : (value)=> darkGray("(共"+value.length+"项)")                         // 当数组数量超过maxItems时，显示共几项的备注
     },
     Object:{
-        compact:true,                                       // 是否采用紧凑模式输出
         maxItems:100,                                       // 成员数量，超过则显示省略号
         align:true,                                         // 是否自动对齐
         memo:(value)=> darkGray("(共"+value.length+"项)"),

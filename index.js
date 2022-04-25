@@ -108,7 +108,7 @@ function getColorizedTemplate (template, ...args) {
  */
 function logOutput (level, message, args, memo) {
   const now = new Date()
-  const time = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} ${now.getMilliseconds()}`
+  const time = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} ${now.getMilliseconds()}`.padEnd(12)
   const date = `${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}`
   // 超过指定的字符后进行截断换行
   if (
@@ -182,12 +182,10 @@ function print () {
  
 function format (value,options={}) {
   if (typeof value === 'function') value = value()
+  const opts = Object.assign({compact:false}, options)
   consoleOutput(colorize(
         value,
-        deepmerge(this, deepmerge({
-           Array: { compact: false },
-           Object: { compact: false }
-        },options))
+        deepmerge(this,options)
       ) 
   )
 }
@@ -233,6 +231,7 @@ export default function createLogger (options = {}) {
   log.use = (plugin) => plugin(log,context)  
   log.colorize = (arg) => colorize(arg, context)
   log.getColorizer = getColorizeFunction
+  log.getColorizedTemplate = getColorizedTemplate
   log.separator=(n=80,char="─")=>{consoleOutput(new Array(n).fill(char).join(''))}
   log.options = context
   log.colors = ansicolor

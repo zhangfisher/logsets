@@ -71,6 +71,11 @@ const DefaultTaskListOptions  = {
             symbol:"×",
             note:"ERROR"            
         },
+        fail:{
+            style:"red",
+            symbol:"×",
+            note:"FAIL"            
+        },
         skip:{
             style:"yellow",
             symbol:"○",
@@ -121,7 +126,8 @@ function createTaskList(context,options){
                 symbol = getColorizer(symbolOptions.style)(symbolOptions.symbol)                
             }
             // 文本内容
-            title = getColorizer(opts.style)(title)
+            //title = getColorizer(opts.style)(title)
+            title = logger.getColorizedTemplate(...(Array.isArray(title) ? title : [title]))
             // 显示进度条
             let progressbarWidth = opts.width - getStringWidth(title) 
             let progressbar = ""
@@ -155,6 +161,10 @@ function createTaskList(context,options){
         }
         Object.entries(opts.status).forEach(([key,state])=>{
             self[key] = (note)=>{            
+                let finalNote = note
+                if(typeof(note)==="function") finalNote = note()
+                if(notefinalNote instanceof Error)  finalNote = note.error
+
                 listNote = note || state.note
                 status = key
                 self.end()
