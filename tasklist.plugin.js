@@ -163,7 +163,7 @@ function createTaskList(context,options){
             self[key] = (note)=>{            
                 let finalNote = note
                 if(typeof(note)==="function") finalNote = note()
-                if(notefinalNote instanceof Error)  finalNote = note.error
+                if(finalNote instanceof Error)  finalNote = note.error
 
                 listNote = note || state.note
                 status = key

@@ -247,10 +247,8 @@ logger.config({
 
 ```javascript
 import createLogger from "logsets"
-import TablePlugin from "logsets/plugins/table"
 
 const log = createLogger({...})
-logger.use(TablePlugin)
 
 const table = logger.table({       
     colorize:1,              // 是否需要颜色化 0-禁用着色,1-简单着色 2-对表单元里面的对象和数组进行着色,需要额外的计算
@@ -318,7 +316,7 @@ table = logger.table({
 })
 ```
 
-colorize参数用来控制是否对单元格内容进行着色。
+`colorize`参数用来控制是否对单元格内容进行着色。
 
 - **0 :** 禁用着色输出
 - **1 :** 对简单数据类型进行着色，默认值
@@ -428,9 +426,7 @@ addFooter(content,
 
 ```javascript
 import createLogger from "logsets"
-import progressbarPlugin from ""
 const logger = createLogger({...})
-logger.use(progressbarPlugin)
 
 const pbar = logger.progressbar({
     title     : "下载进度",
@@ -512,9 +508,7 @@ progressbar.end()  		 // 结束进度条
 
 ```javascript
 import createLogger from "logsets"
-import tasklistPlugin from "logsets/plugins/tasklist"
 const logger = createLogger({...})
-logger.use(tasklistPlugin)
 
 // 创建一个任务列表
 let tasks = logger.tasklist({})
@@ -634,10 +628,8 @@ tasks.connected()
 
 ```javascript
 import createLogger from "./index.js" 
-import BannerPlugin from "./banner.plugin.js"
 
 const logger = createLogger()
-logger.use(BannerPlugin)
 
 let banner = logger.banner({ })
 
@@ -732,10 +724,8 @@ banner.render()
 
 ```javascript
 import createLogger from "./index.js" 
-import TreePlugin from "./tree.plugin.js"
 
 const logger = createLogger()
-logger.use(TreePlugin)
 
 let tree = logger.tree({
 	root:"文件结构"
@@ -849,7 +839,7 @@ import TreePlugin from "./tree.plugin.js"
 
 const logger = createLogger()
 
-console.log(ogger.colors.red(text))
+console.log(logger.colors.red(text))
 console.log(logger.colors.green(text))
 console.log(logger.colors.yellow(text))
 console.log(logger.colors.blue(text))
@@ -858,7 +848,7 @@ console.log(logger.colors.cyan(text))
 console.log(logger.colors.white(text))
 console.log(logger.colors.darkGray(text))
 console.log(logger.colors.black())
-/.......更加的着色方法请参考ansicolor文档
+//.......更加的着色方法请参考ansicolor文档
 ```
 
 `logger.colors===ansicolor`实例，可参考其文档。
@@ -953,7 +943,7 @@ const log = createLogger({
 }
 // 2. 指定类型的样式名称，同时指一个格式化函数来用内容进行格式化
 {
-    [数据类型名称]:｛
+    [数据类型名称]:{
     	style:"<样式名称>,<样式名称>,...,<样式名称>",
         format:(value)=>{...<返回格式化后的内容>...}
     }
@@ -992,6 +982,15 @@ logger.config({
 
 # 版本历史
 
+## 1.0.14
+
+- 将所有插件内置，不再需要额外引入，即：
+```
+import createLogger from "logsets"
+- import tablePlugin from "logsets/plugins/table"
+const logger = createLogger({...})
+- logger.use(tablePlugin)
+```
 ## 1.0.8
 
 - format方法可以通过{compact:true}配置支持采用紧凑模式输出。

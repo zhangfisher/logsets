@@ -154,7 +154,7 @@ export default function stringifyObject(input, options, pad) {
                     return String(key) + ': ' + value + eol;
                 }).join('')  + '}';
             }else{
-                let keyPadding = getObjectKeysMaxLength(objectKeys)
+                let keyPadding = getObjectKeysMaxLength(objectKeys)+2
                 returnValue = '{' + tokens.newline + objectKeys.map((element, i) => {
                     const eol = objectKeys.length - 1 === i ? tokens.newline : ',' + tokens.newlineOrSpace;
                     
@@ -172,8 +172,13 @@ export default function stringifyObject(input, options, pad) {
                         value = options.transform(input, element, value);
                     }
                     // 对齐填充
-                    const itemPadding =options.Object.align ? new Array(keyPadding - key.length).fill(" ").join("") : ""
-                    return tokens.indent + key + itemPadding + ' : ' + value + eol;
+                    try{
+                        const itemPadding =options.Object.align ? new Array(keyPadding - key.length).fill(" ").join("") : ""
+                        return tokens.indent + key + itemPadding + ' : ' + value + eol;
+
+                    }catch(e){
+                        console.log(e)
+                    }
                 }).join('') + tokens.pad + '}';                
             } 
             if(addOverflowTag && typeof(options.Array.memo)==="function"){

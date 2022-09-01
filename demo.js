@@ -4,6 +4,9 @@ import  tablePlugin from "./table.plugin.js"
 const logger = createLogger()
 logger.use(tablePlugin)
 logger.print(/^colored$/g)
+
+logger.colors.red("hello")
+
 // logger.print("I am very cool!",true,3,[1,2,3,4],"Voerka",{a:1,b:2},null,undefined,[{a:1}])
 
 // logger.log("I am {}, age is {}","voerka",1,true,null)
@@ -97,6 +100,9 @@ logger.format({
 // time:t ,error:new MyError("BCXCCC"),callback:getUserInfo }
 
 // logger.log(o1)
+
+
+
  
 
 
@@ -170,4 +176,4 @@ table.addRow("东方不败","男","1603/6/3","日月神教无敌峰藏经阁")
 table.addRow("任盈盈","女","1651/2/8","")  
 table.addFooter([1,2,3,4],{merge:false})
 table.render()
-  
+ 

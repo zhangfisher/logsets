@@ -1,8 +1,13 @@
 import colorize, { getColorizeFunction } from './colorize.js'
 import deepmerge from 'deepmerge'
 import { DefaultOptions } from './consts.js'
-import {  firstUpper, isPlainObject,  paddingCenter,isPlainFunction,consoleOutput  } from './utils.js'
+import { firstUpper, isPlainObject, paddingCenter, isPlainFunction, consoleOutput } from './utils.js'
 import ansicolor from 'ansicolor'
+import bannerPlugin from "./banner.plugin.js"
+import progressbarPlugin from "./progressbar.plugin.js"
+import tablePlugin from "./table.plugin.js"
+import tasklistPlugin from "./tasklist.plugin.js"
+import treePlugin from "./tree.plugin.js"
 
 const DEBUG = 'DEBUG'
 const INFO = 'INFO'
@@ -33,37 +38,37 @@ let ParamRegExp = /\{\w*\}/g
  * @param {*} params
  * @returns
  */
- if(!String.prototype.hasOwnProperty("params")){
+if (!String.prototype.hasOwnProperty("params")) {
     String.prototype.params = function (params) {
-    let result = this.valueOf()
-    if (typeof params === 'object') {
-        for (let name in params) {
-        result = result.replace('{' + name + '}', params[name])
+        let result = this.valueOf()
+        if (typeof params === 'object') {
+            for (let name in params) {
+                result = result.replace('{' + name + '}', params[name])
+            }
+        } else {
+            let i = 0
+            for (let match of result.match(ParamRegExp) || []) {
+                if (i < arguments.length) {
+                    result = result.replace(match, arguments[i])
+                    i += 1
+                }
+            }
         }
-    } else {
-        let i = 0
-        for (let match of result.match(ParamRegExp) || []) {
-        if (i < arguments.length) {
-            result = result.replace(match, arguments[i])
-            i += 1
-        }
-        }
+        return result
     }
-    return result
-    }
-}               
+}
 String.prototype.trimBeginChars = function (chars) {
-  if (chars) {
-    let index = this.indexOf(chars)
-    if (index === 0) {
-      return this.substr(chars.length)              
+    if (chars) {
+        let index = this.indexOf(chars)
+        if (index === 0) {
+            return this.substr(chars.length)
+        }
     }
-  }
-  return this.valueOf()
+    return this.valueOf()
 }
 
-String.prototype.firstUpper  =function(){
-    return this.charAt(0).toUpperCase()+this.substring(1)
+String.prototype.firstUpper = function () {
+    return this.charAt(0).toUpperCase() + this.substring(1)
 }
 
 
@@ -73,29 +78,29 @@ String.prototype.firstUpper  =function(){
  * @param  {...any} args
  * @returns
  */
-function getColorizedTemplate (template, ...args) {
-  if (
-    args.length === 1 &&
-    (isPlainObject(args[0]) || typeof args[0] === 'function')
-  ) {
-    let params = typeof args[0] === 'function' ? args[0]() : args[0]
-    Object.keys(params).forEach(key => {
-      params[key] = colorize(params[key], this)
-    })
-    for (let name in params) {
-      template = template.replace(
-        new RegExp(`\{\s*\(${name})\s*\}`, 'g'),
-        params[name]
-      )
+function getColorizedTemplate(template, ...args) {
+    if (
+        args.length === 1 &&
+        (isPlainObject(args[0]) || typeof args[0] === 'function')
+    ) {
+        let params = typeof args[0] === 'function' ? args[0]() : args[0]
+        Object.keys(params).forEach(key => {
+            params[key] = colorize(params[key], this)
+        })
+        for (let name in params) {
+            template = template.replace(
+                new RegExp(`\{\s*\(${name})\s*\}`, 'g'),
+                params[name]
+            )
+        }
+        return template
+    } else {
+        args = args.map(arg => {
+            if (typeof arg === 'function') arg = arg()
+            return colorize(arg, this)
+        })
+        return template.params(...args)
     }
-    return template
-  } else {
-    args = args.map(arg => {
-      if (typeof arg === 'function') arg = arg()
-      return colorize(arg, this)
-    })
-    return template.params(...args)
-  }
 }
 
 /**
@@ -106,39 +111,39 @@ function getColorizedTemplate (template, ...args) {
  * @param {*} level
  * @param  {...any} args
  */
-function logOutput (level, message, args, memo) {
-  const now = new Date()
-  const time = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} ${now.getMilliseconds()}`.padEnd(12)
-  const date = `${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}`
-  // 超过指定的字符后进行截断换行
-  if (
-    this.levels.maxLineChars > 0 &&
-    message.length > this.levels.maxLineChars
-  ) {
-    //message=message.substr(0,this.levels.maxLineChars)
-  }
-  //
-  if (this.levels.align) {
-    message = message.replaceAll('\n', '\n' + new Array(33).fill(' ').join(''))
-  }
-  if (!Array.isArray(args)) args = [args]
-  message = getColorizedTemplate(message, ...args)
+function logOutput(level, message, args, memo) {
+    const now = new Date()
+    const time = `${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}:${now.getSeconds().toString().padStart(2, "0")} ${now.getMilliseconds().toString().padStart(3, "0")}`.padEnd(12)
+    const date = `${now.getFullYear()}/${(now.getMonth() + 1).toString().padStart(2, "0")}/${now.getDate().toString().padStart(2, "0")}`
+    // 超过指定的字符后进行截断换行
+    if (
+        this.levels.maxLineChars > 0 &&
+        message.length > this.levels.maxLineChars
+    ) {
+        //message=message.substr(0,this.levels.maxLineChars)
+    }
+    //
+    if (this.levels.align) {
+        message = message.replaceAll('\n', '\n' + new Array(33).fill(' ').join(''))
+    }
+    if (!Array.isArray(args)) args = [args]
+    message = getColorizedTemplate(message, ...args)
 
-  // 变量插值
-  let result = this.template.params({
-    level: paddingCenter(level, 5),
-    message,
-    datetime: date + ' ' + time,
-    time,
-    date,
-    ...isPlainObject(args[0]) ? {} : args[0]  // 额外的上下插值变量
-  })
-  let colorize = getColorizeFunction(this.levels[level.toLowerCase()])
-  let output = colorize(result)
-  if (memo) {
-    output += getColorizeFunction(this.levels.memo)(`(${memo})`)
-  }
-  consoleOutput(output)
+    // 变量插值
+    let result = this.template.params({
+        level: paddingCenter(level, 5),
+        message,
+        datetime: date + ' ' + time,
+        time,
+        date,
+        ...isPlainObject(args[0]) ? {} : args[0]  // 额外的上下插值变量
+    })
+    let colorize = getColorizeFunction(this.levels[level.toLowerCase()])
+    let output = colorize(result)
+    if (memo) {
+        output += getColorizeFunction(this.levels.memo)(`(${memo})`)
+    }
+    consoleOutput(output)
 }
 
 /**
@@ -152,42 +157,42 @@ function logOutput (level, message, args, memo) {
  * 使用方法同console.log,差别就在于输出内容的着色
  * this=logger.options
  **/
-function print () {
+function print() {
     let args = [...arguments]
-    let options = {end:"\n",append:" "}
-    if(arguments.length>=2 && isPlainObject(arguments[arguments.length-1])){
-        args = args.slice(0,arguments.length-1)
-        Object.assign(options,arguments[arguments.length-1])
+    let options = { end: "\n", append: " " }
+    if (arguments.length >= 2 && isPlainObject(arguments[arguments.length - 1])) {
+        args = args.slice(0, arguments.length - 1)
+        Object.assign(options, arguments[arguments.length - 1])
     }
-    
+
 
     consoleOutput(
         ...Array.from(args).map(arg => {
             if (isPlainFunction(arg)) {
-                try{
+                try {
                     arg = arg()
-                }catch{
+                } catch {
                     arg = "ERROR"
                 }
             }
-            if(typeof(arg)==="string"){
+            if (typeof (arg) === "string") {
                 return arg
-            }else{
+            } else {
                 return colorize(arg, this)
-            }      
+            }
         }),
         options
     )
 }
- 
-function format (value,options={}) {
-  if (typeof value === 'function') value = value()
-  const opts = Object.assign({compact:false}, options)
-  consoleOutput(colorize(
+
+function format(value, options = {}) {
+    if (typeof value === 'function') value = value()
+    const opts = Object.assign({ compact: false }, options)
+    consoleOutput(colorize(
         value,
-        deepmerge(this,options)
-      ) 
-  )
+        deepmerge(this, options)
+    )
+    )
 }
 
 /**
@@ -195,8 +200,8 @@ function format (value,options={}) {
  * @param {*} template
  * @param  {...any} args
  */
-function printTemplate (message, ...args) {
-  consoleOutput(getColorizedTemplate.call(this,message, ...args))
+function printTemplate(message, ...args) {
+    consoleOutput(getColorizedTemplate.call(this, message, ...args))
 }
 
 /**
@@ -215,31 +220,35 @@ function printTemplate (message, ...args) {
  * @param {*} options
  */
 
-export default function createLogger (options = {}) {
-  let context = deepmerge(DefaultOptions, options)
-  let log = {}
-  log.log = (message, ...args) => {
-    printTemplate.call(context,message, ...args)
-  }
-  log.print = (...args) => print.call(context, ...args)
-  log.format = (...args) => format.call(context, ...args)
-  log.debug = (...args) => logOutput.call(context, DEBUG, ...args)
-  log.info = (...args) => logOutput.call(context, INFO, ...args)
-  log.warn = (...args) => logOutput.call(context, WARN, ...args)
-  log.error = (...args) => logOutput.call(context, ERROR, ...args)
-  log.fatal = (...args) => logOutput.call(context, FATAL, ...args)
-  log.use = (plugin) => plugin(log,context)  
-  log.colorize = (arg) => colorize(arg, context)
-  log.getColorizer = getColorizeFunction
-  log.getColorizedTemplate = getColorizedTemplate
-  log.separator=(n=80,char="─")=>{consoleOutput(new Array(n).fill(char).join(''))}
-  log.options = context
-  log.colors = ansicolor
-  log.config = opts => {
-    if (isPlainObject(opts)) {
-      context = deepmerge(context, opts)
+export default function createLogger(options = {}) {
+    let context = deepmerge(DefaultOptions, options)
+    let log = {}
+    log.log                  = (message, ...args) => printTemplate.call(context, message, ...args)
+    log.print                = (...args) => print.call(context, ...args)
+    log.format               = (...args) => format.call(context, ...args)
+    log.debug                = (...args) => logOutput.call(context, DEBUG, ...args)
+    log.info                 = (...args) => logOutput.call(context, INFO, ...args)
+    log.warn                 = (...args) => logOutput.call(context, WARN, ...args)
+    log.error                = (...args) => logOutput.call(context, ERROR, ...args)
+    log.fatal                = (...args) => logOutput.call(context, FATAL, ...args)
+    log.use                  = (plugin) => plugin(log, context)
+    log.colorize             = (arg) => colorize(arg, context)
+    log.getColorizer         = getColorizeFunction
+    log.getColorizedTemplate = getColorizedTemplate
+    log.separator            = (n = 80, char = "─") => { consoleOutput(new Array(n).fill(char).join('')) }
+    log.options              = context
+    log.colors               = ansicolor 
+    log.config = opts => {
+        if (isPlainObject(opts)) {
+            context = deepmerge(context, opts)
+        }
+        return log
     }
+    // 引入所有内置插件
+    log.use(bannerPlugin)
+    log.use(progressbarPlugin)
+    log.use(tablePlugin)
+    log.use(tasklistPlugin)
+    log.use(treePlugin)
     return log
-  }
-  return log
 }

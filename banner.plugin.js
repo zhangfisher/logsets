@@ -35,7 +35,7 @@ const  DefaultBannersOptions = {
     title        : {
         align    : "center",                     // 标题对齐方式     
         style    : ["","","green,bright","",""], // 标题颜色
-        wrapper  : "☆ ☆ ☆"                       // 标题包裹符号,用来装饰 
+        wrapper  : "☆☆☆"                       // ☆ ☆ ☆标题包裹符号,用来装饰 
     },
     align        : "center",                     // 横幅行默认对齐方式，默认居中
     paddingLeft  : 4,                            // 左右空白宽度
@@ -56,9 +56,9 @@ function createBanner(context,options){
         const paddingRight = new Array(opts.paddingRight).fill(" ").join("")
         let totalWidth = lines.reduce((width,line,index)=>{
             if(index===0){  // 第一行视为标题行
-                line.text.splice(0,0,"   ")
+                line.text.splice(0,0,"  ")
                 line.text.splice(0,0,opts.title.wrapper)
-                line.text.push("   ")
+                line.text.push("  ")
                 line.text.push(opts.title.wrapper)
             }
             return Math.max(width,getStringWidth(line.text.join("")))           
@@ -90,18 +90,22 @@ function createBanner(context,options){
                 }else{
                     t= paddingCenter(lineText,totalWidth-opts.paddingLeft-opts.paddingRight)
                 }
-                leftSpace = paddingLeft + getLeftRepeatChars(t) + (index==0 ? "   " : "")
-                rightSpace= paddingRight + getRightRepeatChars(t) + (index==0 ? "   " : "")
+                leftSpace = paddingLeft + getLeftRepeatChars(t) + (index==0 ? "" : "")
+                rightSpace= paddingRight + getRightRepeatChars(t) + (index==0 ? "" : "")
             }
             
             let lineStyles =Array.isArray(line.style) ? line.style : (line.style ? [line.style] : [])
             if(lineStyles.length===0 && index===0) lineStyles = opts.title.style
 
             const coloredLineTexts =lineStyles.length==0 ?  line.text : line.text.map((t,i)=>{
-                    return colorizer(i<lineStyles.length ?  lineStyles[i] : lineStyles[lineStyles.length-1])(t)
+                return colorizer(i<lineStyles.length ?  lineStyles[i] : lineStyles[lineStyles.length-1])(t)
             })
             logger.print("║",leftSpace,...coloredLineTexts,rightSpace,"║",{append:""}) 
-            
+            // 在标题栏下增加一行分割线╟ ─  ╢
+            // if(index===0){
+            //     //consoleOutput("║"+new Array(totalWidth).fill(" ").join("")+"║")
+            //     consoleOutput("╟"+new Array(totalWidth).fill("─").join("")+"╢")
+            // }
         })
 
         // 留出空白行
