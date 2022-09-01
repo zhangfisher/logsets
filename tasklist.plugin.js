@@ -100,7 +100,7 @@ function createTaskList(context,options){
     const opts = deepmerge(DefaultTaskListOptions,options) 
     let curTask = null
  
-    const spinnerChars = ["|","/","—","\\","|","/","—","\\"]
+    const spinnerChars = ["|","/","-","\\","|","/","-","\\"]
     const getColorizer = logger.getColorizer 
 
     function createTask(title){ 
