@@ -984,7 +984,7 @@ logger.config({
 
 ## 1.0.14
 
-- 将所有插件内置，不再需要额外引入，即：
+- 将所有插件内置，不再需要额外引入。
 ```
 import createLogger from "logsets"
 - import tablePlugin from "logsets/plugins/table"
@@ -993,8 +993,6 @@ const logger = createLogger({...})
 ```
 ## 1.0.8
 
-- format方法可以通过{compact:true}配置支持采用紧凑模式输出。
+- format方法可以通过`{compact:true}`配置支持采用紧凑模式输出。
 
-
-**最新版本**：`1.0.7`
-
+ 
