@@ -1,12 +1,12 @@
-在开发`nodejs`终端应用程序时，在终端窗口输出带颜色的文本，支持以下特性：
+为开发`nodejs`命令行程序提供丰富的表现输出样式，支持以下特性：
 
-- 支持按不同数据类型以不同的颜色显示，并且可以配置
+- 支持按不同数据类型以不同的颜色显示，并且可以配置显示样式
 - 支持按`DEBUG`、`INFO`、`WARN `、`ERROR `、`FATAL`五个级别输出日志
 - 支持输出带颜色的模板字符串
 - 支持自动格式化显示`{}`和`[]`类型
 - 支持强大的表格输出
 - 支持输出任务列表、进度条、横幅和树等扩展
--  正确处理中文与英文混排时的对齐问题
+- 正确处理中文与英文混排时的对齐问题
 
 # 安装
 
@@ -955,7 +955,7 @@ const log = createLogger({
 样式名称用来指定以何种前景颜色、背景颜色或修饰样式，支持如下值：
 
 - **普通前景色：**`red`，`green`，`yellow`，`blue`，`magenta`，`cyan`，`white`，`darkGray`，`black`
-    - **加亮前景色：**`lightRed`，`lightGreen`，`lightYellow`，`lightBlue`，`lightMagenta`，lightCyan	，`lightGray`
+- **加亮前景色：**`lightRed`，`lightGreen`，`lightYellow`，`lightBlue`，`lightMagenta`，lightCyan	，`lightGray`
 - **普通背景色：**`bgRed`，`bgGreen`，`bgYellow`，`bgBlue`，`bgMagenta`，`bgCyan`，`bgWhite`，`bgDarkGray`，`bgBlack`
 - **加亮背景色：**`bgLightRed`，`bgLightGreen`，`bgLightYellow`，`bgLightBlue`，`bgLightMagenta`，`bgLightCyan`，`bgLightGray`
 - **修饰样式：**`bright`，`dim`，`italic`，`underline`，`inverse`
