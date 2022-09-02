@@ -1,4 +1,4 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 specifiers:
   '@babel/cli': ^7.17.0
@@ -28,7 +28,7 @@ devDependencies:
   '@babel/plugin-transform-runtime': 7.17.0_@babel+core@7.17.2
   '@babel/preset-env': registry.npmmirror.com/@babel/preset-env/7.16.11_@babel+core@7.17.2
   '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.17.2
-  '@rollup/plugin-babel': registry.npmmirror.com/@rollup/plugin-babel/5.3.0_@babel+core@7.17.2+rollup@2.70.0
+  '@rollup/plugin-babel': registry.npmmirror.com/@rollup/plugin-babel/5.3.0_mzefwaaq44f6ap4wuc56tudc3y
   '@rollup/plugin-commonjs': registry.npmmirror.com/@rollup/plugin-commonjs/21.0.1_rollup@2.70.0
   rollup: 2.70.0
   rollup-plugin-clear: registry.npmmirror.com/rollup-plugin-clear/2.0.7
@@ -181,6 +181,8 @@ packages:
     resolution: {integrity: sha512-VKXSCQx5D8S04ej+Dqsr1CzYvvWgf20jIw2D+YhQCrIlr2UZGaDds23Y0xg75/skOxpLCRpUZvk/1EAVkGoDOw==}
     engines: {node: '>=6.0.0'}
     hasBin: true
+    dependencies:
+      '@babel/types': 7.17.0
     dev: true
 
   /@babel/plugin-transform-runtime/7.17.0_@babel+core@7.17.2:
@@ -1137,6 +1139,8 @@ packages:
     version: 7.17.0
     engines: {node: '>=6.0.0'}
     hasBin: true
+    dependencies:
+      '@babel/types': 7.17.0
     dev: true
 
   registry.npmmirror.com/@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression/7.16.7_@babel+core@7.17.2:
@@ -2208,7 +2212,7 @@ packages:
       '@jridgewell/sourcemap-codec': registry.npmmirror.com/@jridgewell/sourcemap-codec/1.4.10
     dev: true
 
-  registry.npmmirror.com/@rollup/plugin-babel/5.3.0_@babel+core@7.17.2+rollup@2.70.0:
+  registry.npmmirror.com/@rollup/plugin-babel/5.3.0_mzefwaaq44f6ap4wuc56tudc3y:
     resolution: {integrity: sha512-9uIC8HZOnVLrLHxayq/PTzw+uS25E14KPUBh5ktF+18Mjo5yK0ToMMx6epY0uEgkjwJw0aBW4x2horYXh8juWw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@rollup/plugin-babel/-/plugin-babel-5.3.0.tgz}
     id: registry.npmmirror.com/@rollup/plugin-babel/5.3.0
     name: '@rollup/plugin-babel'

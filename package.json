@@ -1,12 +1,17 @@
 {
   "name": "logsets",
+<<<<<<< .mine
   "version": "1.0.14",
+=======
+  "version": "1.0.13",
+>>>>>>> .theirs
   "description": "",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c"
     "build": "rollup -c",
     "release": " npm version patch  && npm run build && npm publish" 
   },
