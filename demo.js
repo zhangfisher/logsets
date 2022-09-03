@@ -1,8 +1,8 @@
-import createLogger from "./index.js" 
+import logger from "./index.js" 
 import  tablePlugin from "./table.plugin.js" 
 
-const logger = createLogger()
-logger.use(tablePlugin)
+// const logger = createLogger()
+//logger.use(tablePlugin)
 logger.print(/^colored$/g)
 
 logger.colors.red("hello")

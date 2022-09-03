@@ -546,7 +546,7 @@ tasks.add(["下载文件:{},已下载{}","package.json",123])
 ```javascript
  { 
     indent    : "  ",       // 列表项缩进字符 
-    style     : "",         // 标题样式，可以用red,bgYellow等组合，参阅输出样式
+    style     : "bright",   // 标题样式，可以用red,bgYellow等组合，参阅输出样式，默认是高亮
     width     : 60,         // 列表项总宽度
     refInterval:200,        // 列表项渲染间隔,以ms为单位
     progressbar:{
@@ -598,6 +598,7 @@ tasks.add(["下载文件:{},已下载{}","package.json",123])
 
 ```javascript
 let tasks = logger.tasklist({
+    title:"任务标题",
     status:{
         connected:{
             symbol:"*",
@@ -982,14 +983,35 @@ logger.config({
 
 # 版本历史
 
+## 1.0.15
+
+- 内置默认创建logger,可以直接引入
+``` javascript
+import logger from "logsets"
+- const logger = createLogger({...})    // 可选，创建一个新实例
+```
+- `getColorizedTemplate` 支持通过数组方式来返回着色后的内容
+``` javascript
+import logger from "logsets"
+console.log(logger.getColorizedTemplate(["{} + {} = {}",1,1,2]))
+```
+- 修复TaskList的标题输出
+``` javascript
+import logger from "logsets"
+logger.tasklist({
+    title:"标题",               // 默认高亮输出
+    title:["共{}个任务",8]      // 默认高亮输出，并且插传值内容按数据类型着色显示
+})
+```
+
 ## 1.0.14
 
 - 将所有插件内置，不再需要额外引入。
-```
+```javascript
 import createLogger from "logsets"
-- import tablePlugin from "logsets/plugins/table"
+- import tablePlugin from "logsets/plugins/table"  // 不再需要额外引入
 const logger = createLogger({...})
-- logger.use(tablePlugin)
+- logger.use(tablePlugin)    // 不再需要额外引入
 ```
 ## 1.0.8
 

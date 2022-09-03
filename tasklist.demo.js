@@ -5,7 +5,7 @@ const logger = createLogger()
 logger.use(TaskListPlugin)
 
 let tasks = logger.tasklist({
-    title:"所有任务:",
+    title:["所有任务:{}个",8],
     status:{
         connected:{
             style:"green",

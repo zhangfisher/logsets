@@ -10,8 +10,8 @@ import tasklistPlugin from "./tasklist.plugin.js"
 import treePlugin from "./tree.plugin.js"
 
 const DEBUG = 'DEBUG'
-const INFO = 'INFO'
-const WARN = 'WARN'
+const INFO  = 'INFO'
+const WARN  = 'WARN'
 const ERROR = 'ERROR'
 const FATAL = 'FATAL'
 
@@ -94,6 +94,14 @@ function getColorizedTemplate(template, ...args) {
             )
         }
         return template
+    }else if(arguments.length==1 && Array.isArray(arguments[0]) && arguments[0].length>0){
+        let templ = arguments[0][0]
+        let params = [...arguments[0]].slice(1)
+        params = params.map(arg => {
+            if (typeof arg === 'function') arg = arg()
+            return colorize(arg, this)
+        })
+        return templ.params(...params)
     } else {
         args = args.map(arg => {
             if (typeof arg === 'function') arg = arg()
@@ -220,7 +228,7 @@ function printTemplate(message, ...args) {
  * @param {*} options
  */
 
-export default function createLogger(options = {}) {
+function createLogger(options = {}) {
     let context = deepmerge(DefaultOptions, options)
     let log = {}
     log.log                  = (message, ...args) => printTemplate.call(context, message, ...args)
@@ -252,3 +260,9 @@ export default function createLogger(options = {}) {
     log.use(treePlugin)
     return log
 }
+
+const defaultLogger = createLogger()
+
+Object.assign(createLogger,defaultLogger)
+
+export default createLogger

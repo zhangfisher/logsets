@@ -48,7 +48,7 @@ import { consoleOutput, getStringWidth,hideCursor,showCursor,newline, paddingEnd
 
 const DefaultTaskListOptions  = { 
     indent    : "  ",       // 列表缩进 
-    style     : "",         // 标题样式
+    style     : "bright",   // 标题样式
     width     : 60,         // 列表总宽度
     refInterval:200,        // 列表项渲染间隔
     progressbar:{
@@ -98,6 +98,13 @@ const DefaultTaskListOptions  = {
 function createTaskList(context,options){
     const logger = this  
     const opts = deepmerge(DefaultTaskListOptions,options) 
+
+    // 显示任务标题 ? bright
+    if(opts.title){
+        let titleColorizer = logger.getColorizer(opts.style)
+        console.log(titleColorizer(logger.getColorizedTemplate(opts.title)))
+    }     
+
     let curTask = null
  
     const spinnerChars = ["|","/","-","\\","|","/","-","\\"]
@@ -107,7 +114,7 @@ function createTaskList(context,options){
         const self = this 
         let status = "running"     // 0-进行中，1-完成，2-错误，3-跳过，4-停止
         let spinnerIndex = 0       // 动态旋转序号
-        let spinnerDir = 0       // 动态旋转方向
+        let spinnerDir = 0          // 动态旋转方向
         let progressValue = 0      // 进度值
         let timer = null
         let listNote = null
