@@ -231,7 +231,7 @@ logger.fatal("正在执行程序{a} + {b} , {sex} {name}...",{a:1,b:1,sex:true,n
 ```
 输出效果如下：
 
-![](./images/log11.jpg)
+![image](./images/log11.jpg)
 
 第二个参数也可以是一个返回`[]`或`{}`插值变量列表的函数.
 

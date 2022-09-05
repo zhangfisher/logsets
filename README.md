@@ -16,6 +16,53 @@ yarn add logsets
 pnpm add logsets
 ```
 
-# 指南
+# 输出效果
+
+- 模板字符串输出
+
+![image](./docs/images/log.jpg)
+
+- 按数据类型输出
+
+![image](./docs/images/log2.jpg)
+
+- 格式化输出对象
+
+![image](./docs/images/log3.jpg)
+![image](./docs/images/log5.jpg)
+
+- 输出日志级别
+
+![image](./docs/images/log11.jpg)
+
+- 表格输出
+
+![image](./docs/images/log6.jpg)
+ 
+![image](./docs/images/log7.jpg)
+
+![image](./docs/images/log8.jpg)
+
+- 进度条
+
+![](./docs/images/progressbar.png)
+
+- 横幅
+
+![](./docs/images/banner1.png)
+![](./docs/images/banner2.png)
+
+
+- 任务列表
+
+![image](./docs/images/tasklist.demo.gif) 
+
+- 树
+
+![](./docs/images/tree1.png)
+![](./docs/images/tree2.png)
+
+
+# 文档
 
 [文档](https://zhangfisher.github.io/logsets/)
