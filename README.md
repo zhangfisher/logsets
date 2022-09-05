@@ -18,13 +18,28 @@ pnpm add logsets
 
 # 指南
 
+## 创建实例
+
+`logsets`默认自动创建一个实例，可以直接引入使用。
+
+```javascript
+import logger from "logsets"
+logger.config({...})
+```
+
+也可以创建多个实例：
+
+```javascript
+import createLogger from "logsets"
+const logger = createLogger({...})
+```
+
 ## 模板字符串输出
 
 对模板字符串进行插值后输出着色后的字符串。
 
 ```javascript
-import createLogger from "logsets"
-const logger = createLogger({...})
+import logger from "logsets"
 logger.log("<模板字符串>",<变量1>,<变量1>,...,{end:"\n",append:" "})
 logger.log("<模板字符串>",<变量1>,<变量1>,...)
 logger.log("<模板字符串>",{<变量1>:<值>,<变量1>:<值>},)
@@ -32,8 +47,7 @@ logger.log("<模板字符串>",{<变量1>:<值>,<变量1>:<值>},{end:"\n",appen
 ```
 **示例如下：**
 ```javascript
-import createLogger from "logsets"
-const logger = createLogger({...})
+import logger from "logsets" 
 // 命名插值变量
 logger.log("{a}+{b}={c}",{a:1,b:1,c:2})
 // 位置插值变量
@@ -79,8 +93,7 @@ logger.log()   // 换行
 **示例**
 
 ```javascript
-import createLogger from "logsets"
-const log = createLogger({...})
+import logger from "logsets" 
 
 logger.print("String",true,100,()=>{},[1,2,3])
 logger.print(null,undefined)
@@ -102,8 +115,7 @@ logger.print({name:"tom",age:100,admin:true,posts:["a","b"],values:[1,2,3]},()=>
 - **基本用法**
 
 ```javascript
-import createLogger from "logsets"
-const logger = createLogger({...})
+import logger from "logsets" 
 
 logger.format({
     name:"tom",
@@ -126,8 +138,7 @@ logger.format({
 对数组或对象成员数量当超过指定值时，显示省略号并备注总数量。
 
 ```javascript
-import createLogger from "logsets"
-const logger = createLogger({...})
+import logger from "logsets" 
 
 logger.format({
     values:new Array(10).fill(0).map((v,i)=>i+1),
@@ -160,8 +171,7 @@ logger.format({
 **可以配置紧凑模式输出。**
 
 ```javascript
-import createLogger from "logsets"
-const logger = createLogger({...})
+import logger from "logsets" 
 
 logger.format({
     values:new Array(10).fill(0).map((v,i)=>i+1),
@@ -203,8 +213,7 @@ logger.fatal("<模块字符串>",[位置插值变量列表] || {插值变量列�
 示例如下：
 
 ```javascript
-import createLogger from "logsets"
-const log = createLogger({...})
+import logger from "logsets" 
 logger.debug("正在执行程序{},还需要{}秒...",["logs",9])
 logger.info("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9})
 logger.warn("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9},"Line:123")
@@ -246,9 +255,8 @@ logger.config({
 ### 基本用法 
 
 ```javascript
-import createLogger from "logsets"
-
-const log = createLogger({...})
+import logger from "logsets"
+ 
 
 const table = logger.table({       
     colorize:1,              // 是否需要颜色化 0-禁用着色,1-简单着色 2-对表单元里面的对象和数组进行着色,需要额外的计算
@@ -425,8 +433,7 @@ addFooter(content,
 ### 基本用法
 
 ```javascript
-import createLogger from "logsets"
-const logger = createLogger({...})
+import logger from "logsets" 
 
 const pbar = logger.progressbar({
     title     : "下载进度",
@@ -507,8 +514,7 @@ progressbar.end()  		 // 结束进度条
 ### 基本用法
 
 ```javascript
-import createLogger from "logsets"
-const logger = createLogger({...})
+import logger from "logsets" 
 
 // 创建一个任务列表
 let tasks = logger.tasklist({})
@@ -628,10 +634,8 @@ tasks.connected()
 ### 基本用法
 
 ```javascript
-import createLogger from "./index.js" 
-
-const logger = createLogger()
-
+import logger from "./index.js" 
+ 
 let banner = logger.banner({ })
 
 banner.add("Logsets Utility Toolkit")
@@ -692,14 +696,14 @@ banner.render()
 
   增加行，支持多个输出参数，每个参数均会按照logger的数据类型的配色进行输出。
 
-  如果最后一个参数是一个{}，则支持配置额外的样式和参数。
+  如果最后一个参数是`{}`，则支持配置额外的样式和参数。
 
   ```javascript
   banner.add(arg1,arg2,...,{
-  	align:"center | left | right"，            // 整体居中、居左、居右
+  	align:"center | left | right",            // 整体居中、居左、居右
       // 指定该行整行的色彩
-      style:"<色彩样式>"，						   
-   	// 可以为每一个参数指定颜色。
+      style:"<色彩样式>",						   
+   	 // 可以为每一个参数指定颜色。
       style:[
              "<第1个参数的色彩样式>",
              "<第2个参数的色彩样式>",
@@ -724,9 +728,7 @@ banner.render()
 ### 基本用法
 
 ```javascript
-import createLogger from "./index.js" 
-
-const logger = createLogger()
+import logger from "./index.js"  
 
 let tree = logger.tree({
 	root:"文件结构"
@@ -832,13 +834,10 @@ tree.addNode("工资清单.xlsx",{last:true})
 
 ## 输出彩色内容
 
-`logsets`依赖于`ansicolors`，并且将其挂在了`logsets.colors`下，因此也可以直接调用来生成彩色内容。
+`logsets`依赖于`ansicolor`，并且将其挂在了`logsets.colors`下，因此也可以直接调用来生成彩色内容。
 
 ```javascript
-import createLogger from "./index.js" 
-import TreePlugin from "./tree.plugin.js"
-
-const logger = createLogger()
+import logger from "./index.js"  
 
 console.log(logger.colors.red(text))
 console.log(logger.colors.green(text))
@@ -856,12 +855,11 @@ console.log(logger.colors.black())
 
 # 全局配置
 
-`logsets`支持丰富的配置参数，可以自定义输出样式。
-
+绝大多数情况下，`logsets`是开箱即用的，不需要进行配置。
+但是`logsets`也支持丰富的配置参数，可以自定义输出样式。
 ## 默认配置
 
 完整配置如下：
-
 
 ```javascript
 import createLogger from "logsets"
@@ -973,7 +971,7 @@ logger.config({
 
 代表对`Boolean`类型数据采用**亮红色背景**，**白色文本**方式显示。
 
-**注：**样式可能受不平操作系统平台差异，部分样式不支持。
+**注**: 样式可能受不平操作系统平台差异，部分样式不支持。
 
 ## 文本样式
 
