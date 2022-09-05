@@ -525,7 +525,10 @@ progressbar.end()  		 // 结束进度条
 import logger from "logsets" 
 
 // 创建一个任务列表
-let tasks = logger.tasklist({})
+let tasks = logger.tasklist({
+    title:"指定任务列表标题"            // 高亮显示
+})
+// let tasks = logger.tasklist("指定列表标题")  只指定标题
 
 // 新增一个任务列表项
 tasks.add("开始扫描文件")
@@ -1081,6 +1084,10 @@ logger.use(MyPlugin)
 
 # 更新历史
 
+## 1.0.17
+
+- 修复`logger.tasklist(title)`未生效的问题.
+
 ## 1.0.16
 
 - 更新文档
@@ -1088,12 +1095,15 @@ logger.use(MyPlugin)
 
 ## 1.0.15
 
-- 内置默认创建logger,可以直接引入
+- 内置默认创建`logsets`实例,可以直接引入
+
 ``` javascript
 import logger from "logsets"
 - const logger = createLogger({...})    
 ```
+
 - `getColorizedTemplate` 支持通过数组方式来返回着色后的内容
+
 ``` javascript
 import logger from "logsets"
 console.log(logger.getColorizedTemplate(["{} + {} = {}",1,1,2]))
@@ -1103,13 +1113,18 @@ import createLogger from "logsets"
 const logger = createLogger({...}) 
 
 ```
+
 - 修复TaskList的标题输出
+
 ``` javascript
 import logger from "logsets"
-logger.tasklist({
+const tasks = logger.tasklist({
     title:"标题",               // 默认高亮输出
     title:["共{}个任务",8]      // 默认高亮输出，并且插传值内容按数据类型着色显示
 })
+//或者
+const tasks = logger.tasklist("标题")
+
 ```
 
 ## 1.0.14

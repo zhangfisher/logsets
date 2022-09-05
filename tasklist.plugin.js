@@ -97,6 +97,7 @@ const DefaultTaskListOptions  = {
   
 function createTaskList(context,options){
     const logger = this  
+    if(typeof(options)=="string") options = {title:options}
     const opts = deepmerge(DefaultTaskListOptions,options) 
 
     // 显示任务标题 ? bright
