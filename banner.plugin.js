@@ -143,8 +143,8 @@ function createBanner(context,options){
 }
 /**
  * 
- * @param {*} log 
- * @param {*} context  当前表格的上下文配置参数
+ * @param {*} logger 
+ * @param {*} context  当前上下文配置参数
  */
  export default function(logger,context){
     logger.banner = (opts={})=>createBanner.call(logger,context,opts)

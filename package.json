@@ -1,42 +1,25 @@
 {
   "name": "logsets",
-<<<<<<< .mine
-  "version": "1.0.15",
-
-=======
-<<<<<<< .mine
-  "version": "1.0.14",
->>>>>>> .theirs
+  "version": "1.0.16",
   "description": "",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
+  "homepage": "https://zhangfisher.github.io/logsets/",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c"
     "build": "rollup -c",
-    "release": " npm version patch  && npm run build && npm publish" 
+    "release": " npm version patch  && npm run build && npm publish",
+    "dev:docs":"docsify serve docs" 
   },
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
-    "./plugins/table": {
-      "import": "./dist/table.plugin.mjs",
-      "require": "./dist/table.plugin.cjs"
-    },
-    "./plugins/progressbar": {
-      "import": "./dist/progressbar.plugin.mjs",
-      "require": "./dist/progressbar.plugin.cjs"
-    },
-    "./plugins/tasklist": {
-      "import": "./dist/tasklist.plugin.mjs",
-      "require": "./dist/tasklist.plugin.cjs"
-    },
-    "./plugins/banner": {
-      "import": "./dist/banner.plugin.mjs",
-      "require": "./dist/banner.plugin.cjs"
+    "./utils": {
+      "import": "./dist/utils.mjs",
+      "require": "./dist/utils.cjs"
     }
   },
   "author": "",

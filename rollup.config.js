@@ -33,83 +33,99 @@ export default  [
         external:["@babel/runtime"]
     },
     {
-        input:  './table.plugin.js', 
+        input:  './utils.js', 
         output: [
             {
-                file: 'dist/table.plugin.mjs', 
+                file: 'dist/utils.mjs', 
                 format:"es" 
             },
             {
-                file: 'dist/table.plugin.cjs', 
-                exports:"default",    
+                file: 'dist/utils.cjs', 
                 format:"cjs" 
             }
         ],
         plugins,
         external:["@babel/runtime"]
-    },
-    {
-        input:  './progressbar.plugin.js', 
-        output: [
-            {
-                file: 'dist/progressbar.plugin.mjs', 
-                format:"es" 
-            },
-            {
-                file: 'dist/progressbar.plugin.cjs', 
-                exports:"default",    
-                format:"cjs" 
-            }
-        ],
-        plugins,
-        external:["@babel/runtime"]
-    },
-    {
-        input:  './tasklist.plugin.js', 
-        output: [
-            {
-                file: 'dist/tasklist.plugin.mjs', 
-                format:"es" 
-            },
-            {
-                file: 'dist/tasklist.plugin.cjs', 
-                exports:"default",    
-                format:"cjs" 
-            }
-        ],
-        plugins,
-        external:["@babel/runtime"]
-    },
-    {
-        input:  './banner.plugin.js', 
-        output: [
-            {
-                file: 'dist/banner.plugin.mjs', 
-                format:"es" 
-            },
-            {
-                file: 'dist/banner.plugin.cjs', 
-                exports:"default",    
-                format:"cjs" 
-            }
-        ],
-        plugins,
-        external:["@babel/runtime"]
-    },
-    {
-        input:  './tree.plugin.js', 
-        output: [
-            {
-                file: 'dist/tree.plugin.mjs', 
-                format:"es" 
-            },
-            {
-                file: 'dist/tree.plugin.cjs', 
-                exports:"default",    
-                format:"cjs" 
-            }
-        ],
-        plugins,
-        external:["@babel/runtime"]
-    }  
+    }
+    // {
+    //     input:  './table.plugin.js', 
+    //     output: [
+    //         {
+    //             file: 'dist/table.plugin.mjs', 
+    //             format:"es" 
+    //         },
+    //         {
+    //             file: 'dist/table.plugin.cjs', 
+    //             exports:"default",    
+    //             format:"cjs" 
+    //         }
+    //     ],
+    //     plugins,
+    //     external:["@babel/runtime"]
+    // },
+    // {
+    //     input:  './progressbar.plugin.js', 
+    //     output: [
+    //         {
+    //             file: 'dist/progressbar.plugin.mjs', 
+    //             format:"es" 
+    //         },
+    //         {
+    //             file: 'dist/progressbar.plugin.cjs', 
+    //             exports:"default",    
+    //             format:"cjs" 
+    //         }
+    //     ],
+    //     plugins,
+    //     external:["@babel/runtime"]
+    // },
+    // {
+    //     input:  './tasklist.plugin.js', 
+    //     output: [
+    //         {
+    //             file: 'dist/tasklist.plugin.mjs', 
+    //             format:"es" 
+    //         },
+    //         {
+    //             file: 'dist/tasklist.plugin.cjs', 
+    //             exports:"default",    
+    //             format:"cjs" 
+    //         }
+    //     ],
+    //     plugins,
+    //     external:["@babel/runtime"]
+    // },
+    // {
+    //     input:  './banner.plugin.js', 
+    //     output: [
+    //         {
+    //             file: 'dist/banner.plugin.mjs', 
+    //             format:"es" 
+    //         },
+    //         {
+    //             file: 'dist/banner.plugin.cjs', 
+    //             exports:"default",    
+    //             format:"cjs" 
+    //         }
+    //     ],
+    //     plugins,
+    //     external:["@babel/runtime"]
+    // },
+    // {
+    //     input:  './tree.plugin.js', 
+    //     output: [
+    //         {
+    //             file: 'dist/tree.plugin.mjs', 
+    //             format:"es" 
+    //         },
+    //         {
+    //             file: 'dist/tree.plugin.cjs', 
+    //             exports:"default",    
+    //             format:"cjs" 
+    //         }
+    //     ],
+    //     plugins,
+    //     external:["@babel/runtime"]
+    // }
+    
 ]

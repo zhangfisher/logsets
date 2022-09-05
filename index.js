@@ -1,7 +1,7 @@
 import colorize, { getColorizeFunction } from './colorize.js'
 import deepmerge from 'deepmerge'
 import { DefaultOptions } from './consts.js'
-import { firstUpper, isPlainObject, paddingCenter, isPlainFunction, consoleOutput } from './utils.js'
+import { firstUpper, isPlainObject,paddingCenter,isPlainFunction, consoleOutput } from './utils.js'
 import ansicolor from 'ansicolor'
 import bannerPlugin from "./banner.plugin.js"
 import progressbarPlugin from "./progressbar.plugin.js"
@@ -225,30 +225,30 @@ function printTemplate(message, ...args) {
  *  logger.warn("this is {a}+{b}",1,2)
  *
  *
- * @param {*} options
+ * @param {*} opts
  */
 
-function createLogger(options = {}) {
-    let context = deepmerge(DefaultOptions, options)
+function createLogger(opts = {}) {
+    let options = deepmerge(DefaultOptions, opts)
     let log = {}
-    log.log                  = (message, ...args) => printTemplate.call(context, message, ...args)
-    log.print                = (...args) => print.call(context, ...args)
-    log.format               = (...args) => format.call(context, ...args)
-    log.debug                = (...args) => logOutput.call(context, DEBUG, ...args)
-    log.info                 = (...args) => logOutput.call(context, INFO, ...args)
-    log.warn                 = (...args) => logOutput.call(context, WARN, ...args)
-    log.error                = (...args) => logOutput.call(context, ERROR, ...args)
-    log.fatal                = (...args) => logOutput.call(context, FATAL, ...args)
-    log.use                  = (plugin) => plugin(log, context)
-    log.colorize             = (arg) => colorize(arg, context)
+    log.log                  = (message, ...args) => printTemplate.call(options, message, ...args)
+    log.print                = (...args) => print.call(options, ...args)
+    log.format               = (...args) => format.call(options, ...args)
+    log.debug                = (...args) => logOutput.call(options, DEBUG, ...args)
+    log.info                 = (...args) => logOutput.call(options, INFO, ...args)
+    log.warn                 = (...args) => logOutput.call(options, WARN, ...args)
+    log.error                = (...args) => logOutput.call(options, ERROR, ...args)
+    log.fatal                = (...args) => logOutput.call(options, FATAL, ...args)
+    log.use                  = (plugin) => plugin(log, options)
+    log.colorize             = (arg) => colorize(arg, options)
     log.getColorizer         = getColorizeFunction
     log.getColorizedTemplate = getColorizedTemplate
     log.separator            = (n = 80, char = "─") => { consoleOutput(new Array(n).fill(char).join('')) }
-    log.options              = context
+    log.options              = options
     log.colors               = ansicolor 
     log.config = opts => {
         if (isPlainObject(opts)) {
-            context = deepmerge(context, opts)
+            options = deepmerge(options, opts)
         }
         return log
     }

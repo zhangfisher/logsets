@@ -9,10 +9,10 @@
 - 支持强大的表格输出
 - 支持输出任务列表、进度条、横幅和树等扩展
 - 正确处理中文与英文混排时的对齐问题
-- 支持扩展插件机制，可以扩展更多的显示样式
+- 支持扩展插件机制
 
 
-!> 基于[`voerkaI18n`国际化解决方案](https://zhangfisher.github.io/voerka-i18n/)
+!> 推荐[VoerkaI18n国际化解决方案](https://zhangfisher.github.io/voerka-i18n/)
 
 
 # 安装
