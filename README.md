@@ -8,6 +8,7 @@
 - 支持输出任务列表、进度条、横幅和树等扩展
 - 正确处理中文与英文混排时的对齐问题
 
+
 # 安装
 
 ```shell
@@ -15,6 +16,10 @@ npm install logsets
 yarn add logsets
 pnpm add logsets
 ```
+
+# 使用文档
+
+访问[官方文档](https://zhangfisher.github.io/logsets/)
 
 # 输出效果
 
@@ -62,7 +67,3 @@ pnpm add logsets
 ![](./docs/images/tree1.png)
 ![](./docs/images/tree2.png)
 
-
-# 文档
-
-[文档](https://zhangfisher.github.io/logsets/)
