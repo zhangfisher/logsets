@@ -72,7 +72,12 @@ function colorizeBaseType(value,opts){
     return colorize(value)
 }
  
-
+/**
+ * 返回着色后的字符串
+ * @param {*} obj 
+ * @param {*} opts 
+ * @returns 
+ */
 export default function colorize(obj, opts={}) {   
     let options = deepmerge(DefaultOptions,opts)
     
