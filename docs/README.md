@@ -1061,7 +1061,7 @@ logger.use(MyPlugin)
 
 # API
 
-`import createLogger from "logsets"`创建的实例`API`如下：
+`logsets`实例`API`如下：
 
 | 名称 | 说明 | 
 | :--- | :--- |
@@ -1130,6 +1130,7 @@ const tasks = logger.tasklist("标题")
 ## 1.0.14
 
 - 将所有插件内置，不再需要额外引入。
+
 ```javascript
 import createLogger from "logsets"
 - import tablePlugin from "logsets/plugins/table"  // 不再需要额外引入
