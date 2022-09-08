@@ -1084,6 +1084,14 @@ logger.use(MyPlugin)
 
 # 更新历史
 
+## 1.0.19
+
+- 修复`task.note(info)`方法错误.
+
+## 1.0.18
+
+- 增加`task.note(info)`方法，可以在任务执行过程中修改任务的note值.
+
 ## 1.0.17
 
 - 修复`logger.tasklist(title)`未生效的问题.

@@ -50,7 +50,7 @@ const DefaultTaskListOptions  = {
     indent    : "  ",       // 列表缩进 
     style     : "bright",   // 标题样式
     width     : 60,         // 列表总宽度
-    refInterval:200,        // 列表项渲染间隔
+    refInterval:100,        // 列表项渲染间隔
     progressbar:{
         style:"darkGray",           // 进度条样式
         char:".",           // 进度条字符
@@ -120,6 +120,7 @@ function createTaskList(context,options){
         let timer = null
         let listNote = null
         self.isEnd = ()=>status!=="running"
+        self.note = (info) => listNote = logger.colors.darkGray(paddingEnd(info,20))
         self.render = ()=>{
             // 显示列表项符号
             const symbolOptions =  opts.status[status]
@@ -134,7 +135,6 @@ function createTaskList(context,options){
                 symbol = getColorizer(symbolOptions.style)(symbolOptions.symbol)                
             }
             // 文本内容
-            //title = getColorizer(opts.style)(title)
             title = logger.getColorizedTemplate(...(Array.isArray(title) ? title : [title]))
             // 显示进度条
             let progressbarWidth = opts.width - getStringWidth(title) 
@@ -152,7 +152,7 @@ function createTaskList(context,options){
             }     
             // 显示note
             let note =listNote || opts.status[status].note
-            note = getColorizer(opts.status[status].style)(note)
+            note = paddingEnd(getColorizer(opts.status[status].style)(note),30)
             consoleOutput(`${opts.indent}${symbol} ${title}${progressbar}${note}`,{end:"\r"})
         }
         self.start = function(){
@@ -172,7 +172,6 @@ function createTaskList(context,options){
                 let finalNote = note
                 if(typeof(note)==="function") finalNote = note()
                 if(finalNote instanceof Error)  finalNote = note.error
-
                 listNote = note || state.note
                 status = key
                 self.end()
