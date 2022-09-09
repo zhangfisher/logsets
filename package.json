@@ -1,6 +1,6 @@
 {
   "name": "logsets",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "Nodejs terminal application output colorized enhancement",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c",
     "release": " npm version patch  && npm run build && npm publish",
-    "dev:docs":"docsify serve docs" 
+    "dev:docs": "docsify serve docs"
   },
   "exports": {
     ".": {
