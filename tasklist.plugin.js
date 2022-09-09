@@ -111,7 +111,7 @@ function createTaskList(context,options){
     const spinnerChars = ["|","/","-","\\","|","/","-","\\"]
     const getColorizer = logger.getColorizer 
 
-    function createTask(title){ 
+    function createTask(...args){ 
         const self = this 
         let status = "running"     // 0-进行中，1-完成，2-错误，3-跳过，4-停止
         let spinnerIndex = 0       // 动态旋转序号
@@ -135,7 +135,7 @@ function createTaskList(context,options){
                 symbol = getColorizer(symbolOptions.style)(symbolOptions.symbol)                
             }
             // 文本内容
-            title = logger.getColorizedTemplate(...(Array.isArray(title) ? title : [title]))
+            let title = logger.getColorizedTemplate(...args)
             // 显示进度条
             let progressbarWidth = opts.width - getStringWidth(title) 
             let progressbar = ""
@@ -180,14 +180,17 @@ function createTaskList(context,options){
     }
 
     let tasklistObj =  {
-        add(title){
+        add(...args){
             if(curTask && !curTask.isEnd()){
                 curTask.complete()
             }
-            curTask = new createTask(title)
+            curTask = new createTask(...args)
             curTask.start()
             hideCursor()
             return curTask
+        },
+        separator(char="─"){
+            consoleOutput(opts.indent + logger.colors.darkGray(new Array(opts.width + 2).fill(char).join("")))
         }
     }
     Object.entries(opts.status).forEach(([key,state])=>{
@@ -199,6 +202,7 @@ function createTaskList(context,options){
     }) 
     return tasklistObj
 }
+ 
 /**
  * 
  * @param {*} log 
@@ -206,5 +210,9 @@ function createTaskList(context,options){
  */
  export default function(logger,context){
     logger.tasklist = (opts={})=>createTaskList.call(logger,context,opts)
+    logger.task = (...args)=>{
+        let tasks = createTaskList.call(logger,context,{title:null,indent:"",width:62})
+        return tasks.add(...args)
+    }
 }
  

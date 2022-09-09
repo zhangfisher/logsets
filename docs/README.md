@@ -547,8 +547,11 @@ tasks.stop("STOP")
 tasks.add("任务待办状态")
 tasks.todo("TODO")  
 
-// 任务描述还支持按数字类型进行着色显示
-tasks.add(["下载文件:{},已下载{}","package.json",123])
+// 任务描述还支持对插值变量按数据类型进行着色显示
+tasks.add("下载文件：{},大小:{}, 已下载{}","package.json",122,344)
+
+// 可以在任务列表之间插入一个分割线
+tasks.separator()
 
 ```
 
@@ -637,6 +640,23 @@ tasks.connected()
 - **<状态名称>(note)**
 
   使当前正在进行的任务结束并进入指定的状态，传入的可选的`note`参数显示在最右侧。
+
+## 任务
+
+显示正在执行的单个任务，输出效果与`tasklist`一样，差别在于`task`只显示一项任务，并且没有缩进。
+
+```javascript
+let task = logger.task("任务标题")
+task.complete("<可选备注>")
+task.error("<可选备注>")
+task.fail("<可选备注>")
+task.todo("<可选备注>")
+task.skip("<可选备注>")
+task.running("<可选备注>")
+// 也可以采用插值变量，对变量进行着色输出
+let task = logger.task("下载文件：{},大小:{}, 已下载{}","package.json",122,344)
+
+```
 
 ## 横幅
 
