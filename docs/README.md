@@ -1104,6 +1104,9 @@ logger.use(MyPlugin)
 
 # 更新历史
 
+## 1.0.20
+
+- 增加`task`插件，用来输出单个任务。
 ## 1.0.19
 
 - 修复`task.note(info)`方法错误.
