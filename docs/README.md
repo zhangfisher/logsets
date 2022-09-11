@@ -257,7 +257,7 @@ logger.config({
 
 ## 表格输出
 
-`logsets`支持额外引入`table`插件用来输出表格
+`logsets`内置支持`table`插件用来输出表格
 
 ### 基本用法 
 
