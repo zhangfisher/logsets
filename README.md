@@ -9,6 +9,15 @@
 - 正确处理中文与英文混排时的对齐问题
 
 
+# **开源推荐：** 
+
+- **`VoerkaI18n`**: [基于Nodejs/React/Vue的一键国际化解决方案](https://zhangfisher.github.io/voerka-i18n/)
+- **`Logsets`**: [命令行应用增强输出库](https://zhangfisher.github.io/logsets/)
+- **`AutoPub`**:  [基于pnpm/monorepo的自动发包工具](https://zhangfisher.github.io/autppub/)
+- **`FlexDecorators`**:  [JavaScript/TypeScript装饰器开发](https://zhangfisher.github.io/flex-decorators/)
+- **`FlexState`**:  [有限状态机实现]](https://zhangfisher.github.io/flexstate/)
+
+
 # 安装
 
 ```shell
