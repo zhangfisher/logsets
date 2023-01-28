@@ -35,7 +35,7 @@ const  DefaultBannersOptions = {
     title        : {
         align    : "center",                     // 标题对齐方式     
         style    : ["","","green,bright","",""], // 标题颜色
-        wrapper  : "☆☆☆"                       // ☆ ☆ ☆标题包裹符号,用来装饰 
+        wrapper  : "==="                       // ☆ ☆ ☆标题包裹符号,用来装饰 
     },
     align        : "center",                     // 横幅行默认对齐方式，默认居中
     paddingLeft  : 4,                            // 左右空白宽度
