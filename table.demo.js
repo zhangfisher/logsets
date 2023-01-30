@@ -15,6 +15,7 @@ table.addSummary(["已下载",5,"个文件\n累计耗时",56,"秒"],{align:"righ
 table.addRow(6,"colorize.js",6542,60,false,"实现对变量或对象进行着色")
 table.addRow(7,"stringify.js",5546,34,false,"格式化JSON") 
 table.addRow(8,"utils.js",6456,66,false,"一个工具函数") 
+table.addSeparator() 
 table.addFooter(["共",8,"个文件"])
 table.render()
   

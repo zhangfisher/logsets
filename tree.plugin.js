@@ -52,7 +52,7 @@ const DefaultTreeOptions  = {
     width: 60,                      // 当显示备注信息时，树的总宽度
     indent:" ",                     // 缩进字符
     node:{
-        style:"",                   // 默认节点样式
+        style:"white",                   // 默认节点样式
     },
     note:{                          // 节点备注
         enable:false,
@@ -75,16 +75,18 @@ function createTree(context,options){
         curLevel++
     }
     function renderNode(text,options={}){ 
-        const {style,last} = options
+        const {style,last} =Object.assign({},opts.node,options)
         const levelsIndent = new Array(curLevel-1).fill("│   ").join("")
         const treeLine =last ? "└── " : "├── "
         let note =  options.note || ""
-
+        const coloredText = logger.getColorizedTemplate(text)
         if(opts.note.enable){
-            const noteOffset = opts.width - levelsIndent.length - treeLine.length - getStringWidth(text) 
+            const noteOffset = opts.width - levelsIndent.length - treeLine.length - getStringWidth(coloredText) 
             note = colorizer("darkGray")(new Array(noteOffset).fill(opts.note.char).join("")) + colorizer(opts.note.style)(note)
+        }else{
+            note=""
         }
-        consoleOutput(`${opts.indent}${levelsIndent}${treeLine}${colorizer(style)(text)}${note}`)
+        consoleOutput(`${opts.indent}${levelsIndent}${treeLine}${colorizer(style)(coloredText)}${note}`)
     }
     renderRoot()
     return {

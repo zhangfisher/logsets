@@ -422,8 +422,7 @@ const DefaultTableOptions  = {
     return {
         /**
         * addRow("a","b","c") 
-        * addRow({cols:["a","b","c"],style:"red"})
-        * addRow({cols:["a","b",{align:"right",content:""}],style:"red"})
+        * addRow({cols:["a","b","c"]}) 
         */
         addRow () {
             let rowData = {type:0,cols:[]}

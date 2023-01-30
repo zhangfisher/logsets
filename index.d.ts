@@ -15,6 +15,7 @@
 import type { Banner,BannerPluginOptions } from "./banner.plugin"
 import type { Task,TaskList,TaskListPluginOptions } from "./tasklist.plugin"
 import type { Progressbar,ProgressbarPluginOptions } from "./progressbar.plugin"
+import type { Tree,TreePluginOptions } from "./tree.plugin"
 
 export type Class = new (...args: any[]) => any
 
@@ -117,6 +118,7 @@ export interface Logsets{
     task(title:string,vars?:any[] | Record<string,any>):Task
     task(title:string,...vars:any[]):Task
     progressbar(options?:ProgressbarPluginOptions):Progressbar
+    tree(options?:TreePluginOptions):Tree
 }
 
 
@@ -135,3 +137,4 @@ export default createLogsets
 export * from "./banner.plugin"
 export * from "./tasklist.plugin"
 export * from "./progressbar.plugin"
+export * from "./tree.plugin"
