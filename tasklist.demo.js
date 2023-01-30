@@ -25,6 +25,8 @@ const taskData = [
     {title:"任务执行失败",result:"fail",note:"FAIL"},
     {title:"任务待办状态",result:"todo",note:"TODO"},    
     {title:["下载文件：{},大小:{}, 已下载{}","package.json",122,344],result:"todo",note:"TODO"},
+    {title:["下载文件：{},大小:{}, 已下载{}",["package.json",122,344]],result:"todo",note:"TODO"},
+
 ]
 
 for(let task of taskData){
@@ -35,7 +37,7 @@ for(let task of taskData){
     let t = tasks.add(...Array.isArray(task.title) ? task.title:[task.title])
     let n = 1
     let tm = setInterval(() => t.note(`任务备注${n++}`),10)
-    await delay(1000)
+    await delay(500)
     clearInterval(tm)
     tasks[task.result](task.note)
 }
@@ -51,8 +53,8 @@ tasks.connected()
 // }
 logger.separator()
 let task = logger.task("正在构建文件")
-await delay(1000)
+await delay(100)
 task.complete()
-task = logger.task("下载文件：{},大小:{}, 已下载{}","package.json",122,344)
+task = logger.task("下载文件：{#bgCyan},大小:{}, 已下载{}",["package.json",122,344])
 await delay(1000)
 task.error("文件不存在")

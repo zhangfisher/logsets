@@ -249,7 +249,7 @@ const DefaultTableOptions  = {
         let logOptions = this.options
         let tableWidth = getRowTotalWidth() - colPadding.length * 2
         
-        let contents = (Array.isArray(row.content) ? row.content.map(item=>this.colorize(item)).join("") : row.content).split("\n") 
+        let contents = (Array.isArray(row.content) ? row.content.map(item=>this.colorizeString(item)).join("") : row.content).split("\n") 
         let sepLine = gridStyle > 0 ? '│' : '' 
         const align = row.align || 'auto'
         for(let line of contents){

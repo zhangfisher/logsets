@@ -6,6 +6,7 @@
   "module": "dist/index.mjs",
   "homepage": "https://zhangfisher.github.io/logsets/",
   "type": "module",
+  "types": "./index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c",
@@ -44,6 +45,8 @@
     "@rollup/plugin-commonjs": "^21.0.1",
     "rollup": "^2.70.0",
     "rollup-plugin-clear": "^2.0.7",
-    "rollup-plugin-terser": "^7.0.2"
+    "rollup-plugin-terser": "^7.0.2",
+    "ts-essentials": "^9.3.0",
+    "type-fest": "^3.5.3"
   }
 }
