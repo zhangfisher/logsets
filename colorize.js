@@ -3,7 +3,7 @@
 import stringifyObject from './stringify.js';
 import deepmerge from "deepmerge"
 import ansicolor from 'ansicolor'
-import { isClass,isPlainObject,isAsyncFunction,getDataType, isRegexp,firstUpper } from './utils.js';
+import { isPlainObject,getDataType } from './utils.js';
 import { DefaultOptions } from './consts.js';
   
 Object.assign(ansicolor.rgb,{
@@ -53,7 +53,9 @@ export function getColorizeFunction(style){
     }    
     return func || ansicolor.dim
 }
-
+export function colorizeString(text,style){
+    return getColorizeFunction(style)(text)
+}
 
 function colorizeBaseType(value,opts){
     let options = opts
@@ -73,7 +75,11 @@ function colorizeBaseType(value,opts){
 }
  
 /**
+ * 
  * 返回着色后的字符串
+ * 
+ * 不同的数据类型按不同的颜色进行显示
+ * 
  * @param {*} obj 
  * @param {*} opts 
  * @returns 

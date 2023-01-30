@@ -103,7 +103,8 @@ function createTaskList(context,options){
     // 显示任务标题 ? bright
     if(opts.title){
         let titleColorizer = logger.getColorizer(opts.style)
-        console.log(titleColorizer(logger.getColorizedTemplate(opts.title)))
+        const title =Array.isArray(opts.title) ? opts.title : [opts.title] 
+        console.log(titleColorizer(logger.getColorizedTemplate(...title)))
     }     
 
     let curTask = null
@@ -119,7 +120,7 @@ function createTaskList(context,options){
         let progressValue = 0      // 进度值
         let timer = null
         let listNote = null
-        self.isEnd = ()=>status!=="running"
+        self.running = ()=>status=="running"
         self.note = (info) => listNote = logger.colors.darkGray(paddingEnd(info,20))
         self.render = ()=>{
             // 显示列表项符号

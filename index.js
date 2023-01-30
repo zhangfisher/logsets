@@ -1,7 +1,7 @@
-import colorize, { getColorizeFunction } from './colorize.js'
+import colorize, { getColorizeFunction,colorizeString } from './colorize.js'
 import deepmerge from 'deepmerge'
 import { DefaultOptions } from './consts.js'
-import { firstUpper, isPlainObject,paddingCenter,isPlainFunction, consoleOutput } from './utils.js'
+import { isPlainObject,paddingCenter,isPlainFunction, consoleOutput, forEachInterpolateVars } from './utils.js'
 import ansicolor from 'ansicolor'
 import bannerPlugin from "./banner.plugin.js"
 import progressbarPlugin from "./progressbar.plugin.js"
@@ -72,42 +72,72 @@ String.prototype.firstUpper = function () {
 }
 
 
+String.prototype.reverse = function () {
+    let result =[]
+    for(let i=this.length-1;i>=0;i--) {
+        result.push(this.charAt(i))
+    }
+    return result.join("")
+} 
 /**
  * 根据模板字符串，输出着色后的内容
+ * getColorizedTemplate("{a}+{b}={}")
+ * getColorizedTemplate("{a}+{b}={}",[a,b,1])
+ * getColorizedTemplate("{a}+{b}={c}",{a:1,b:1,c:2})
+ * getColorizedTemplate("{#red a}+{b}={c}",{a:1,b:1,c:2})      #指定颜色
+ *  
+ * getColorizedTemplate("{#red a} +{b}") == a+b 其中a使用红色
+ * 
+ * 
  * @param {*} template   模板字符串,如"this is {a}+{b}" 或者 "this is {}+{}"
- * @param  {...any} args
+ * @param  {Array | object} vars
  * @returns
  */
-function getColorizedTemplate(template, ...args) {
-    if (
-        args.length === 1 &&
-        (isPlainObject(args[0]) || typeof args[0] === 'function')
-    ) {
-        let params = typeof args[0] === 'function' ? args[0]() : args[0]
-        Object.keys(params).forEach(key => {
-            params[key] = colorize(params[key], this)
+function getColorizedTemplate(template,...args) {
+    let vars
+    if (args.length === 1){
+        vars =  typeof args[0] === 'function' ? args[0]() : 
+         (isPlainObject(args[0]) ? args[0] : (Array.isArray(args[0]) ? args[0] : [args[0]]))
+    }else{
+        vars = args.map(arg=>{
+            if(typeof arg === 'function') { try{arg = arg()}catch{}}
+            if(arg===undefined || arg===null){
+                return ""
+            }else if(typeof(arg)=='object'){
+                try{return JSON.stringify(arg)}catch{return String(arg)}
+            }else{
+                return arg
+            }
         })
-        for (let name in params) {
-            template = template.replace(
-                new RegExp(`\{\s*\(${name})\s*\}`, 'g'),
-                params[name]
-            )
-        }
+    }
+
+    if(Array.isArray(vars)){
+        let index = 0
+        return forEachInterpolateVars(template,(word)=>{
+            let [color,varname] = word.startsWith("#") ? word.split(" ") : ["",word]
+            varname = (varname || '').trim()
+            color=color.substring(1)
+            if(color){// 指定了颜色
+                const shader = getColorizeFunction(color) 
+                return shader(index<vars.length ? vars[index++] : varname)
+            }else{// 未指定颜色时根据数据类型的不同着色
+                return colorize(index<vars.length ? vars[index++] : varname,this)
+            }            
+        }) 
+    }else if(isPlainObject(vars)){
+        return forEachInterpolateVars(template,(word)=>{
+            let [color,varname] = word.startsWith("#") ? word.split(" ") : ["",word]
+            varname = (varname || '').trim()
+            color=color.substring(1)
+            if(color){// 指定了颜色
+                const shader = getColorizeFunction(color) 
+                return shader(varname in vars ? vars[varname] : varname)
+            }else{// 未指定颜色时根据数据类型的不同着色
+                return colorize(varname in vars ? vars[varname] : varname,this)
+            }            
+        }) 
+    }else{
         return template
-    }else if(arguments.length==1 && Array.isArray(arguments[0]) && arguments[0].length>0){
-        let templ = arguments[0][0]
-        let params = [...arguments[0]].slice(1)
-        params = params.map(arg => {
-            if (typeof arg === 'function') arg = arg()
-            return colorize(arg, this)
-        })
-        return templ.params(...params)
-    } else {
-        args = args.map(arg => {
-            if (typeof arg === 'function') arg = arg()
-            return colorize(arg, this)
-        })
-        return template.params(...args)
     }
 }
 
@@ -117,17 +147,14 @@ function getColorizedTemplate(template, ...args) {
  * logOutput("DEBUG","this is a debug message",1,2,3)      位置插值
  *
  * @param {*} level
- * @param  {...any} args
+ * @param  {} args
  */
 function logOutput(level, message, args, memo) {
     const now = new Date()
     const time = `${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}:${now.getSeconds().toString().padStart(2, "0")} ${now.getMilliseconds().toString().padStart(3, "0")}`.padEnd(12)
     const date = `${now.getFullYear()}/${(now.getMonth() + 1).toString().padStart(2, "0")}/${now.getDate().toString().padStart(2, "0")}`
     // 超过指定的字符后进行截断换行
-    if (
-        this.levels.maxLineChars > 0 &&
-        message.length > this.levels.maxLineChars
-    ) {
+    if (this.levels.maxLineChars > 0 && message.length > this.levels.maxLineChars) {
         //message=message.substr(0,this.levels.maxLineChars)
     }
     //
@@ -240,7 +267,8 @@ function createLogger(opts = {}) {
     log.error                = (...args) => logOutput.call(options, ERROR, ...args)
     log.fatal                = (...args) => logOutput.call(options, FATAL, ...args)
     log.use                  = (plugin) => plugin(log, options)
-    log.colorize             = (arg) => colorize(arg, options)
+    log.colorizeObject       = (arg) => colorize(arg, options)
+    log.colorizeString       = (text,style) => colorizeString(text,style)
     log.getColorizer         = getColorizeFunction
     log.getColorizedTemplate = getColorizedTemplate
     log.separator            = (n = 80, char = "─") => { consoleOutput(new Array(n).fill(char).join('')) }

@@ -107,7 +107,7 @@ function createProgressbar(context,options){
             if(n>opts.max) n = opts.max
             if(n<opts.min) n = opts.min
             if(n===opts.max) {
-                return this.end()
+                this.end()
             }else{
                 renderProgressbar(n)      
             }

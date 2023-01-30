@@ -227,3 +227,27 @@ export function isAsyncFunction(fn){
 export function isRegexp(value) {
 	return Object.prototype.toString.call(value) === '[object RegExp]';
 }
+
+/**
+ * 对text里面的插值内容进行处理
+ * 
+ * colorizeVars
+ * 
+ * @param {*} text 
+ * @param {Function(word,match)} callback
+ */
+export function forEachInterpolateVars(text,callback){
+    if(!(text.includes("{") && text.includes("}"))) return text
+    if(typeof(text) === 'string'){
+        return text.replace(/\{\s?(.*?)\s?\}/gm,(match,word)=>{
+            if(typeof(callback)=="function"){
+                return callback(word,match)
+            }else{
+                return word    
+            } 
+        })
+    }else{
+        return text
+    }    
+}
+ 

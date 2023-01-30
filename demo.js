@@ -17,7 +17,7 @@ class MyError extends Error {
         super(message) 
     }
 }
-async function delay(n=100){
+async function delay(n=50){
     return new Promise(resolve=>{
         setTimeout(resolve,n)
     })
@@ -25,7 +25,7 @@ async function delay(n=100){
 
 
 logger.log("------------")
-for(let i = 0 ; i < 100; i++){
+for(let i = 0 ; i < 100; i=i+10){
     await delay(10)
     logger.print("已下载",i,"%",{end:"\r"})
 }
@@ -38,6 +38,10 @@ logger.print({z:()=>{}})
 logger.log("{a}+{b}={c}",{a:1,b:1,c:2})
 logger.log("My name is {}","tom")
 logger.log("{a}+{b}={c}",{a:1,b:1,c:2})
+logger.log("位置参数插值:{a}+{b}={c}",1,2,3)
+logger.log("指定颜色{#red a}+{#bgGreen,bgLightYellow b}={c} {x}",{a:1000,b:12222,c:2,x:"HELLO"})
+logger.log("Welcome to {#red VoerkaI18n}")
+
 
 logger.print("String",true,100,()=>{},[1,2,3])
 logger.print(null,undefined)
