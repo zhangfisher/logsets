@@ -27,19 +27,23 @@ import { hideCursor,showCursor,consoleOutput } from './utils.js'
 const PresetThemes = {
     default:["bgWhite","bgDarkGray"],
     red:["bgRed","bgDarkGray"],
-    red:["bgGreen","bgDarkGray"],
+    green:["bgGreen","bgDarkGray"],    
+    blue:["bgBlue","bgDarkGray"],
+    yellow:["bgYellow","bgDarkGray"],
+    magenta:["bgMagenta","bgDarkGray"],
+    cyan:["bgCyan","bgDarkGray"] 
 }
 
 const DefaultProgressbarOptions  = { 
-    title     : "",       // 显示标题
-    theme     : "",       // 一些预设好的主题配色,
-    max       : 100,      // 最大值
-    min       : 0,        // 最小值
-    value     : 0,        // 当前值   
-    dispaly   : "{percent}%", // 备注字符串,支持插值变量{value} {percent} {max} {min}
-    width     : 60,       // 进度条宽度 
-    background: {         // 进度条样式
-        show  : true,     // 是否显示背景，默认显示，不显示时只显示进度条滑块
+    title     : "",                 // 显示标题
+    theme     : undefined,          // 一些预设好的主题配色,
+    max       : 100,                // 最大值
+    min       : 0,                  // 最小值
+    value     : 0,                  // 当前值   
+    dispaly   : "{percent}%",       // 备注字符串,支持插值变量{value} {percent} {max} {min}
+    width     : 60,                 // 进度条宽度 
+    background: {                   // 进度条样式
+        show  : true,               // 是否显示背景，默认显示，不显示时只显示进度条滑块
         style : "bgDarkGray",       // 进度条样式
         char  : " "
     },       
@@ -66,9 +70,6 @@ function createProgressbar(context,options){
     }
     opts = deepmerge(DefaultProgressbarOptions,themeStyle)
     opts = deepmerge(opts,options)
-
-    let silder = opts.slider
-    
     
     const sliderColorizer = logger.getColorizer(opts.slider.style)
     const bgColorizer = logger.getColorizer(opts.background.style)

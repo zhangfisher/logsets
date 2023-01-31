@@ -2,6 +2,7 @@
 
 为开发`nodejs`命令行程序提供丰富的表现输出样式，支持以下特性：
 
+
 - 支持按不同数据类型以不同的颜色显示，并且可以配置显示样式
 - 支持按`DEBUG`、`INFO`、`WARN `、`ERROR `、`FATAL`五个级别输出日志
 - 支持输出带颜色的模板字符串
@@ -10,7 +11,7 @@
 - 支持输出任务列表、进度条、横幅和树等扩展
 - 正确处理中文与英文混排时的对齐问题
 - 支持扩展插件机制
-
+- `TypeScript`类型支持
 
 !> 推荐[VoerkaI18n国际化解决方案](https://zhangfisher.github.io/voerka-i18n/)
 
@@ -30,15 +31,15 @@ pnpm add logsets
 `logsets`默认自动创建一个实例，可以直接引入使用。
 
 ```javascript
-import logger from "logsets"
-logger.config({...})
+import logsets from "logsets"
+logsets.config({...})
 ```
 
 也可以创建多个实例：
 
 ```javascript
 import createLogger from "logsets"
-const logger = createLogger({...})
+const logsets = createLogger({...})
 ```
 
 ## 模板字符串输出
@@ -46,21 +47,22 @@ const logger = createLogger({...})
 对模板字符串进行插值后输出着色后的字符串。
 
 ```javascript
-import logger from "logsets"
-logger.log("<模板字符串>",<变量1>,<变量1>,...,{end:"\n",append:" "})
-logger.log("<模板字符串>",<变量1>,<变量1>,...)
-logger.log("<模板字符串>",{<变量1>:<值>,<变量1>:<值>},)
-logger.log("<模板字符串>",{<变量1>:<值>,<变量1>:<值>},{end:"\n",append:" "})
+import logsets from "logsets"
+logsets.log("<模板字符串>",<变量1>,<变量1>,...,{end:"\n",append:" "})
+logsets.log("<模板字符串>",<变量1>,<变量1>,...)
+logsets.log("<模板字符串>",{<变量1>:<值>,<变量1>:<值>},)
+logsets.log("<模板字符串>",{<变量1>:<值>,<变量1>:<值>},{end:"\n",append:" "})
 ```
 **示例如下：**
 ```javascript
-import logger from "logsets" 
+import logsets from "logsets" 
 // 命名插值变量
-logger.log("{a}+{b}={c}",{a:1,b:1,c:2})
+logsets.log("{a}+{b}={c}",{a:1,b:1,c:2})
 // 位置插值变量
-logger.log("My name is {}","tom")
-logger.log("{a}+{b}={c}",1,1,2)
+logsets.log("My name is {}","tom")
+logsets.log("{a}+{b}={c}",1,1,2)
 ```
+
 **输出效果如下：**
 
 ![image](./images/log.jpg)
@@ -69,19 +71,60 @@ logger.log("{a}+{b}={c}",1,1,2)
 默认情况下，每次执行`log`方法完成后均会导致换行输出。`log`方法还支持配置输出参数:
 ```javascript
 for(let i =0 ;  i<=100; i++){
-  logger.log("正在下载:{}",i,{end:"\r"})          // 每行输出时最后打印\r回车符，回到行头，从而可以实现下载进度的更新。
+  logsets.log("正在下载:{}",i,{end:"\r"})          // 每行输出时最后打印\r回车符，回到行头，从而可以实现下载进度的更新。
 }
-logger.log()   // 换行
+logsets.log()   // 换行
 ```
+
+**自定义插值变量颜色**
+
+默认情况下`logsets.log`会根据插值变量的数据类型分别着色后显示,但也支持自定义颜色显示.
+
+!> 在插值变量占位符中使用`{#<颜色样式> <变量名称>}`的形式来指定颜色
+
+
+```javascript
+import logsets from "logsets" 
+// 命名插值变量
+logsets.log("{#red a}+{b}={c}",{a:1,b:1,c:2})
+// 位置插值变量
+logsets.log("My name is {}","tom")
+logsets.log("{a}+{b}={#bgGreen c}",1,1,2)
+logsets.log("{a}+{b}={#bgGreen,dim c}",1,1,2) // 多个颜色组合用,分开
+```
+
+输出如下:
+
+![image](./images/logvar.png)
+
+
+**对字符串进行局部着色**
+
+`logsets.log`在没有提供配套的插值变量时会原样输出变量,复用此特性就可以实现对字符串进行局部着色.
+
+
+```javascript
+import logsets from "logsets" 
+// 命名插值变量
+logsets.log("My name is {#red tom}")
+logsets.log("{#blue Voerkai18n}是一个非常不错的{#red,dim 多语言}解决方案!")
+```
+
+输出如下:
+
+![image](./images/logvar2.png)
 
 
 **配置参数**
+
 当`log`的参数`大于=2`个并且最后一个参数是`{}`时，将最后一个参数视为是输出配置参数。
 
 ```javascript
 {
-    end:"\n",          // 行结束字符，默认是换行会导致打印下一行，如\r则不会换行而只是回到行首
-    append:" "         // 每个输出参数自动追加的字符，默认是一个空格
+    // 行结束字符，默认是换行会导致打印下一行，如\r则不会换行而只是回到行首
+    end:"\n",          
+    // 每个输出参数自动追加的字符，默认是一个空格
+    append:" "         
 }
 ```
 
@@ -100,16 +143,16 @@ logger.log()   // 换行
 **示例**
 
 ```javascript
-import logger from "logsets" 
+import logsets from "logsets" 
 
-logger.print("String",true,100,()=>{},[1,2,3])
-logger.print(null,undefined)
-logger.print(/^colored$/g)
-logger.print(new Error("Value Error"))
-logger.print(new Date())  
-logger.print(class A{})
-logger.print(new (class X{})())
-logger.print({name:"tom",age:100,admin:true,posts:["a","b"],values:[1,2,3]},()=>"hello")
+logsets.print("String",true,100,()=>{},[1,2,3])
+logsets.print(null,undefined)
+logsets.print(/^colored$/g)
+logsets.print(new Error("Value Error"))
+logsets.print(new Date())  
+logsets.print(class A{})
+logsets.print(new (class X{})())
+logsets.print({name:"tom",age:100,admin:true,posts:["a","b"],values:[1,2,3]},()=>"hello")
 ```
 输出效果如下：
 
@@ -122,9 +165,9 @@ logger.print({name:"tom",age:100,admin:true,posts:["a","b"],values:[1,2,3]},()=>
 - **基本用法**
 
 ```javascript
-import logger from "logsets" 
+import logsets from "logsets" 
 
-logger.format({
+logsets.format({
     name:"tom",
     age:11,
     admin:true,
@@ -145,9 +188,9 @@ logger.format({
 对数组或对象成员数量当超过指定值时，显示省略号并备注总数量。
 
 ```javascript
-import logger from "logsets" 
+import logsets from "logsets" 
 
-logger.format({
+logsets.format({
     values:new Array(10).fill(0).map((v,i)=>i+1),
     users:{
         tom:{name:"tom",age:21,sex:true},
@@ -178,9 +221,9 @@ logger.format({
 **可以配置紧凑模式输出。**
 
 ```javascript
-import logger from "logsets" 
+import logsets from "logsets" 
 
-logger.format({
+logsets.format({
     values:new Array(10).fill(0).map((v,i)=>i+1),
     users:{
         tom:{name:"tom",age:21,sex:true},
@@ -198,35 +241,35 @@ logger.format({
 
 也可以单独控制Array和Object类型是否采用紧凑模式输出。
 ```javascript
-logger.format({...},{compact:true, Array:{maxItems:5,compact:false},Object:{maxItems:5}})
+logsets.format({...},{compact:true, Array:{maxItems:5,compact:false},Object:{maxItems:5}})
 ```
 
 ## 显示分割条
 
-`logger.separator(width)`可以输出一条水平分割线， `width`参数是可选的，默认是`60`。
+`logsets.separator(width)`可以输出一条水平分割线， `width`参数是可选的，默认是`60`。
 
 ## 输出日志级别
 
 按指定级别输出日志，并会对插值变量进行着色。
 
 ```javascript
-logger.debug("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
-logger.info("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
-logger.warn("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
-logger.error("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
-logger.fatal("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
+logsets.debug("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
+logsets.info("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
+logsets.warn("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
+logsets.error("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
+logsets.fatal("<模块字符串>",[位置插值变量列表] || {插值变量列表},"备注信息")
 ```
 
 示例如下：
 
 ```javascript
-import logger from "logsets" 
-logger.debug("正在执行程序{},还需要{}秒...",["logs",9])
-logger.info("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9})
-logger.warn("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9},"Line:123")
-logger.warn("程序执行可能出错\n变量没有定义")
-logger.error("程序执行可能出错\n变量没有定义")
-logger.fatal("正在执行程序{a} + {b} , {sex} {name}...",{a:1,b:1,sex:true,name:"voerka"})
+import logsets from "logsets" 
+logsets.debug("正在执行程序{},还需要{}秒...",["logs",9])
+logsets.info("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9})
+logsets.warn("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9},"Line:123")
+logsets.warn("程序执行可能出错\n变量没有定义")
+logsets.error("程序执行可能出错\n变量没有定义")
+logsets.fatal("正在执行程序{a} + {b} , {sex} {name}...",{a:1,b:1,sex:true,name:"voerka"})
 
 ```
 输出效果如下：
@@ -236,13 +279,13 @@ logger.fatal("正在执行程序{a} + {b} , {sex} {name}...",{a:1,b:1,sex:true,n
 第二个参数也可以是一个返回`[]`或`{}`插值变量列表的函数.
 
 ```javascript
-logger.warn("My name is {name}, age is {age}",()=> ({name:"Voerka",age:1}))
+logsets.warn("My name is {name}, age is {age}",()=> ({name:"Voerka",age:1}))
 ```
 
 输出样式可以通过`template`参数配置模块字符串。 
 
 ```javascript
-logger.config({
+logsets.config({
     template:"[{level}] {datetime} - {message}"
 })
 ```
@@ -262,10 +305,10 @@ logger.config({
 ### 基本用法 
 
 ```javascript
-import logger from "logsets"
+import logsets from "logsets"
  
 
-const table = logger.table({       
+const table = logsets.table({       
     colorize:1,              // 是否需要颜色化 0-禁用着色,1-简单着色 2-对表单元里面的对象和数组进行着色,需要额外的计算
     grid:2,                  		// 表格线样式,0=不显示表格线,1=只显示垂直表格线,2=显示完整表格线
     maxColWidth:32,          		// 最大列宽,超过会显示省略号
@@ -326,7 +369,7 @@ table.render()
 默认情况下，在单元格里面显示`{...}`或`[...]`时会将之转化为字符串进行显示，而不是像`format`方法一样进行格式化关色后输出。需要额外配置`colorize=2`才会进行着色输出。
 
 ```javascript
-table = logger.table({  
+table = logsets.table({  
    colorize:2,    
 })
 ```
@@ -367,7 +410,7 @@ addRow(<单元格内容>,<单元格内容>,...,<单元格内容>)
 一般情况下，单元格的数量应该与`addHeader`中列数量一致。如果`addRow`的参数个数大于`addHeader`的参数个数，会自动扩展列，取最大的列数量进行显示。
 
 ```javascript
-table = logger.table({ 
+table = logsets.table({ 
     grid:2,
     maxColWidth:12,                                    
 })
@@ -441,9 +484,9 @@ addFooter(content,
 ### 基本用法
 
 ```javascript
-import logger from "logsets" 
+import logsets from "logsets" 
 
-const pbar = logger.progressbar({
+const pbar = logsets.progressbar({
     title     : "下载进度",
     //...其他配置参数...
 })
@@ -522,16 +565,23 @@ progressbar.end()  		 // 结束进度条
 ### 基本用法
 
 ```javascript
-import logger from "logsets" 
+import logsets from "logsets" 
 
 // 创建一个任务列表
-let tasks = logger.tasklist({
+let tasks = logsets.tasklist({
     title:"指定任务列表标题"            // 高亮显示
+    //  标题支持插值变量着色
+    title:"所有任务:{#yellow 8}个",
+    title:["所有任务:{}个",8]
+    title:["所有任务:{count}个",{count:100}]
 })
-// let tasks = logger.tasklist("指定列表标题")  只指定标题
+// let tasks = logsets.tasklist("指定列表标题")  只指定标题
 
 // 新增一个任务列表项
 tasks.add("开始扫描文件")
+// 支持插值变量着色
+//tasks.add("开始扫描文件")
+//tasks.add("开始扫描文件,数量{#yellow 100}")
 // 增加后，任务列表项会处于运行状态，需要分别调用complete/error/stop/skip/todo等结束运行状态
 tasks.complete("OK")
 
@@ -549,6 +599,10 @@ tasks.todo("TODO")
 
 // 任务描述还支持对插值变量按数据类型进行着色显示
 tasks.add("下载文件：{},大小:{}, 已下载{}","package.json",122,344)
+
+// 任务描述着色显示
+tasks.add("下载文件：{#red },大小:{}, 已下载{}",["package.json",122,344])
+
 
 // 可以在任务列表之间插入一个分割线
 tasks.separator()
@@ -609,6 +663,16 @@ tasks.separator()
             style:"lightCyan",
             symbol:"□",
             note:"TODO"
+        },
+        ignore:{
+            style:"blue",
+            symbol:"~",
+            note:"IGNORE"
+        },
+        cancel:{
+            style:"red",
+            symbol:"×",
+            note:"CANCEL"            
         }
     }  
 }
@@ -617,7 +681,7 @@ tasks.separator()
 除以上`running`、`complete`、`error`、`fail`、`skip`、`stop`、`todo`任务状态外，还支持自定义状态。
 
 ```javascript
-let tasks = logger.tasklist({
+let tasks = logsets.tasklist({
     title:"任务标题",
     status:{
         connected:{
@@ -646,17 +710,27 @@ tasks.connected()
 显示正在执行的单个任务，输出效果与`tasklist`一样，差别在于`task`只显示一项任务，并且没有缩进。
 
 ```javascript
-let task = logger.task("任务标题")
-task.complete("<可选备注>")
-task.error("<可选备注>")
-task.fail("<可选备注>")
-task.todo("<可选备注>")
-task.skip("<可选备注>")
-task.running("<可选备注>")
+let task = logsets.task("下载文件{#yellow voerki18n.zip},大小{#red size}",{size:12354})
+task.complete()
+task = logsets.task("下载文件{#yellow voerki18n.zip},大小{#red size}",{size:12354})
+task.error()
+task = logsets.task("下载文件{#yellow voerki18n.zip},大小{#red size}",{size:12354})
+task.fail()
+task = logsets.task("下载文件{#yellow voerki18n.zip},大小{#red size}",{size:12354})
+task.todo()
+task = logsets.task("下载文件{#yellow voerki18n.zip},大小{#red size}",{size:12354})
+task.skip()
+task = logsets.task("下载文件{#yellow voerki18n.zip},大小{#red size}",{size:12354})
+task.ignore("<可选备注>")
+task = logsets.task("下载文件{#yellow voerki18n.zip},大小{#red size}",{size:12354})
+task.cancel("取消")
 // 也可以采用插值变量，对变量进行着色输出
-let task = logger.task("下载文件：{},大小:{}, 已下载{}","package.json",122,344)
+let task = logsets.task("下载文件：{},大小:{}, 已下载{}","package.json",122,344)
 
 ```
+输出效果如下:
+
+![](./images/task.png)
 
 ## 横幅
 
@@ -665,9 +739,9 @@ let task = logger.task("下载文件：{},大小:{}, 已下载{}","package.json"
 ### 基本用法
 
 ```javascript
-import logger from "./index.js" 
+import logsets from "./index.js" 
  
-let banner = logger.banner({ })
+let banner = logsets.banner({ })
 
 banner.add("Logsets Utility Toolkit")
 banner.add("Output color elements at the terminal")
@@ -681,7 +755,7 @@ banner.render()
 ![](./images/banner1.png)
 
 ```javascript
-banner = logger.banner({ 
+banner = logsets.banner({ 
     width:60
 })
 banner.add("Logsets工具库")
@@ -759,14 +833,14 @@ banner.render()
 ### 基本用法
 
 ```javascript
-import logger from "./index.js"  
+import logsets from "./index.js"  
 
-let tree = logger.tree({
+let tree = logsets.tree({
 	root:"文件结构"
 })
 tree.addNode("readme.md")
 tree.addNode("package.json")
-tree.addNode("个人简历.doc",{note:logger.colors.green("√")})
+tree.addNode("个人简历.doc",{note:logsets.colors.green("√")})
 tree.addNode("网络组网方案.docx")
 tree.addNode("工资清单.xlsx") 
 tree.addNode("<src>",{style:"yellow"}) 
@@ -795,25 +869,25 @@ tree.addNode("工资清单.xlsx",{last:true})
 树还可以配置为每一个节点输出备注信息。
 
 ```javascript
-let tree = logger.tree({
+let tree = logsets.tree({
 	root:"文件结构",
     note:{
         enable:true
     }
 })
-tree.addNode("readme.md",{note:logger.colors.green("√")})
-tree.addNode("package.json",{note:logger.colors.green("√")})
-tree.addNode("个人简历.doc",{note:logger.colors.green("√")})
-tree.addNode("网络组网方案.docx",{note:logger.colors.green("√")})
-tree.addNode("工资清单.xlsx",{note:logger.colors.green("√")}) 
-tree.addNode("<src>",{style:"yellow",note:logger.colors.red("×")}) 
+tree.addNode("readme.md",{note:logsets.colors.green("√")})
+tree.addNode("package.json",{note:logsets.colors.green("√")})
+tree.addNode("个人简历.doc",{note:logsets.colors.green("√")})
+tree.addNode("网络组网方案.docx",{note:logsets.colors.green("√")})
+tree.addNode("工资清单.xlsx",{note:logsets.colors.green("√")}) 
+tree.addNode("<src>",{style:"yellow",note:logsets.colors.red("×")}) 
     tree.beginChildren() 
         tree.addNode("readme.md")
         tree.addNode("package.json")
         tree.addNode("个人简历.doc")
             tree.beginChildren() 
             tree.addNode("readme.md")
-            tree.addNode("package.json",{note:logger.colors.red("×")})
+            tree.addNode("package.json",{note:logsets.colors.red("×")})
             tree.addNode("个人简历.doc",{note:"已审核"})
             tree.addNode("网络组网方案.docx")
             tree.addNode("工资清单.xlsx",{last:true}) 
@@ -868,21 +942,21 @@ tree.addNode("工资清单.xlsx",{last:true})
 `logsets`依赖于`ansicolor`，并且将其挂在了`logsets.colors`下，因此也可以直接调用来生成彩色内容。
 
 ```javascript
-import logger from "./index.js"  
+import logsets from "./index.js"  
 
-console.log(logger.colors.red(text))
-console.log(logger.colors.green(text))
-console.log(logger.colors.yellow(text))
-console.log(logger.colors.blue(text))
-console.log(logger.colors.magenta(text))
-console.log(logger.colors.cyan(text))
-console.log(logger.colors.white(text))
-console.log(logger.colors.darkGray(text))
-console.log(logger.colors.black())
+console.log(logsets.colors.red(text))
+console.log(logsets.colors.green(text))
+console.log(logsets.colors.yellow(text))
+console.log(logsets.colors.blue(text))
+console.log(logsets.colors.magenta(text))
+console.log(logsets.colors.cyan(text))
+console.log(logsets.colors.white(text))
+console.log(logsets.colors.darkGray(text))
+console.log(logsets.colors.black())
 //.......更加的着色方法请参考ansicolor文档
 ```
 
-`logger.colors===ansicolor`实例，可参考其文档。
+`logsets.colors===ansicolor`实例，可参考其文档。
 
 # 全局配置
 
@@ -980,6 +1054,9 @@ const log = createLogger({
 }
 ```
 
+
+## 颜色样式
+
 显示**样式名称**支持设置一个或多个，同时使用多个时采用`,`分开。
 
 样式名称用来指定以何种前景颜色、背景颜色或修饰样式，支持如下值：
@@ -990,12 +1067,12 @@ const log = createLogger({
 - **加亮背景色：**`bgLightRed`，`bgLightGreen`，`bgLightYellow`，`bgLightBlue`，`bgLightMagenta`，`bgLightCyan`，`bgLightGray`
 - **修饰样式：**`bright`，`dim`，`italic`，`underline`，`inverse`
 
-
+所有可以定制显示颜色样式的参数均支持`TypeScript`提示
 
 **举例如下：**
 
 ```javascript
-logger.config({
+logsets.config({
     Boolean:"bgLightRed,white"
 })
 ```
@@ -1018,13 +1095,13 @@ logger.config({
 ## 第一步：定义插件函数
 `logsets`插件是一个普通的函数，其传入参数：
 
-- **logger**: 当前`logsets`实例，一般可以直接在其上面挂载插件函数
-- **options**： 当前`logsets`实例的配置参数,==`logger.options`
+- **logsets**: 当前`logsets`实例，一般可以直接在其上面挂载插件函数
+- **options**： 当前`logsets`实例的配置参数,==`logsets.options`
 
 ```javascript
 
-export default function(logger,options){
-    logger.myplugin = (opts={})=>{
+export default function(logsets,options){
+    logsets.myplugin = (opts={})=>{
         // ....插件逻辑
     }
 }
@@ -1038,7 +1115,7 @@ export default function(logger,options){
   对输入参数按数据类型进行着色，返回着色后的字符串。例:`colorize(1)`,`colorize(true)`,`colorize("logsets")`返回的是根据配置中的数据类型的样式着色后的字符串。
 - `getColorizer`
     根据颜色字符串返回一个着色函数，如`red,dim`返回能着红色的函数。
-    比如要输出`红色，高亮`的内容，可以`logger.getColorizer("red,bright")("hello logsets")`
+    比如要输出`红色，高亮`的内容，可以`logsets.getColorizer("red,bright")("hello logsets")`
 - `getColorizedTemplate`
     根据模板字符串插值，输出着色后的内容。例：`getColorizedTemplate("{}+{}={}",1,1,2)`返回的就是经过着色后的字符串。可以直接使用`console.log(getColorizedTemplate("{}+{}={}",1,1,2))`
 
@@ -1074,9 +1151,9 @@ import {
 ## 第三步：注册插件
 
 ```javascript
-import logger from 'logsets'
+import logsets from 'logsets'
 import MyPlugin from 'my-plugin'
-logger.use(MyPlugin)
+logsets.use(MyPlugin)
 ```
 
 # API
@@ -1104,9 +1181,15 @@ logger.use(MyPlugin)
 
 # 更新历史
 
+## 1.0.22
+
+- 增加`TypeScript`类型支持
+- 支持对插值变量进行定制化着色
+
 ## 1.0.20
 
 - 增加`task`插件，用来输出单个任务。
+
 ## 1.0.19
 
 - 修复`task.note(info)`方法错误.
@@ -1117,7 +1200,7 @@ logger.use(MyPlugin)
 
 ## 1.0.17
 
-- 修复`logger.tasklist(title)`未生效的问题.
+- 修复`logsets.tasklist(title)`未生效的问题.
 
 ## 1.0.16
 
@@ -1129,32 +1212,32 @@ logger.use(MyPlugin)
 - 内置默认创建`logsets`实例,可以直接引入
 
 ``` javascript
-import logger from "logsets"
-- const logger = createLogger({...})    
+import logsets from "logsets"
+- const logsets = createLogger({...})    
 ```
 
 - `getColorizedTemplate` 支持通过数组方式来返回着色后的内容
 
 ``` javascript
-import logger from "logsets"
-console.log(logger.getColorizedTemplate(["{} + {} = {}",1,1,2]))
+import logsets from "logsets"
+console.log(logsets.getColorizedTemplate(["{} + {} = {}",1,1,2]))
 
 // ---以下方式也是支持的，可以创建多个实例----
 import createLogger from "logsets"
-const logger = createLogger({...}) 
+const logsets = createLogger({...}) 
 
 ```
 
 - 修复TaskList的标题输出
 
 ``` javascript
-import logger from "logsets"
-const tasks = logger.tasklist({
+import logsets from "logsets"
+const tasks = logsets.tasklist({
     title:"标题",               // 默认高亮输出
     title:["共{}个任务",8]      // 默认高亮输出，并且插传值内容按数据类型着色显示
 })
 //或者
-const tasks = logger.tasklist("标题")
+const tasks = logsets.tasklist("标题")
 
 ```
 
@@ -1165,8 +1248,8 @@ const tasks = logger.tasklist("标题")
 ```javascript
 import createLogger from "logsets"
 - import tablePlugin from "logsets/plugins/table"  // 不再需要额外引入
-const logger = createLogger({...})
-- logger.use(tablePlugin)    // 不再需要额外引入
+const logsets = createLogger({...})
+- logsets.use(tablePlugin)    // 不再需要额外引入
 ```
 ## 1.0.8
 

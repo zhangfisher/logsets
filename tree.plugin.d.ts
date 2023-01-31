@@ -1,15 +1,16 @@
 
+import type { NamedColorStyles } from "./colors"
 
 export interface TreePluginOptions { 
     root?:string    
     width?: number                     // 当显示备注信息时，树的总宽度
     indent?:string                     // 缩进字符
     node?:{
-        style?:string                  // 默认节点样式
+        style?:NamedColorStyles                  // 默认节点样式
     },
     note?:{                             // 节点备注
         enable?:boolean
-        style?:string                   // 文本样式
+        style?:NamedColorStyles                   // 文本样式
         char?:string 
     } 
 }

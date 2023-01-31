@@ -6,7 +6,10 @@ logger.use(processbarPlugin)
 
 const progressbar = logger.progressbar({
     title:"下载进度：",
-    //theme:"red"
+    slider:{
+        style:"bgDarkGray,red",
+        char:"="
+    }
 })
 
 async function delay(n=10){

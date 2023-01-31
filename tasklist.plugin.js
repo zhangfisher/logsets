@@ -39,7 +39,9 @@ tasks.next()
   - 渲染列表........................................ERROR
   - 渲染列表........................................| / \ ──
 
- 
+ ▪▢◇~
+
+
 
  */
 
@@ -71,10 +73,20 @@ const DefaultTaskListOptions  = {
             symbol:"×",
             note:"ERROR"            
         },
+        abort:{
+            style:"red",
+            symbol:"×",
+            note:"ABORT"            
+        },
         fail:{
             style:"red",
             symbol:"×",
             note:"FAIL"            
+        },
+        cancel:{
+            style:"red",
+            symbol:"×",
+            note:"CANCEL"            
         },
         skip:{
             style:"yellow",
@@ -90,6 +102,11 @@ const DefaultTaskListOptions  = {
             style:"lightCyan",
             symbol:"□",
             note:"TODO"
+        },
+        ignore:{
+            style:"blue",
+            symbol:"~",
+            note:"IGNORE"
         }
     }  
 }
@@ -120,7 +137,7 @@ function createTaskList(context,options){
         let progressValue = 0      // 进度值
         let timer = null
         let listNote = null
-        self.running = ()=>status=="running"
+        self.isEnd = ()=>status!="running"
         self.note = (info) => listNote = logger.colors.darkGray(paddingEnd(info,20))
         self.render = ()=>{
             // 显示列表项符号
@@ -182,15 +199,20 @@ function createTaskList(context,options){
 
     let tasklistObj =  {
         add(...args){
-            if(curTask && !curTask.isEnd()){
-                curTask.complete()
-            }
+            // 自动完成上一个任务
+            if(curTask && !curTask.isEnd()){ 
+                curTask.complete()             
+            }            
             curTask = new createTask(...args)
             curTask.start()
             hideCursor()
             return curTask
         },
         separator(char="─"){
+            if(curTask && !curTask.isEnd()){ 
+                curTask.abort()
+                curTask=null
+            }
             consoleOutput(opts.indent + logger.colors.darkGray(new Array(opts.width + 2).fill(char).join("")))
         }
     }

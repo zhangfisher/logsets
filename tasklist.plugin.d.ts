@@ -1,17 +1,18 @@
+import type { NamedColorStyles } from "./colors"
 
 export interface TaskListStatus{
-    style?:string
+    style?:NamedColorStyles
     symbol?:string
     note?:string
 }
 
 export interface TaskListPluginOptions{ 
     indent?    : string         // 列表缩进字符
-    style?     : string         // 标题样式
+    style?     : NamedColorStyles         // 标题样式
     width?     : number         // 列表总宽度
     refInterval?:number         // 列表项渲染间隔
     progressbar?:{
-        style?:string           // 进度条样式
+        style?:NamedColorStyles           // 进度条样式
         char?:string            // 进度条字符
     },
     status?:Record<string,TaskListStatus>
@@ -31,6 +32,8 @@ export interface Task {
     skip(note?:string):void
     stop(note?:string):void
     todo(note?:string):void 
+    ignore(note?:string):void
+    cancel(note?:string):void 
 }
 
 export type TaskList<CUSTOM_STATUS=any> = {

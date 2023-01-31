@@ -289,3 +289,11 @@ const tree = {
 
 
 logger.format(tree)
+
+logger.log("{#red a}+{b}={c}",{a:1,b:1,c:2})
+// 位置插值变量
+logger.log("My name is {}","tom")
+logger.log("{a}+{b}={#bgGreen c}",1,1,2)
+
+logger.log("My name is {#red tom}")
+logger.log("{#blue Voerkai18n}是一个非常不错的{#red,dim 多语言}解决方案!")

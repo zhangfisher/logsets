@@ -1,8 +1,9 @@
+import type { NamedColorStyles } from "./colors"
 
 export interface TableColumnAttrs { 
     align?:"left" | "center" | "right"
     width?:"auto" | number
-    color?:string
+    color?:NamedColorStyles
 }
 export enum TableRowType{
     ROW       = 0,
@@ -15,15 +16,15 @@ export interface TablePluginOptions {
     maxColWidth?:number                             // 最大列宽,超过会显示省略号
     colPadding?:string                              // 列间距
     header?:{
-        style?:string                               // 表头颜色样式，默认高亮 
+        style?:NamedColorStyles                     // 表头颜色样式，默认高亮 
     },                                    
     footer?:{
-        style?:string                               // 表尾颜色样式                 
+        style?:NamedColorStyles                     // 表尾颜色样式                 
         merge?:true                                 // 合并行
         align?:"left" | "center" | "right"          // 当合并时对齐方式
     },
     summary?:{                                      // 默认汇总行配置
-        style?:string                               // 汇总颜色样式
+        style?:NamedColorStyles                     // 汇总颜色样式
         align?:"left" | "center" | "right"          // 汇总对齐方式
     },
     cols?:TableColumnAttrs[]                        // 列定义 = [{align:"center",width:"auto",color:"auto"},...]                 
@@ -31,7 +32,7 @@ export interface TablePluginOptions {
 } 
 export interface TableColDefine{
     title?:string
-    style?:string
+    style?:NamedColorStyles
     align?:"left" | "center" | "right"
 }
 export interface Table {     

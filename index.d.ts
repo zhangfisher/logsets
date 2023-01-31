@@ -16,11 +16,12 @@ import type { Banner,BannerPluginOptions } from "./banner.plugin"
 import type { Task,TaskList,TaskListPluginOptions } from "./tasklist.plugin"
 import type { Progressbar,ProgressbarPluginOptions } from "./progressbar.plugin"
 import type { Tree,TreePluginOptions } from "./tree.plugin"
+import type { NamedColorStyles } from "./colors"
 
 export type Class = new (...args: any[]) => any
 
 export type DataTypeColorizeOptions = string | {
-    style:string
+    style:NamedColorStyles
     format:(value:any) => string
 }
 
@@ -55,12 +56,12 @@ export interface LogsetsOptions{
     levels?   :{
         align?: boolean                                        // 是否自动对齐消息
         maxLineChars?  : number                                 // 每行最大字符数 
-        memo?     : string
-        debug?    : string
-        info?     : string
-        warn?     : string
-        error?    : string
-        fatal?    : string
+        memo?     : NamedColorStyles
+        debug?    : NamedColorStyles
+        info?     : NamedColorStyles
+        warn?     : NamedColorStyles
+        error?    : NamedColorStyles
+        fatal?    : NamedColorStyles
     } 
 };
 
@@ -113,7 +114,6 @@ export interface Logsets{
     config(options:LogsetsOptions):Logsets
 
     banner(options?:BannerPluginOptions):Banner
-
     tasklist(options?:TaskListPluginOptions):TaskList<Exclude<(typeof options),undefined>['status']>
     task(title:string,vars?:any[] | Record<string,any>):Task
     task(title:string,...vars:any[]):Task
@@ -138,3 +138,4 @@ export * from "./banner.plugin"
 export * from "./tasklist.plugin"
 export * from "./progressbar.plugin"
 export * from "./tree.plugin"
+export * from "./colors"
