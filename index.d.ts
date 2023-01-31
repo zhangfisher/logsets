@@ -1,21 +1,9 @@
- /** 
- 'foreground colors'
-    .red.green.yellow.blue.magenta.cyan.white.darkGray.black
-'light foreground colors'
-    .lightRed.lightGreen.lightYellow.lightBlue.lightMagenta.lightCyan.lightGray
-'background colors'
-    .bgRed.bgGreen.bgYellow.bgBlue.bgMagenta.bgCyan.bgWhite.bgDarkGray.bgBlack
-'light background colors'
-    .bgLightRed.bgLightGreen.bgLightYellow.bgLightBlue.bgLightMagenta.bgLightCyan.bgLightGray
-'styles'
-    .bright.dim.italic.underline.inverse // your platform should support italic
- */ 
-
-
+import { Class } from './index.d';
 import type { Banner,BannerPluginOptions } from "./banner.plugin"
 import type { Task,TaskList,TaskListPluginOptions } from "./tasklist.plugin"
 import type { Progressbar,ProgressbarPluginOptions } from "./progressbar.plugin"
 import type { Tree,TreePluginOptions } from "./tree.plugin"
+import type { Table,TablePluginOptions} from "./table.plugin"
 import type { NamedColorStyles } from "./colors"
 
 export type Class = new (...args: any[]) => any
@@ -119,6 +107,7 @@ export interface Logsets{
     task(title:string,...vars:any[]):Task
     progressbar(options?:ProgressbarPluginOptions):Progressbar
     tree(options?:TreePluginOptions):Tree
+    table(options?:TablePluginOptions):Table
 }
 
 
@@ -138,4 +127,6 @@ export * from "./banner.plugin"
 export * from "./tasklist.plugin"
 export * from "./progressbar.plugin"
 export * from "./tree.plugin"
+export * from "./table.plugin"
 export * from "./colors"
+ 
