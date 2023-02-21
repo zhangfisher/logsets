@@ -35,13 +35,13 @@ export interface TableColDefine{
     style?:NamedColorStyles
     align?:"left" | "center" | "right"
 }
-export interface Table {     
-    addRow(...cells:any[]):void 
-    addHeader(...cells:string[]):void
-    addFooter(cells:string[],options?:{merge?:boolean}):void
-    addSeparator():void
-    addSummary(cells:any[],options?:{merge?:boolean}):void
-    render():void
+export interface Table {
+  addRow(...cells: any[]): Table;
+  addHeader(...cells: string[]): Table;
+  addFooter(cells: string[], options?: { merge?: boolean }): Table;
+  addSeparator(): Table;
+  addSummary(cells: any[], options?: { merge?: boolean }): Table;
+  render(): void;
 }
 
 export declare const TablePlugin: {
