@@ -1,6 +1,5 @@
-import { darkGray } from "ansicolor"
+import { darkGray } from "ansicolor" 
 
-import {trimEndChars } from "./utils.js"
 // 'foreground colors'
 //     .red.green.yellow.blue.magenta.cyan.white.darkGray.black
 // 'light foreground colors'

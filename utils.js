@@ -1,5 +1,6 @@
 import ansicolor  from "ansicolor";
 const { isEscaped,strip } = ansicolor
+import { isPlainObject,isAsyncFunction} from 'flex-tools';
 
 export function isClass(cls){
     let result = false
@@ -15,10 +16,7 @@ export function isClass(cls){
 export function isClassInstance(obj){
     return obj.constructor && obj.constructor.toString().startsWith("class") 
 }
-
-export function firstUpper(str){
-    return str.charAt(0).toUpperCase()+str.substring(1)
-}
+ 
 
 // 获取所有给定对象所有自有的Symbol值的可枚举属性的数组
 export function getOwnEnumPropSymbols(obj){
@@ -132,25 +130,7 @@ export function getStringWidth(str){
 export function isBaseDataType(value){
     return !(Array.isArray(value) || isPlainObject(value))
 }
-
-/**
- * 截断字符串未尾的字符
- *
- * trimEndChars("abc123xyz","xyz") == "abc123"
- * trimEndChars("abc123\n","\n") == "abc123"
- *
- * @param chars
- * @returns {string}
- */
-export function trimEndChars(str,chars){
-    if(chars){
-        let index =  str.lastIndexOf(chars)
-        if(index+chars.length===str.length){
-            return str.substr(0,index)
-        }
-    }
-    return str.valueOf()
-}
+ 
 // 截取字符串，超过显示省略号，支持中文
 export function cutstr(str, len) {
     if(getStringWidth(str)<=len) return str
@@ -204,26 +184,11 @@ export function getDataType(v){
     if(typeof(v)==="function")  return "Function"
 	return v.constructor && v.constructor.name;
 };
-
-export function isPlainObject(obj){
-    if (typeof obj !== 'object' || obj === null) return false;
-    var proto = Object.getPrototypeOf(obj);
-    if (proto === null) return true;
-    var baseProto = proto;
-
-    while (Object.getPrototypeOf(baseProto) !== null) {
-        baseProto = Object.getPrototypeOf(baseProto);
-    }
-    return proto === baseProto; 
-}
+ 
 export function isPlainFunction(obj){
     return typeof obj === 'function' && !isClass(obj)
 }
-
-export function isAsyncFunction(fn){
-    return Object.prototype.toString.call(fn) === '[object AsyncFunction]' 
-}
-
+ 
 export function isRegexp(value) {
 	return Object.prototype.toString.call(value) === '[object RegExp]';
 }

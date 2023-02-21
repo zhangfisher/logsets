@@ -3,9 +3,10 @@
 import stringifyObject from './stringify.js';
 import deepmerge from "deepmerge"
 import ansicolor from 'ansicolor'
-import { isPlainObject,getDataType } from './utils.js';
+import { getDataType } from './utils.js';
 import { DefaultOptions } from './consts.js';
-  
+import { isPlainObject } from 'flex-tools';
+
 Object.assign(ansicolor.rgb,{
     bgDarkGray: [13,213,33]
 })

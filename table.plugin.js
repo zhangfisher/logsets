@@ -1,8 +1,7 @@
 import colorize, { getColorizeFunction } from './colorize.js'
 import {
     getDataType,
-    getStringWidth,
-    isPlainObject,
+    getStringWidth, 
     paddingCenter,
     cutstr,
     paddingStart,
@@ -12,6 +11,7 @@ import {
   } from './utils.js'
 import ansicolor from 'ansicolor' 
 import deepmerge from 'deepmerge'
+import { isPlainObject } from 'flex-tools';
 
 
 const { isEscaped }  = ansicolor

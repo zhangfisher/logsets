@@ -1,13 +1,15 @@
+import "flex-tools/string"
 import colorize, { getColorizeFunction,colorizeString } from './colorize.js'
 import deepmerge from 'deepmerge'
 import { DefaultOptions } from './consts.js'
-import { isPlainObject,paddingCenter,isPlainFunction, consoleOutput, forEachInterpolateVars } from './utils.js'
+import { paddingCenter,isPlainFunction, consoleOutput, forEachInterpolateVars } from './utils.js'
 import ansicolor from 'ansicolor'
 import bannerPlugin from "./banner.plugin.js"
 import progressbarPlugin from "./progressbar.plugin.js"
 import tablePlugin from "./table.plugin.js"
 import tasklistPlugin from "./tasklist.plugin.js"
 import treePlugin from "./tree.plugin.js"
+import { isPlainObject } from 'flex-tools'
 
 const DEBUG = 'DEBUG'
 const INFO  = 'INFO'
@@ -26,59 +28,9 @@ const FATAL = 'FATAL'
 //     .bgLightRed.bgLightGreen.bgLightYellow.bgLightBlue.bgLightMagenta.bgLightCyan.bgLightGray
 // 'styles'
 //     .bright.dim.italic.underline.inverse // your platform should support italic
-
-
-let ParamRegExp = /\{\w*\}/g
-
-/**
- * 添加一个params参数，使字符串可以进行变量插值替换，
- * "this is {a}+{b}".params({a:1,b:2}) --> this is 1+2
- * "this is {a}+{b}".params(1,2) --> this is 1+2
- * "this is {}+{}".params([1,2]) --> this is 1+2
- * @param {*} params
- * @returns
- */
-if (!String.prototype.hasOwnProperty("params")) {
-    String.prototype.params = function (params) {
-        let result = this.valueOf()
-        if (typeof params === 'object') {
-            for (let name in params) {
-                result = result.replace('{' + name + '}', params[name])
-            }
-        } else {
-            let i = 0
-            for (let match of result.match(ParamRegExp) || []) {
-                if (i < arguments.length) {
-                    result = result.replace(match, arguments[i])
-                    i += 1
-                }
-            }
-        }
-        return result
-    }
-}
-String.prototype.trimBeginChars = function (chars) {
-    if (chars) {
-        let index = this.indexOf(chars)
-        if (index === 0) {
-            return this.substr(chars.length)
-        }
-    }
-    return this.valueOf()
-}
-
-String.prototype.firstUpper = function () {
-    return this.charAt(0).toUpperCase() + this.substring(1)
-}
-
-
-String.prototype.reverse = function () {
-    let result =[]
-    for(let i=this.length-1;i>=0;i--) {
-        result.push(this.charAt(i))
-    }
-    return result.join("")
-} 
+ 
+ 
+ 
 /**
  * 根据模板字符串，输出着色后的内容
  * getColorizedTemplate("{a}+{b}={}")
@@ -144,7 +96,7 @@ function getColorizedTemplate(template,...args) {
 /**
  *
  * logOutput("DEBUG","this is a debug message",{a:1,b:2})  变量插值 只有两个参数
- * logOutput("DEBUG","this is a debug message",1,2,3)      位置插值
+ * logOutput("DEBUG","this is a debug message",[1,2,3])      位置插值
  *
  * @param {*} level
  * @param  {} args
