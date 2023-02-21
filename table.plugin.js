@@ -435,6 +435,7 @@ const DefaultTableOptions  = {
             totalCols = Math.max(totalCols, rowData.cols.length)
             bodyData.push(rowData)
             syncTableSameColumns()
+            return this
         }, 
       /**
        * addHeader("a","b","c") 
@@ -465,7 +466,8 @@ const DefaultTableOptions  = {
             }else{
                 return col
             }
-        }) 
+        })
+        return this
       },
       /** 
        * addFooter("a",{})
@@ -481,14 +483,17 @@ const DefaultTableOptions  = {
         }
         totalCols = Math.max(totalCols,footerData.merge ? 0 :  footerData.cols.length-1)
         syncTableSameColumns()
+        return this
       },
       addSeparator() {
         bodyData.push({type:TableRowType.SEPARATOR,cols:[]})
         syncTableSameColumns()
+        return this
       }, 
       addSummary(content,options={}){
         bodyData.push({type:TableRowType.SUMMARY,cols:[],content,...options,merge:true})
         syncTableSameColumns()
+        return this
       },
       render () {
         const [header, body, footer] = calcTableLayout()
