@@ -86,7 +86,7 @@ function colorizeBaseType(value,opts){
  * @returns 
  */
 export default function colorize(obj, opts={}) {   
-    let options = deepmerge(DefaultOptions,opts)
+    let options = opts
     
     const objType = getDataType(obj);    
     if((objType in options) && options[objType] && !isPlainObject(obj) && !Array.isArray(obj)){

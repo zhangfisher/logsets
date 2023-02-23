@@ -46,6 +46,7 @@ const FATAL = 'FATAL'
  * @returns
  */
 function getColorizedTemplate(template,...args) {
+    let logOptions = this
     let vars
     if (args.length === 1){
         vars =  typeof args[0] === 'function' ? args[0]() : 
@@ -73,7 +74,7 @@ function getColorizedTemplate(template,...args) {
                 const shader = getColorizeFunction(color) 
                 return shader(index<vars.length ? vars[index++] : varname)
             }else{// 未指定颜色时根据数据类型的不同着色
-                return colorize(index<vars.length ? vars[index++] : varname,this)
+                return colorize(index<vars.length ? vars[index++] : varname,logOptions)
             }            
         }) 
     }else if(isPlainObject(vars)){
@@ -85,7 +86,7 @@ function getColorizedTemplate(template,...args) {
                 const shader = getColorizeFunction(color) 
                 return shader(varname in vars ? vars[varname] : varname)
             }else{// 未指定颜色时根据数据类型的不同着色
-                return colorize(varname in vars ? vars[varname] : varname,this)
+                return colorize(varname in vars ? vars[varname] : varname,logOptions)
             }            
         }) 
     }else{
@@ -221,14 +222,14 @@ function createLogger(opts = {}) {
     log.use                  = (plugin) => plugin(log, options)
     log.colorizeObject       = (arg) => colorize(arg, options)
     log.colorizeString       = (text,style) => colorizeString(text,style)
-    log.getColorizer         = getColorizeFunction
-    log.getColorizedTemplate = getColorizedTemplate
+    log.getColorizer         = getColorizeFunction.bind(options)
+    log.getColorizedTemplate = getColorizedTemplate.bind(options)
     log.separator            = (n = 80, char = "─") => { consoleOutput(new Array(n).fill(char).join('')) }
     log.options              = options
     log.colors               = ansicolor 
     log.config = opts => {
         if (isPlainObject(opts)) {
-            options = deepmerge(options, opts)
+            Object.assign(options,deepmerge(options, opts))
         }
         return log
     }

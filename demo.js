@@ -1,16 +1,16 @@
-import logger from "./index.js" 
+import logsets from "./index.js" 
  
-logger.print(/^colored$/g)
+logsets.print(/^colored$/g)
 
-logger.colors.red("hello")
+logsets.colors.red("hello")
 
-// logger.print("I am very cool!",true,3,[1,2,3,4],"Voerka",{a:1,b:2},null,undefined,[{a:1}])
+// logsets.print("I am very cool!",true,3,[1,2,3,4],"Voerka",{a:1,b:2},null,undefined,[{a:1}])
 
-// logger.log("I am {}, age is {}","voerka",1,true,null)
-// logger.log("{a} + {b} == 3 {a} ",{a:1111,b:2})
+// logsets.log("I am {}, age is {}","voerka",1,true,null)
+// logsets.log("{a} + {b} == 3 {a} ",{a:1111,b:2})
 const t= new Date()
 function getUserInfo(){
-    console.logger.log("getUserInfo")
+    console.logsets.log("getUserInfo")
 }
 class MyError extends Error {
     constructor(message) {
@@ -24,45 +24,45 @@ async function delay(n=50){
 }
 
 
-logger.log("------------")
+logsets.log("------------")
 for(let i = 0 ; i < 100; i=i+10){
     await delay(10)
-    logger.print("已下载",i,"%",{end:"\r"})
+    logsets.print("已下载",i,"%",{end:"\r"})
 }
-logger.print("")
-logger.log("------------")
+logsets.print("")
+logsets.log("------------")
 
-// logger.print({posts:["a","b"],values:[1,2,3],z:()=>{}})
-logger.print({z:()=>{}})
+// logsets.print({posts:["a","b"],values:[1,2,3],z:()=>{}})
+logsets.print({z:()=>{}})
 
-logger.log("{a}+{b}={c}",{a:1,b:1,c:2})
-logger.log("My name is {}","tom")
-logger.log("{a}+{b}={c}",{a:1,b:1,c:2})
-logger.log("位置参数插值:{a}+{b}={c}",1,2,3)
-logger.log("指定颜色{#red a}+{#bgGreen,bgLightYellow b}={c} {x}",{a:1000,b:12222,c:2,x:"HELLO"})
-logger.log("Welcome to {#red VoerkaI18n}")
+logsets.log("{a}+{b}={c}",{a:1,b:1,c:2})
+logsets.log("My name is {}","tom")
+logsets.log("{a}+{b}={c}",{a:1,b:1,c:2})
+logsets.log("位置参数插值:{a}+{b}={c}",1,2,3)
+logsets.log("指定颜色{#red a}+{#bgGreen,bgLightYellow b}={c} {x}",{a:1000,b:12222,c:2,x:"HELLO"})
+logsets.log("Welcome to {#red VoerkaI18n}")
 
 
-logger.print("String",true,100,()=>{},[1,2,3])
-logger.print(null,undefined)
-logger.print(/^colored$/g)
-logger.print(new Error("Value Error"))
-logger.print(new Date())  
-logger.print(class A{})
-logger.print(new (class User{})())
-logger.print({name:"tom",age:100,admin:true,posts:["a","b"],values:[1,2,3]},()=>"hello")
+logsets.print("String",true,100,()=>{},[1,2,3])
+logsets.print(null,undefined)
+logsets.print(/^colored$/g)
+logsets.print(new Error("Value Error"))
+logsets.print(new Date())  
+logsets.print(class A{})
+logsets.print(new (class User{})())
+logsets.print({name:"tom",age:100,admin:true,posts:["a","b"],values:[1,2,3]},()=>"hello")
 
-logger.format("{a}+{b}={c}",{a:1,b:1,c:2})
+logsets.format("{a}+{b}={c}",{a:1,b:1,c:2})
 
-logger.log("My name is {}", "Voerka")
-logger.log("My name is {}, age is {}", "Voerka", 1)
-logger.log("{a}+{b}={c}", {a:1,b:2,c:3})
-logger.print({numbers:[1,2,3,4,5,6,7,1,1,1,1,1,1,1,1,1,1,1,1,1,5,6,7,1,1,1,1,1,1,1,1,1,1,1,1], fooc: true, barops: 42,seescvx:"mass",x:null,y:undefined,z:()=>{},reg:/^12323$/,obj:{
+logsets.log("My name is {}", "Voerka")
+logsets.log("My name is {}, age is {}", "Voerka", 1)
+logsets.log("{a}+{b}={c}", {a:1,b:2,c:3})
+logsets.print({numbers:[1,2,3,4,5,6,7,1,1,1,1,1,1,1,1,1,1,1,1,1,5,6,7,1,1,1,1,1,1,1,1,1,1,1,1], fooc: true, barops: 42,seescvx:"mass",x:null,y:undefined,z:()=>{},reg:/^12323$/,obj:{
     x:1,y:2,z:[1,2,3,4,5,6,7,1,1,1,1,1,1,1,1,1,1,1,1,1,5,6,7,1,1,1,1,1,1,1,1,1,1,1,1]
 }})
 
 
-logger.format({
+logsets.format({
     values:new Array(10).fill(0).map((v,i)=>i+1),
     users:{
         tom:{name:"tom",age:21,sex:true},
@@ -84,7 +84,7 @@ logger.format({
 
 
 
-logger.format({
+logsets.format({
     name:"tom",
     age:11,
     admin:true,
@@ -100,7 +100,7 @@ logger.format({
 // { price: "100", amt: 10 }  ] ,
 // time:t ,error:new MyError("BCXCCC"),callback:getUserInfo }
 
-// logger.log(o1)
+// logsets.log(o1)
 
 
 
@@ -108,7 +108,7 @@ logger.format({
 
 
 
-logger.config({
+logsets.config({
     Object:{maxItems:5,compact:true}
 }).format({
     users:{
@@ -137,16 +137,16 @@ logger.config({
 })
 
 
-logger.debug("正在执行程序{},还需要{}秒...",["logs",9])
-logger.info("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9})
-logger.warn("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9},"Line:123")
-logger.warn("程序执行可能出错\n变量没有定义")
-logger.error("程序执行可能出错\n变量没有定义")
-logger.fatal("执行程序{a} + {b}发生致命错误",{a:1,b:1})
+logsets.debug("正在执行程序{},还需要{}秒...",["logs",9])
+logsets.info("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9})
+logsets.warn("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9},"Line:123")
+logsets.warn("程序执行可能出错\n变量没有定义")
+logsets.error("程序执行可能出错\n变量没有定义")
+logsets.fatal("执行程序{a} + {b}发生致命错误",{a:1,b:1})
 
-logger.warn("My name is {name}, age is {age}",()=> ({name:"Voerka",age:1}))
+logsets.warn("My name is {name}, age is {age}",()=> ({name:"Voerka",age:1}))
 
-let table = logger.table({
+let table = logsets.table({
     colorize:1,
     grid:1,
 })
@@ -166,7 +166,7 @@ table.render()
   
 
 
-table = logger.table({
+table = logsets.table({
     colorize:1,
     grid:2,
     maxColWidth:12,                                    
@@ -288,12 +288,36 @@ const tree = {
   }
 
 
-logger.format(tree)
+logsets.format(tree)
 
-logger.log("{#red a}+{b}={c}",{a:1,b:1,c:2})
+logsets.log("{#red a}+{b}={c}",{a:1,b:1,c:2})
 // 位置插值变量
-logger.log("My name is {}","tom")
-logger.log("{a}+{b}={#bgGreen c}",1,1,2)
+logsets.log("My name is {}","tom")
+logsets.log("{a}+{b}={#bgGreen c}",1,1,2)
 
-logger.log("My name is {#red tom}")
-logger.log("{#blue Voerkai18n}是一个非常不错的{#red,dim 多语言}解决方案!")
+logsets.log("My name is {#red tom}")
+logsets.log("{#blue Voerkai18n}是一个非常不错的{#red,dim 多语言}解决方案!")
+
+
+console.log(logsets.getColorizedTemplate("My name is {}","zhang"))
+logsets.config({
+    String:"yellow",
+    levels:{
+        memo     : "red",
+        debug    : "red",
+        info     : "red",
+        warn     : "red",
+        error    : "red",
+        fatal    : "red" 
+    }
+})
+console.log(logsets.getColorizedTemplate("My name is {}","zhang"))
+
+
+
+logsets.debug("正在执行程序{},还需要{}秒...",["logs",9])
+logsets.info("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9})
+logsets.warn("正在执行程序{app},还需要{time}秒...",{app:"logs",time:9},"Line:123")
+logsets.warn("程序执行可能出错\n变量没有定义")
+logsets.error("程序执行可能出错\n变量没有定义")
+logsets.fatal("执行程序{a} + {b}发生致命错误",{a:1,b:1})

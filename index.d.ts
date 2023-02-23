@@ -88,7 +88,7 @@ export interface Logsets{
     // 返回着色后的字符串
     getColorizer(style:string) : Colorizer
     
-    // 对插值变量进行插值
+    // 对插值变量进行插值返回着色后的字符串
     getColorizedTemplate(template:string,vars?:any[] | Record<string,any>) : string
     getColorizedTemplate(template:string,...vars:any[]) : string
     
