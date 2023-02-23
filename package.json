@@ -34,7 +34,7 @@
     "ansicolor": "^1.1.100",
     "core-js": "^3.21.0",
     "deepmerge": "^4.2.2",
-    "flex-tools": "^1.0.41"
+    "flex-tools": "^1.0.48"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.0",

@@ -12,7 +12,7 @@ specifiers:
   ansicolor: ^1.1.100
   core-js: ^3.21.0
   deepmerge: ^4.2.2
-  flex-tools: ^1.0.41
+  flex-tools: ^1.0.48
   rollup: ^2.70.0
   rollup-plugin-clear: ^2.0.7
   rollup-plugin-terser: ^7.0.2
@@ -24,7 +24,7 @@ dependencies:
   ansicolor: 1.1.100
   core-js: 3.21.0
   deepmerge: 4.2.2
-  flex-tools: 1.0.41
+  flex-tools: 1.0.48
 
 devDependencies:
   '@babel/cli': 7.17.6_@babel+core@7.17.2
@@ -1548,8 +1548,8 @@ packages:
     dev: true
     optional: true
 
-  /flex-tools/1.0.41:
-    resolution: {integrity: sha512-RvVmdOZXtisP8zxVOl1Igmy7Ty8cEl/eNChaeepMgLB0BsbRmKHk6Xz6kOm54D6nLa+PudMMLM0m07oNEIpZog==}
+  /flex-tools/1.0.48:
+    resolution: {integrity: sha512-72c6dMIRg31RrIaZdjpt/Qf+JDfaioT597aoxYVMv4A7ezQ6FvKA+XCxaDh9T3e+iJUR5216L4Dplawmz6eI5Q==}
     dependencies:
       lodash: 4.17.21
     dev: false
