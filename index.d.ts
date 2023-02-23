@@ -9,8 +9,8 @@ import type { NamedColorStyles } from "./colors"
 export type Class = new (...args: any[]) => any
 
 export type DataTypeColorizeOptions = string | {
-    style:NamedColorStyles
-    format:(value:any) => string
+    style?:NamedColorStyles
+    format?:(value:any) => string
 }
 
 export interface LogsetsOptions{
