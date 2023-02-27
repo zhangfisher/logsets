@@ -10,7 +10,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "rollup -c",
-        "release": " npm version patch  && npm run build && npm publish && npm run changelog",
+        "release": " npm version patch --commit-hooks=false && npm run build && npm publish && npm run changelog",
         "postrelease": "changelog",
         "dev:docs": "docsify serve docs",
         "prepare": "husky install",
