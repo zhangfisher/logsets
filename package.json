@@ -1,6 +1,6 @@
 {
     "name": "logsets",
-    "version": "1.0.26",
+    "version": "1.0.27",
     "description": "Nodejs terminal application output colorized enhancement",
     "main": "dist/index.cjs",
     "module": "dist/index.mjs",
@@ -11,7 +11,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "rollup -c",
         "release": " npm version patch  && npm run build && npm publish && npm run changelog",
-        "postrelease":"changelog",
+        "postrelease": "changelog",
         "dev:docs": "docsify serve docs",
         "prepare": "husky install",
         "commit": "git add . && git cz",
@@ -65,7 +65,7 @@
             "path": "@commitlint/cz-commitlint"
         }
     },
-    "pnpm":{
-        "enable-pre-post-scripts":true
+    "pnpm": {
+        "enable-pre-post-scripts": true
     }
 }
