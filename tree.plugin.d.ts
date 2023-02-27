@@ -16,9 +16,9 @@ export interface TreePluginOptions {
 }
 
 export interface Tree {     
-    addNode(text:string, options?:{style?:string; boolean?:boolean,note?:string}):void
-    beginChildren():void
-    endChildren():void
+    addNode(text:string, options?:{style?:string; boolean?:boolean,note?:string}):Tree
+    beginChildren():Tree
+    endChildren():Tree
 
 }
 

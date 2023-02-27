@@ -92,13 +92,16 @@ function createTree(context,options){
     return {
         addNode(text,options={}){ 
             renderNode(text,options)
+            return this
         },
         beginChildren(){
             curLevel++
+            return this
         },
         endChildren(){
             curLevel--
             if(curLevel===0) curLevel=0
+            return this
         }
     }
 

@@ -54,7 +54,7 @@ function createBanner(context,options){
         const paddingRight = new Array(opts.paddingRight).fill(" ").join("")
         let totalWidth = lines.reduce((width,line,index)=>{
             if(index===0){  // 第一行视为标题行
-                line.text = `${opts.title.wrapper}  ${logger.colorized(line.text,opts.title.style)}  ${opts.title.wrapper.reverse()}`
+                line.text = `${opts.title.wrapper}  ${logger.colorizeString(line.text,opts.title.style)}  ${opts.title.wrapper.reverse()}`
             }
             return Math.max(width,getStringWidth(line.text))           
         },0) + opts.paddingLeft + opts.paddingRight
@@ -115,6 +115,7 @@ function createBanner(context,options){
                 vars,
                 ...options
             })
+            return this
         },
         render:()=>{
             renderBanner()
