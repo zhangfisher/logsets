@@ -1,3 +1,23 @@
+## <small>1.0.32 (2023-02-27)</small>
+
+* 1.0.32 ([1e13b9d](https://gitee.com/zhangfisher/logsets/commits/1e13b9d))
+* fix(core): disable <npm version patch> commit-hooks=false ([3d4678a](https://gitee.com/zhangfisher/logsets/commits/3d4678a))
+
+
+
+## <small>1.0.31 (2023-02-27)</small>
+
+* 1.0.31 ([bf8dd91](https://gitee.com/zhangfisher/logsets/commits/bf8dd91))
+* style(core): update package.json ([27b9f9d](https://gitee.com/zhangfisher/logsets/commits/27b9f9d))
+* style(core): update version ([b9883f9](https://gitee.com/zhangfisher/logsets/commits/b9883f9))
+* style(core): update version patch ([0c10e63](https://gitee.com/zhangfisher/logsets/commits/0c10e63))
+* fix: update package.json ([f26986b](https://gitee.com/zhangfisher/logsets/commits/f26986b))
+* fix(banner): 修复colorized方法引用错误 ([fde51a1](https://gitee.com/zhangfisher/logsets/commits/fde51a1))
+* build: 增加`commit`和`changelog` ([1f58c35](https://gitee.com/zhangfisher/logsets/commits/1f58c35))
+* ci: 引入commitlint工具 ([1f2eadd](https://gitee.com/zhangfisher/logsets/commits/1f2eadd))
+
+
+
 ## <small>1.0.26 (2023-02-23)</small>
 
 * - fix(main): 修复config方法不生效的问题 ([70a3675](https://gitee.com/zhangfisher/logsets/commits/70a3675))
