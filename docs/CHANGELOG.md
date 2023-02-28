@@ -1,7 +1,14 @@
+## <small>1.0.35 (2023-02-28)</small>
+
+* feat(tasklist): tasklist.run能定制返回任务的执行结果 ([2beaae1](https://gitee.com/zhangfisher/logsets/commits/2beaae1))
+
+
+
 ## <small>1.0.34 (2023-02-28)</small>
 
-* fix(banner): 当执行插值变量时计算宽度出错导致渲染失败 ([c8af205](https://gitee.com/zhangfisher/logsets/commits/c8af205))
 * chore: update `scripts.version` ([2bf12f9](https://gitee.com/zhangfisher/logsets/commits/2bf12f9))
+* chore(release): 1.0.34 :tada: ([9dda726](https://gitee.com/zhangfisher/logsets/commits/9dda726))
+* fix(banner): 当执行插值变量时计算宽度出错导致渲染失败 ([c8af205](https://gitee.com/zhangfisher/logsets/commits/c8af205))
 * docs: 更新`tasklist.run`文档说明 ([b2ac399](https://gitee.com/zhangfisher/logsets/commits/b2ac399))
 
 
