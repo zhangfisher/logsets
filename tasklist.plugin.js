@@ -113,21 +113,21 @@ const DefaultTaskListOptions  = {
  
   
 function createTaskList(context,options){
-    const logger = this  
+    const logsets = this  
     if(typeof(options)=="string") options = {title:options}
     const opts = deepmerge(DefaultTaskListOptions,options) 
 
     // 显示任务标题 ? bright
     if(opts.title){
-        let titleColorizer = logger.getColorizer(opts.style)
+        let titleColorizer = logsets.getColorizer(opts.style)
         const title =Array.isArray(opts.title) ? opts.title : [opts.title] 
-        console.log(titleColorizer(logger.getColorizedTemplate(...title)))
+        console.log(titleColorizer(logsets.getColorizedTemplate(...title)))
     }     
 
     let curTask = null
  
     const spinnerChars = ["|","/","-","\\","|","/","-","\\"]
-    const getColorizer = logger.getColorizer 
+    const getColorizer = logsets.getColorizer 
 
     function createTask(...args){ 
         const self = this 
@@ -138,7 +138,7 @@ function createTaskList(context,options){
         let timer = null
         let listNote = null
         self.isEnd = ()=>status!="running"
-        self.note = (info) => listNote = logger.colors.darkGray(paddingEnd(info,20))
+        self.note = (info) => listNote = logsets.colors.darkGray(paddingEnd(info,20))
         self.render = ()=>{
             // 显示列表项符号
             const symbolOptions =  opts.status[status]
@@ -153,7 +153,7 @@ function createTaskList(context,options){
                 symbol = getColorizer(symbolOptions.style)(symbolOptions.symbol)                
             }
             // 文本内容
-            let title = logger.getColorizedTemplate(...args)
+            let title = logsets.getColorizedTemplate(...args)
             // 显示进度条
             let progressbarWidth = opts.width - getStringWidth(title) 
             let progressbar = ""
@@ -208,12 +208,53 @@ function createTaskList(context,options){
             hideCursor()
             return curTask
         },
+        // 运行workr任务函数
+        async run(){
+            let title,vars,worker,options
+            if(arguments.length==2){
+                title=arguments[0]
+                worker=arguments[1]
+            }else if(arguments.length==3){
+                title=arguments[0]
+                vars=arguments[1]
+                worker=arguments[2]
+            }else if(arguments.length==4){
+                title=arguments[0]
+                vars=arguments[1]
+                worker=arguments[2]
+                options=arguments[3]
+            }else{
+                throw new TypeError()
+            }
+            const opts = Object.assign({
+                catchError:false,            // 当运行worker出错时是否捕获
+                showErrorStack:true         // 显示错误堆栈详细信息
+            }, options)
+            // 自动完成上一个任务
+            if(curTask && !curTask.isEnd()){ 
+                curTask.complete()             
+            }            
+            curTask = new createTask(title,vars)
+            curTask.start()
+            try{
+                const result = await worker()
+                curTask.complete(result)
+            }catch(e){
+                curTask.error(e.message)                
+                if(opts.showErrorStack && opts.catchError){
+                    logsets.log(e.stack)
+                }
+                if(!opts.catchError){
+                    throw e
+                }
+            }
+        },
         separator(char="─"){
             if(curTask && !curTask.isEnd()){ 
                 curTask.abort()
                 curTask=null
             }
-            consoleOutput(opts.indent + logger.colors.darkGray(new Array(opts.width + 2).fill(char).join("")))
+            consoleOutput(opts.indent + logsets.colors.darkGray(new Array(opts.width + 2).fill(char).join("")))
         }
     }
     Object.entries(opts.status).forEach(([key,state])=>{

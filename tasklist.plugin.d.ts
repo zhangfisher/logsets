@@ -37,9 +37,13 @@ export interface Task {
 }
 
 export type TaskList<CUSTOM_STATUS=any> = {
-    add(text:string,vars?:any[] | Record<string,any>):void
-    add(text:string,...vars:any[]):void
+    add(title:string,vars?:any[] | Record<string,any>):void
+    add(title:string,...vars:any[]):void
+    // 运行函数任务
+    run(title:string,vars?:any[] | Record<string,any>,worker:()=>Promise<void | string>,options?:{catchError?:boolean,showErrorStack?:boolean}):void
+    run(title:string,worker:()=>Promise<void | string>,options?:{catchError?:boolean,showErrorStack?:boolean}):void
     separator(char?:string):void
+    
 } & Task & CustomTaskList<CUSTOM_STATUS>
 
 
