@@ -1,3 +1,11 @@
+## <small>1.0.34 (2023-02-28)</small>
+
+* fix(banner): 当执行插值变量时计算宽度出错导致渲染失败 ([c8af205](https://gitee.com/zhangfisher/logsets/commits/c8af205))
+* chore: update `scripts.version` ([2bf12f9](https://gitee.com/zhangfisher/logsets/commits/2bf12f9))
+* docs: 更新`tasklist.run`文档说明 ([b2ac399](https://gitee.com/zhangfisher/logsets/commits/b2ac399))
+
+
+
 ## <small>1.0.33 (2023-02-28)</small>
 
 * 1.0.33 ([d383cca](https://gitee.com/zhangfisher/logsets/commits/d383cca))
