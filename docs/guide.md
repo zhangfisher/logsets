@@ -581,6 +581,27 @@ tasks.add("下载文件：{#red },大小:{}, 已下载{}",["package.json",122,34
 // 可以在任务列表之间插入一个分割线
 tasks.separator()
 
+
+
+// 一般用法
+
+try{
+    tasks.add("正在下载文件{}","file.zip")
+    await http.download(url)
+    tasks.complete()            // 任务完成后调用
+}catch(e){
+    tasks.error(e)              // 出错时调用
+}
+
+// 如果有多个任务则需要多个重复上述代码，因此提供了一个快捷方法
+
+tasks.run("正在下载文件{}","file.zip",async () => {
+    await http.download(url)
+},{
+    catchError:true                 // 是否捕获错误,=false则执行出错时会抛出错误,导致后续任务不能执行
+    showErrorStack:false            // 出错时是否显示错误信息
+})
+
 ```
 
 运行后的效果如下：
@@ -667,6 +688,7 @@ let tasks = logsets.tasklist({
 tasks.add("正在连接")
 tasks.connected()
 ```
+
 
 ### API
 

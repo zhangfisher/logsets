@@ -1,3 +1,11 @@
+## <small>1.0.33 (2023-02-28)</small>
+
+* 1.0.33 ([d383cca](https://gitee.com/zhangfisher/logsets/commits/d383cca))
+* feat(tasklist): 新增`tasklist.run`方法简化运行任务方式 ([39fb6d5](https://gitee.com/zhangfisher/logsets/commits/39fb6d5))
+* docs: update CHANGELOG.md ([6643d2b](https://gitee.com/zhangfisher/logsets/commits/6643d2b))
+
+
+
 ## <small>1.0.32 (2023-02-27)</small>
 
 * 1.0.32 ([1e13b9d](https://gitee.com/zhangfisher/logsets/commits/1e13b9d))
