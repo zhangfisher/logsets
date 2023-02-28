@@ -1,5 +1,12 @@
+## <small>1.0.36 (2023-02-28)</small>
+
+* build: release latest ([e05a8cf](https://gitee.com/zhangfisher/logsets/commits/e05a8cf))
+
+
+
 ## <small>1.0.35 (2023-02-28)</small>
 
+* chore(release): 1.0.35 :tada: ([3bbba75](https://gitee.com/zhangfisher/logsets/commits/3bbba75))
 * feat(tasklist): tasklist.run能定制返回任务的执行结果 ([2beaae1](https://gitee.com/zhangfisher/logsets/commits/2beaae1))
 
 
