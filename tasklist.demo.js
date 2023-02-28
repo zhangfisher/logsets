@@ -102,6 +102,12 @@ logsets.separator()
 
 await tasks.run("正在下载文件{}","a.zip", ()=>{
      delay(1000)    
+     return "skip"
+})
+
+await tasks.run("正在下载文件{}","a.zip", ()=>{
+    delay(1000)    
+    return ["abort","用户中止"]
 })
 
 await tasks.run("正在下载文件{}","b.zip", ()=>{

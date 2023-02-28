@@ -56,7 +56,7 @@ const DefaultTaskListOptions  = {
     progressbar:{
         style:"darkGray",           // 进度条样式
         char:".",           // 进度条字符
-    },
+    },   
     status:{   
         running:{
             style:"white",
@@ -226,7 +226,7 @@ function createTaskList(context,options){
             }else{
                 throw new TypeError()
             }
-            const opts = Object.assign({
+            const taskOpts = Object.assign({
                 catchError:false,            // 当运行worker出错时是否捕获
                 showErrorStack:true         // 显示错误堆栈详细信息
             }, options)
@@ -238,13 +238,24 @@ function createTaskList(context,options){
             curTask.start()
             try{
                 const result = await worker()
-                curTask.complete(result)
+                if(typeof(result) == 'string' && (result in opts.status)){
+                    curTask[result]()
+                }else if(Array.isArray(result)){
+                    if(result.length<2) result.push(undefined)
+                    if(typeof(result[0]) == 'string' && (result[0] in opts.status)){
+                        curTask[result[0]](result[1])
+                    }else{
+                        curTask.complete()    
+                    }
+                }else{
+                    curTask.complete(result)
+                }                
             }catch(e){
                 curTask.error(e.message)                
-                if(opts.showErrorStack && opts.catchError){
+                if(taskOpts.showErrorStack && taskOpts.catchError){
                     logsets.log(e.stack)
                 }
-                if(!opts.catchError){
+                if(!taskOpts.catchError){
                     throw e
                 }
             }

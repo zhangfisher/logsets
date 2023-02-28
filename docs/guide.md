@@ -597,10 +597,27 @@ try{
 
 tasks.run("正在下载文件{}","file.zip",async () => {
     await http.download(url)
+    // 未返回任意值 等效于 task.complete()
+    // return "字符串"  等效于 task.complete("字符串")
+    // return 'ignore' | 'running' | 'complete' | 'error' | 'abort' | 'fail' | 'cancel' | 'skip' | 'stop' | 'todo' | 'ignore'
+    // 返回以上字符串 等效于 task.fail()  task.running() , 
+    // 返回[以上字符串,"xxx"] 等效于 task.fail("xxx")  task.running("xxx") , 
 },{
     catchError:true                 // 是否捕获错误,=false则执行出错时会抛出错误,导致后续任务不能执行
     showErrorStack:false            // 出错时是否显示错误信息
 })
+
+await tasks.run("正在下载文件{}","a.zip", ()=>{
+     delay(1000)    
+     return "skip"
+})
+
+await tasks.run("正在下载文件{}","a.zip", ()=>{
+    delay(1000)    
+    return ["abort","用户中止"]
+})
+
+
 
 ```
 
