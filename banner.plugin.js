@@ -52,11 +52,12 @@ function createBanner(context,options){
         // 计算最大行宽度
         const paddingLeft = new Array(opts.paddingLeft).fill(" ").join("")
         const paddingRight = new Array(opts.paddingRight).fill(" ").join("")
+        // 计算最大值
         let totalWidth = lines.reduce((width,line,index)=>{
             if(index===0){  // 第一行视为标题行
                 line.text = `${opts.title.wrapper}  ${logger.colorizeString(line.text,opts.title.style)}  ${opts.title.wrapper.reverse()}`
             }
-            return Math.max(width,getStringWidth(line.text))           
+            return Math.max(width,getStringWidth((line.text||'').params(line.vars)))           
         },0) + opts.paddingLeft + opts.paddingRight
         if(typeof(opts.width)==="number" && opts.width > totalWidth){
             totalWidth = opts.width

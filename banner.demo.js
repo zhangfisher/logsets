@@ -8,9 +8,10 @@ let banner = logger.banner({
 })
 
 banner.add("Logsets Utility Toolkit")
-banner.add("Output color elements at the terminal")
-banner.add("Version:{} ",1)
-banner.add("Release:{#red}   ","2022-01-01")
+// banner.add("Output color elements at the terminal")
+// banner.add("Version:{} ",1)
+banner.add("Help:{} ","https://zhangfisher.github.io/flexci/")
+// banner.add("Release:{#red}   ","2022-01-01")
 banner.render()
 
 
