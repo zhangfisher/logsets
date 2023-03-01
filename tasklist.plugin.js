@@ -238,12 +238,12 @@ function createTaskList(context,options){
             curTask.start()
             try{
                 const result = await worker()
-                if(typeof(result) == 'string' && (result in opts.status)){
-                    curTask[result]()
+                if(typeof(result) == 'string' && (result.toLowerCase() in opts.status)){
+                    curTask[result.toLowerCase()]()
                 }else if(Array.isArray(result)){
                     if(result.length<2) result.push(undefined)
-                    if(typeof(result[0]) == 'string' && (result[0] in opts.status)){
-                        curTask[result[0]](result[1])
+                    if(typeof(result[0]) == 'string' && (result[0].toLowerCase() in opts.status)){
+                        curTask[result[0].toLowerCase()](result[1])
                     }else{
                         curTask.complete()    
                     }
