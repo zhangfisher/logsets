@@ -1,5 +1,12 @@
+## <small>1.0.39 (2023-03-01)</small>
+
+* fix: 修复`typescript`类型错误 ([bbe77bb](https://gitee.com/zhangfisher/logsets/commits/bbe77bb))
+
+
+
 ## <small>1.0.38 (2023-03-01)</small>
 
+* chore(release): 1.0.38 :tada: ([85fff01](https://gitee.com/zhangfisher/logsets/commits/85fff01))
 * feat(tasklist): `tasklist.run`现在能返回任务执行的返回值 ([55e8c76](https://gitee.com/zhangfisher/logsets/commits/55e8c76))
 
 
