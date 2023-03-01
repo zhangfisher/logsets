@@ -1,5 +1,12 @@
+## <small>1.0.38 (2023-03-01)</small>
+
+* feat(tasklist): `tasklist.run`现在能返回任务执行的返回值 ([55e8c76](https://gitee.com/zhangfisher/logsets/commits/55e8c76))
+
+
+
 ## <small>1.0.37 (2023-03-01)</small>
 
+* chore(release): 1.0.37 :tada: ([159888d](https://gitee.com/zhangfisher/logsets/commits/159888d))
 * perf(tasklist): `tasklist.run`方法返回值类型支持更宽泛，如`return 'skip'`和`return "SKIP"`均可以生效 ([2c296ae](https://gitee.com/zhangfisher/logsets/commits/2c296ae))
 
 
