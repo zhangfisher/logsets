@@ -607,15 +607,19 @@ tasks.run("正在下载文件{}","file.zip",async () => {
     showErrorStack:false            // 出错时是否显示错误信息
 })
 
-await tasks.run("正在下载文件{}","a.zip", ()=>{
+const result = await tasks.run("正在下载文件{}","a.zip", ()=>{
      delay(1000)    
      return "skip"
 })
+
+// result === "skip"
 
 await tasks.run("正在下载文件{}","a.zip", ()=>{
     delay(1000)    
     return ["abort","用户中止"]
 })
+
+// result === ["abort","用户中止"]
 
 
 

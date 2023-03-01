@@ -36,14 +36,16 @@ export interface Task {
     cancel(note?:string):void 
 }
 
-export type TaskWrokerResult =  'ignore' | 'running' | 'complete' | 'error' | 'abort' | 'fail' | 'cancel' | 'skip' | 'stop' | 'todo'
+export type InlineTaskStatus =  'ignore' | 'running' | 'complete' | 'error' | 'abort' | 'fail' | 'cancel' | 'skip' | 'stop' | 'todo'
+
+export type TaskWrokerResult =void |  string | InlineTaskStatus | Uppercase<InlineTaskStatus> | [InlineTaskStatus,string] |  [Uppercase<InlineTaskStatus>,string] 
 
 export type TaskList<CUSTOM_STATUS=any> = {
     add(title:string,vars?:any[] | Record<string,any>):void
     add(title:string,...vars:any[]):void
     // 运行函数任务
-    run(title:string,vars?:any[] | Record<string,any>,worker:()=>Promise<void | string | TaskWrokerResult | Uppercase<TaskWrokerResult> | [TaskWrokerResult,string] |  [Uppercase<TaskWrokerResult>,string] >,options?:{catchError?:boolean,showErrorStack?:boolean}):void
-    run(title:string,worker:()=>Promise<void | string | TaskWrokerResult | TaskWrokerCustomResult>,options?:{catchError?:boolean,showErrorStack?:boolean}):void
+    run(title:string,vars?:any[] | Record<string,any>,worker:()=>Promise<TaskWrokerResult>,options?:{catchError?:boolean,showErrorStack?:boolean}):TaskWrokerResult
+    run(title:string,worker:()=>Promise<TaskWrokerResult>,options?:{catchError?:boolean,showErrorStack?:boolean}):TaskWrokerResult
     separator(char?:string):void
     
 } & Task & CustomTaskList<CUSTOM_STATUS>

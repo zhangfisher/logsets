@@ -236,8 +236,9 @@ function createTaskList(context,options){
             }            
             curTask = new createTask(title,vars)
             curTask.start()
+            let result = 'ok'
             try{
-                const result = await worker()
+                result = await worker()
                 if(typeof(result) == 'string' && (result.toLowerCase() in opts.status)){
                     curTask[result.toLowerCase()]()
                 }else if(Array.isArray(result)){
@@ -259,6 +260,7 @@ function createTaskList(context,options){
                     throw e
                 }
             }
+            return result
         },
         separator(char="─"){
             if(curTask && !curTask.isEnd()){ 
