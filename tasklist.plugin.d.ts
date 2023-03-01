@@ -1,4 +1,6 @@
 import type { NamedColorStyles } from "./colors"
+import type { Logsets } from "./"
+import type { DeepRequired } from "ts-essentials"
 
 export interface TaskListStatus{
     style?:NamedColorStyles
@@ -44,7 +46,7 @@ export type TaskList<CUSTOM_STATUS=any> = {
     add(title:string,vars?:any[] | Record<string,any>):void
     add(title:string,...vars:any[]):void
     // 运行函数任务
-    run(title:string,vars?:any[] | Record<string,any>,worker:()=>Promise<TaskWrokerResult>,options?:{catchError?:boolean,showErrorStack?:boolean}):TaskWrokerResult
+    run(title:string,vars:any[] | Record<string,any>,worker:()=>Promise<TaskWrokerResult>,options?:{catchError?:boolean,showErrorStack?:boolean}):TaskWrokerResult
     run(title:string,worker:()=>Promise<TaskWrokerResult>,options?:{catchError?:boolean,showErrorStack?:boolean}):TaskWrokerResult
     separator(char?:string):void
     

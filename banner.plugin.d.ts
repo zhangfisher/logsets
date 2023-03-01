@@ -1,4 +1,6 @@
 import type { NamedColorStyles } from "./colors"
+import type { Logsets } from "./"
+import type { DeepRequired } from "ts-essentials"
 
 export interface BannerPluginOptions  { 
     indent?       : string                          // 横幅缩进

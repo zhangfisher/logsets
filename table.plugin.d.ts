@@ -1,4 +1,6 @@
 import type { NamedColorStyles } from "./colors"
+import type { Logsets } from "./"
+import type { DeepRequired } from "ts-essentials"
 
 export interface TableColumnAttrs { 
     align?:"left" | "center" | "right"

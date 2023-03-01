@@ -1,5 +1,7 @@
 
 import type { NamedColorStyles } from "./colors"
+import type { Logsets } from "./"
+import type { DeepRequired } from "ts-essentials"
 
 export type PresetThemes = 'default' | 'red' | 'green' | 'blue' | 'yellow' | 'magenta' | 'cyan'
  
