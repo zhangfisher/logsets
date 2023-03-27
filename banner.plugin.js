@@ -57,7 +57,8 @@ function createBanner(context,options){
             if(index===0){  // 第一行视为标题行
                 line.text = `${opts.title.wrapper}  ${logger.colorizeString(line.text,opts.title.style)}  ${opts.title.wrapper.reverse()}`
             }
-            return Math.max(width,getStringWidth((line.text||'').params(line.vars)))           
+            // 需要将插值变量里面的#号替换掉颜色
+            return Math.max(width,getStringWidth((line.text||'').replace(/\{\#/g ,"{").params(line.vars)))           
         },0) + opts.paddingLeft + opts.paddingRight
         if(typeof(opts.width)==="number" && opts.width > totalWidth){
             totalWidth = opts.width

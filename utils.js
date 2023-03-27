@@ -72,16 +72,17 @@ export function showCursor(){
 export function paddingCenter(s,width,fillChar=" ") { 
     let len = getStringWidth(String(s))
     let llength=parseInt((width-len)/2)
+    if(llength<=0) return s
     return new Array(llength).fill(fillChar).join("")+s+new Array(width-len-llength).fill(fillChar).join("")
 } 
 export function paddingStart(s,width,fillChar=" ") { 
     let len = getStringWidth(String(s)) 
-    if(len>=width) return s
+    if(len>=width) return s 
     return new Array(width-len).fill(fillChar).join("")  + s 
 }  
 export function paddingEnd(s,width,fillChar=" ") { 
     let len = getStringWidth(String(s)) 
-    if(len>=width) return s
+    if(len>=width) return s 
     return s + new Array(width-len).fill(fillChar).join("")
 } 
 // 获取左边连续的字符串

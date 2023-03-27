@@ -1,8 +1,6 @@
-import createLogger from "./index.js" 
-import BannerPlugin from "./banner.plugin.js"
+import createLogger from "./index.js"  
 
-const logger = createLogger()
-logger.use(BannerPlugin)
+const logger = createLogger() 
 
 let banner = logger.banner({ 
 })
@@ -27,5 +25,18 @@ banner.add("Logsets工具库")
     .add("发布日期:{}","2022-01-01",{align: 'right'})
     .add("作者:{author}",{author:"fisher"},{align: 'right'})
     .add("许可证: {#lightYellow} {} {}",["MIT","GPL","Apache 2.0"])
-    .add("Run <{#yellow}> to upgrade","npm upgrade -g @voerkai18n/cli")
+    .add("Run <{#yellow}> to upgrade","npm upgrade -g @voerkai18n/cli") 
+
     .render()
+
+
+
+    const banner1 = logger.banner()
+    banner1.add("VoerkaI18n")
+    banner1.add("VoerkaI18n command line interactive tools",{style:"darkGray"})
+    banner1.add() 
+    banner1.add("installed: {} latest: {}",[1,2])
+    banner1.add("Run <{#yellow}> to upgrade","npm upgrade -g @voerkai18n/cli")
+    banner1.render() 
+
+    
