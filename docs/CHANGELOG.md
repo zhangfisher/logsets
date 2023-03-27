@@ -1,3 +1,13 @@
+## [1.0.40](https://gitee.com/zhangfisher/logsets/compare/1.0.39...1.0.40) (2023-03-27)
+
+
+### Bug Fixes
+
+* **banner:** 更新 ([13d625a](https://gitee.com/zhangfisher/logsets/commits/13d625a8abd598802b53d6895ff6584639dc707b))
+* **banner:** 修复当插值变量指定颜色时计算字符宽度出错而导致的`invalid array length`错误 ([668a3bd](https://gitee.com/zhangfisher/logsets/commits/668a3bd85cf6991c8eea09c3028b8d48ddab0572))
+
+
+
 ## [1.0.39](https://gitee.com/zhangfisher/logsets/compare/1.0.38...1.0.39) (2023-03-01)
 
 
