@@ -1,4 +1,4 @@
-import "flex-tools/string/index.mjs"
+import "flex-tools/string/index.js"
 import colorize, { getColorizeFunction,colorizeString } from './colorize.js'
 import { DefaultOptions } from './consts.js'
 import { paddingCenter,isPlainFunction, consoleOutput, forEachInterpolateVars } from './utils.js'
