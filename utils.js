@@ -72,18 +72,31 @@ export function showCursor(){
 export function paddingCenter(s,width,fillChar=" ") { 
     let len = getStringWidth(String(s))
     let llength=parseInt((width-len)/2)
-    if(llength<=0) return s
-    return new Array(llength).fill(fillChar).join("")+s+new Array(width-len-llength).fill(fillChar).join("")
+   // if(llength<=0) return 
+    try{
+        return new Array(llength).fill(fillChar).join("")+s+new Array(width-len-llength).fill(fillChar).join("")
+    }catch(e){
+        return s
+    }    
 } 
 export function paddingStart(s,width,fillChar=" ") { 
     let len = getStringWidth(String(s)) 
-    if(len>=width) return s 
-    return new Array(width-len).fill(fillChar).join("")  + s 
+   // if(len>=width) return s 
+    try{
+        return new Array(width-len).fill(fillChar).join("")  + s 
+    }catch(e){
+        return s
+    }
+   
 }  
 export function paddingEnd(s,width,fillChar=" ") { 
     let len = getStringWidth(String(s)) 
-    if(len>=width) return s 
-    return s + new Array(width-len).fill(fillChar).join("")
+   // if(len>=width) return s 
+   try{
+        return s + new Array(width-len).fill(fillChar).join("")
+   }catch{
+        return s
+   }    
 } 
 // 获取左边连续的字符串
 export function getLeftRepeatChars(s,char=" "){

@@ -20,7 +20,7 @@ progressbar.end()
 
  */
 
-import deepmerge from 'deepmerge'
+import { deepMerge } from 'flex-tools'
 import { hideCursor,showCursor,consoleOutput } from './utils.js'
 
 // 预设的主题样式
@@ -68,8 +68,8 @@ function createProgressbar(context,options){
             background:{style:PresetThemes[options.theme][1]}
         }
     }
-    opts = deepmerge(DefaultProgressbarOptions,themeStyle)
-    opts = deepmerge(opts,options)
+    opts = deepMerge(DefaultProgressbarOptions,themeStyle)
+    opts = deepMerge(opts,options)
     
     const sliderColorizer = logger.getColorizer(opts.slider.style)
     const bgColorizer = logger.getColorizer(opts.background.style)

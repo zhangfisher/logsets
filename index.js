@@ -1,6 +1,5 @@
-import "flex-tools/string"
+import "flex-tools/string/index.mjs"
 import colorize, { getColorizeFunction,colorizeString } from './colorize.js'
-import deepmerge from 'deepmerge'
 import { DefaultOptions } from './consts.js'
 import { paddingCenter,isPlainFunction, consoleOutput, forEachInterpolateVars } from './utils.js'
 import ansicolor from 'ansicolor'
@@ -9,7 +8,7 @@ import progressbarPlugin from "./progressbar.plugin.js"
 import tablePlugin from "./table.plugin.js"
 import tasklistPlugin from "./tasklist.plugin.js"
 import treePlugin from "./tree.plugin.js"
-import { isPlainObject } from 'flex-tools'
+import { isPlainObject,deepMerge } from 'flex-tools'
 
 const DEBUG = 'DEBUG'
 const INFO  = 'INFO'
@@ -178,7 +177,7 @@ function format(value, options = {}) {
     const opts = Object.assign({ compact: false }, options)
     consoleOutput(colorize(
         value,
-        deepmerge(this, options)
+        deepMerge(this, options)
     )
     )
 }
@@ -209,7 +208,7 @@ function printTemplate(message, ...args) {
  */
 
 function createLogger(opts = {}) {
-    let options = deepmerge(DefaultOptions, opts)
+    let options = deepMerge(DefaultOptions, opts)
     let log = {}
     log.log                  = (message, ...args) => printTemplate.call(options, message, ...args)
     log.print                = (...args) => print.call(options, ...args)
@@ -229,7 +228,7 @@ function createLogger(opts = {}) {
     log.colors               = ansicolor 
     log.config = opts => {
         if (isPlainObject(opts)) {
-            Object.assign(options,deepmerge(options, opts))
+            Object.assign(options,deepMerge(options, opts))
         }
         return log
     }

@@ -43,7 +43,7 @@
  */
 
 import { consoleOutput, getStringWidth } from "./utils.js"
-import deepmerge from 'deepmerge'
+import { deepMerge } from 'flex-tools'
 
 
 
@@ -66,7 +66,7 @@ const DefaultTreeOptions  = {
 
 function createTree(context,options){
     const logger = this 
-    let opts = deepmerge(DefaultTreeOptions,options)
+    let opts = deepMerge(DefaultTreeOptions,options)
     const colorizer = logger.getColorizer
     let curLevel = 0                  // 当前层级
 

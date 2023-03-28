@@ -24,7 +24,7 @@
 
 */
 import { consoleOutput, getLeftRepeatChars, getRightRepeatChars, getStringWidth, paddingCenter,paddingStart, paddingEnd } from "./utils.js"
-import deepmerge from 'deepmerge' 
+import { deepMerge } from 'flex-tools' 
 
 const  DefaultBannersOptions = { 
     indent       : " ",                          // 横幅缩进
@@ -46,7 +46,7 @@ const  DefaultBannersOptions = {
 
 function createBanner(context,options){
     const logger = this 
-    let opts = deepmerge(DefaultBannersOptions,options) 
+    let opts = deepMerge(DefaultBannersOptions,options) 
     let lines = []  // [{text,style,align}] 
     function renderBanner(){
         // 计算最大行宽度

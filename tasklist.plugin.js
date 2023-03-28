@@ -45,8 +45,8 @@ tasks.next()
 
  */
 
-import deepmerge from 'deepmerge'
 import { consoleOutput, getStringWidth,hideCursor,showCursor,newline, paddingEnd } from './utils.js' 
+import {deepMerge} from 'flex-tools'
 
 const DefaultTaskListOptions  = { 
     indent    : "  ",       // 列表缩进 
@@ -115,7 +115,7 @@ const DefaultTaskListOptions  = {
 function createTaskList(context,options){
     const logsets = this  
     if(typeof(options)=="string") options = {title:options}
-    const opts = deepmerge(DefaultTaskListOptions,options) 
+    const opts = deepMerge(DefaultTaskListOptions,options) 
 
     // 显示任务标题 ? bright
     if(opts.title){

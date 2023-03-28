@@ -10,8 +10,7 @@ import {
     repeatChars
   } from './utils.js'
 import ansicolor from 'ansicolor' 
-import deepmerge from 'deepmerge'
-import { isPlainObject } from 'flex-tools';
+import { isPlainObject,deepMerge } from 'flex-tools';
 
 
 const { isEscaped }  = ansicolor
@@ -55,7 +54,7 @@ const DefaultTableOptions  = {
  */
  function createTable (logOptions,options = {}) {
     const logger = this 
-    let tableOptions = deepmerge(DefaultTableOptions,options)
+    let tableOptions = deepMerge(DefaultTableOptions,options)
     let headerData, footerData, bodyData = []  
     let totalCols = 1, colStyles = []   // [{width:10,align:'left'},...]
     const colPadding = tableOptions.colPadding || " "
