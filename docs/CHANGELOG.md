@@ -1,3 +1,12 @@
+## [1.0.42](https://gitee.com/zhangfisher/logsets/compare/1.0.41...1.0.42) (2023-03-28)
+
+
+### Bug Fixes
+
+* 修复type=module时导入flex-tools的问题 ([b392f5e](https://gitee.com/zhangfisher/logsets/commits/b392f5e021b7609d6a03e672af6468ed8d534db9))
+
+
+
 ## [1.0.41](https://gitee.com/zhangfisher/logsets/compare/1.0.40...1.0.41) (2023-03-28)
 
 
