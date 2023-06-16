@@ -1,3 +1,7 @@
+## [1.2.4](https://gitee.com/zhangfisher/logsets/compare/1.2.3...1.2.4) (2023-06-16)
+
+
+
 ## [1.2.3](https://gitee.com/zhangfisher/logsets/compare/1.2.2...1.2.3) (2023-06-16)
 
 
