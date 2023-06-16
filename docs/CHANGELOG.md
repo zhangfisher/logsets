@@ -1,6 +1,11 @@
-## [1.2]
+## [1.2.2](https://gitee.com/zhangfisher/logsets/compare/1.0.42...1.2.2) (2023-06-16)
 
-新建加`createTasks`方法，可以减少使用`tasklist`时的样板代码.
+
+### Features
+
+* **tasklist:** 增加`createTasks`方法简化`tasklist`使用，减少样板代码 ([f43435b](https://gitee.com/zhangfisher/logsets/commits/f43435b48439e65fd5ab8c878f4c5ed134c1b14d))
+
+
 
 ## [1.0.42](https://gitee.com/zhangfisher/logsets/compare/1.0.41...1.0.42) (2023-03-28)
 
