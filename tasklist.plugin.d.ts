@@ -65,14 +65,14 @@ export type CreateTaskDefine = {
     execute:()=>Promise<any>,
     complete:string | ((
         {result,abort,task}:{result?:any, abort?:()=>void,task?:Task}
-    )=>Awaited<string | void>)
+    )=>Awaited<InlineTaskStatus | string | void>)
     error?:string | ((
-        {result,abort,task}:{error?:any, abort?:()=>void,task?:Task}
-    )=>Awaited<string | void>)
+        {error,abort}:{error?:Error, abort?:()=>void}
+    )=>Awaited<InlineTaskStatus | string | void>)
 }  
 export interface CreateTasksOptions{
     abortOnError?:boolean
-    context?:any,
+    context?:any,               
     showLine?:boolean           // 显示任务提示线
 }
 

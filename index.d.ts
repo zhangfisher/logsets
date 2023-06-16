@@ -1,6 +1,6 @@
 import { Class } from './index.d';
 import type { Banner,BannerPluginOptions } from "./banner.plugin"
-import type { Task,TaskList,TaskListPluginOptions } from "./tasklist.plugin"
+import type { Task,TaskList,TaskListPluginOptions,CreateTaskDefine,CreateTasksOptions } from "./tasklist.plugin"
 import type { Progressbar,ProgressbarPluginOptions } from "./progressbar.plugin"
 import type { Tree,TreePluginOptions } from "./tree.plugin"
 import type { Table,TablePluginOptions} from "./table.plugin"
@@ -104,6 +104,7 @@ export interface Logsets{
 
     banner(options?:BannerPluginOptions):Banner
     tasklist(options?:TaskListPluginOptions | string):TaskList<Exclude<(typeof options),undefined>['status']>
+    createTasks(tasks:CreateTaskDefine[],options?:CreateTasksOptions):any[]
     task(title:string,vars?:any[] | Record<string,any>):Task
     task(title:string,...vars:any[]):Task
     progressbar(options?:ProgressbarPluginOptions):Progressbar

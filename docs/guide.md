@@ -794,6 +794,8 @@ const tasks = logsets.createTasks([
 
 
 let results = await tasks.run("开始执行所有任务")
+// 返回任务函数的执行结果，如果任务出错，则会是Error对象
+// results === [any,any,Error,.....,...]
 
 ```
 
@@ -842,7 +844,7 @@ let results = await tasks.run("开始执行所有任务")
     }
 
     ```
-
+ 
 ### API
 
 - **add(title)**
@@ -1336,83 +1338,3 @@ logsets.use(MyPlugin)
 | `options` | 返回当前配置参数 |
 | `colors` | 返回[ansicolor](https://xpl.github.io/ansicolor/)实例 |
 | `config(options={})` | 配置 |
-
-# 更新历史
-
-## 1.0.22
-
-- 增加`TypeScript`类型支持
-- 支持对插值变量进行定制化着色
-
-## 1.0.20
-
-- 增加`task`插件，用来输出单个任务。
-
-## 1.0.19
-
-- 修复`task.note(info)`方法错误.
-
-## 1.0.18
-
-- 增加`task.note(info)`方法，可以在任务执行过程中修改任务的note值.
-
-## 1.0.17
-
-- 修复`logsets.tasklist(title)`未生效的问题.
-
-## 1.0.16
-
-- 更新文档
-- 增加`logsets/utils`用来提供一些工具函数
-
-## 1.0.15
-
-- 内置默认创建`logsets`实例,可以直接引入
-
-``` javascript
-import logsets from "logsets"
-- const logsets = createLogger({...})    
-```
-
-- `getColorizedTemplate` 支持通过数组方式来返回着色后的内容
-
-``` javascript
-import logsets from "logsets"
-console.log(logsets.getColorizedTemplate(["{} + {} = {}",1,1,2]))
-
-// ---以下方式也是支持的，可以创建多个实例----
-import createLogger from "logsets"
-const logsets = createLogger({...}) 
-
-```
-
-- 修复TaskList的标题输出
-
-``` javascript
-import logsets from "logsets"
-const tasks = logsets.tasklist({
-    title:"标题",               // 默认高亮输出
-    title:["共{}个任务",8]      // 默认高亮输出，并且插传值内容按数据类型着色显示
-})
-//或者
-const tasks = logsets.tasklist("标题")
-
-```
-
-## 1.0.14
-
-- 将所有插件内置，不再需要额外引入。
-
-```javascript
-import createLogger from "logsets"
-- import tablePlugin from "logsets/plugins/table"  // 不再需要额外引入
-const logsets = createLogger({...})
-- logsets.use(tablePlugin)    // 不再需要额外引入
-```
-## 1.0.8
-
-- format方法可以通过`{compact:true}`配置支持采用紧凑模式输出。
-
-# 更新历史
-
- [filename](./CHANGELOG.md ':include')
