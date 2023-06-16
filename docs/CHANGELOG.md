@@ -1,3 +1,12 @@
+## [1.2.5](https://gitee.com/zhangfisher/logsets/compare/1.2.4...1.2.5) (2023-06-16)
+
+
+### Bug Fixes
+
+* **tasklist:** 导入问题修复 ([13ee194](https://gitee.com/zhangfisher/logsets/commits/13ee194b50f5c1ed28726f522ea27692ad61364e))
+
+
+
 ## [1.2.4](https://gitee.com/zhangfisher/logsets/compare/1.2.3...1.2.4) (2023-06-16)
 
 
