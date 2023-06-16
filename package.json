@@ -1,6 +1,6 @@
 {
     "name": "logsets",
-    "version": "1.0.42",
+    "version": "1.2.0",
     "description": "Nodejs terminal application output colorized enhancement",
     "main": "dist/index.cjs",
     "module": "dist/index.mjs",
@@ -36,7 +36,7 @@
         "@babel/runtime-corejs3": "^7.17.0",
         "ansicolor": "^1.1.100",
         "core-js": "^3.21.0",
-        "flex-tools": "^1.0.65"
+        "flex-tools": "^1.3.9"
     },
     "devDependencies": {
         "@babel/cli": "^7.17.0",

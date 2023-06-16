@@ -581,6 +581,10 @@ tasks.add("下载文件：{#red },大小:{}, 已下载{}",["package.json",122,34
 // 可以在任务列表之间插入一个分割线
 tasks.separator()
 
+// 增加缩进，每次调用增加一个缩进，可多次调用
+tasks.indent()  
+// 减少缩进
+tasks.outdent()  
 
 
 // 一般用法
@@ -710,6 +714,134 @@ tasks.add("正在连接")
 tasks.connected()
 ```
 
+### 简化任务列表
+
+当需要执行多个任务时，我们需要写很多的样板代码，如：
+```javascript
+const logsets = require("logsets")
+
+const tasks = logsets.tasklist()
+
+try{
+    tasks.add("任务1")
+    await task1()
+    tasks.complete()
+}catch(e){
+    tasks.error(e)
+}
+//....
+
+try{
+    tasks.add("任务n")
+    await taskn()
+    tasks.complete()
+}catch(e){
+    tasks.error(e)
+}
+
+```
+
+我们提供了一个API，可以简化上述代码，如下：
+
+```javascript
+
+const tasks = logsets.createTasks([
+        {
+            title:"开始扫描文件",
+            execute:async ()=>{await delay(100);return 1}            
+        },
+        {   title:"准备对文件进行预处理",
+            execute:async ()=>await delay(100),
+            complete:"已完成"
+        },
+        {
+            title:"读取文件并编译成exe文件",
+            execute:async ()=>await delay(100),
+            complete:({task})=>task.stop()
+        },
+        {
+            title:"任务处理被停止",
+            execute:async ()=>await delay(100),
+            complete:"ignore"
+        },
+        "-",
+        {
+            title:"任务执行失败",
+            execute:async ()=>{throw new Error("TimeOut")}
+        },
+        {
+            title:"任务待办状态",
+            execute:async ()=>{throw new Error("TimeOut")},
+            error:"出错了"
+        },    
+        "出错处理",
+        {
+            title:["下载文件：{},大小:{}, 已下载{}","package.json",122,344],
+            execute:async ()=>{throw new Error("TimeOut")},
+            error:"出错了:{message}"
+        },
+        {
+            title:["下载文件：{},大小:{}, 已下载{}",["package.json",122,344]],
+            execute:async ()=>{throw new Error("TimeOut")},
+            error:()=>"X"
+        },
+        {
+            title:["下载文件：{},大小:{}, 已下载{}",["package.json",122,344]],
+            execute:async ()=>{throw new Error("TimeOut")},
+            error:()=>"skip"
+        },      
+    ],{abortOnError:false})
+
+
+let results = await tasks.run("开始执行所有任务")
+
+```
+
+运行后的效果如下：
+
+![](./images/createTasks.png)
+
+- `createTasks`方法接受两个参数，第一个参数是任务列表，第二个参数是配置参数。
+- 任务列表结构如下:
+
+    ```javascript
+    {
+        title:"任务标题", // 任务标题，可以是字符串或者数组，数组中的字符串可以包含插值变量
+        execute:async ()=>{//...}, // 任务执行函数，可以是一个异步函数，也可以是一个返回Promise的函数
+        // 任务完成后的状态，可以是字符串、函数
+        // 字符串： 显示完成提示信息        
+        complete:"任务完成", 
+        // 函数:  如果是函数，当任务成功执行时会传入3个参数
+        complete:({result,abort,task})=>{
+            // result: 任务执行结果,即execute函数的返回值
+            // abort:  任务终止函数，调用后会终止后续的执行任务
+            // task:   当前任务对象，可以调用task.error()、task.skip()等方法            
+
+            // 返回值可以是字符串、函数
+            // 字符串： 显示完成提示信息
+            return "任务状态,"  //'ignore' | 'running' | 'complete' | 'error' | 'abort' | 'fail' | 'cancel' | 'skip' | 'stop' | 'todo'
+            return "skip"           // 代表该任务被跳过，等效于task.skip()
+            return "ignore"         // 代表该任务ignore，等效于task.ignore()
+            return "其他任意字符串" // 代表该任务完成，等效于task.complete("其他任意字符串" )
+            // 函数:  如果是函数
+            return ()=>{
+                task.skip()
+            }
+        },
+        // 当任务执行失败时的状态，可以是字符串、函数
+        error:"任务状态",//'ignore' | 'running' | 'complete' | 'error' | 'abort' | 'fail' | 'cancel' |  'skip' | 'stop' | 'todo'  
+        error:"skip"           // 代表该任务被跳过，等效于task.skip()
+        error:"ignore"         // 代表该任务ignore，等效于task.ignore()
+        error:"任务失败提示",   // 代表该任务失败，等效于task.error("任务失败提示" )
+        error:"任务出错:{message}",   // 代表该任务失败，等效于task.error(`任务失败提示${error.message}` )
+        error:"任务出错:{code}",   // 代表该任务失败，等效于task.error(`任务失败提示${error.code}` )
+        error:"任务出错:{stack}",   // 代表该任务失败，等效于task.error(`任务失败提示${error.stack}` )
+        error:({error,abort})=>{
+            // 返回以上任务状态或错误提示信息
+        }
+    }
+
+    ```
 
 ### API
 
@@ -721,6 +853,15 @@ tasks.connected()
 - **<状态名称>(note)**
 
   使当前正在进行的任务结束并进入指定的状态，传入的可选的`note`参数显示在最右侧。
+
+- **indent**
+
+    增加缩进，每次调用增加一个缩进，可多次调用
+
+- **outdent**
+
+    减少缩进
+
 
 ## 任务
 

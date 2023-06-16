@@ -1,3 +1,7 @@
+## [1.2]
+
+新建加`createTasks`方法，可以减少使用`tasklist`时的样板代码.
+
 ## [1.0.42](https://gitee.com/zhangfisher/logsets/compare/1.0.41...1.0.42) (2023-03-28)
 
 

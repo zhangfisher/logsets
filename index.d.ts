@@ -103,7 +103,7 @@ export interface Logsets{
     config(options:LogsetsOptions):Logsets
 
     banner(options?:BannerPluginOptions):Banner
-    tasklist(options?:TaskListPluginOptions):TaskList<Exclude<(typeof options),undefined>['status']>
+    tasklist(options?:TaskListPluginOptions | string):TaskList<Exclude<(typeof options),undefined>['status']>
     task(title:string,vars?:any[] | Record<string,any>):Task
     task(title:string,...vars:any[]):Task
     progressbar(options?:ProgressbarPluginOptions):Progressbar

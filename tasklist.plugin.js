@@ -2,10 +2,10 @@
 /**
 import createLogger from "coloredLogger"
 import tasklistPlugin from "logsets/plugins/progressbar"" 
-const logger = createLogger({...})
-logger.use(tasklistPlugin)
+const logsets = createLogger({...})
+logsets.use(tasklistPlugin)
 
-const tasks = logger.tasklist({
+const tasks = logsets.tasklist({
      
 })
 
@@ -45,8 +45,8 @@ tasks.next()
 
  */
 
-import { consoleOutput, getStringWidth,hideCursor,showCursor,newline, paddingEnd } from './utils.js' 
-import {deepMerge} from 'flex-tools'
+import { consoleOutput, getStringWidth,hideCursor,showCursor,newline, paddingEnd ,paddingCenter} from './utils.js' 
+import { deepMerge } from 'flex-tools/object/deepMerge.mjs'
 
 const DefaultTaskListOptions  = { 
     indent    : "  ",       // 列表缩进 
@@ -114,9 +114,8 @@ const DefaultTaskListOptions  = {
   
 function createTaskList(context,options){
     const logsets = this  
-    if(typeof(options)=="string") options = {title:options}
-    const opts = deepMerge(DefaultTaskListOptions,options) 
-
+    const opts = deepMerge({},DefaultTaskListOptions,options) 
+    let curIndent = opts.indent
     // 显示任务标题 ? bright
     if(opts.title){
         let titleColorizer = logsets.getColorizer(opts.style)
@@ -171,7 +170,7 @@ function createTaskList(context,options){
             // 显示note
             let note =listNote || opts.status[status].note
             note = paddingEnd(getColorizer(opts.status[status].style)(note),30)
-            consoleOutput(`${opts.indent}${symbol} ${title}${progressbar}${note}`,{end:"\r"})
+            consoleOutput(`${curIndent}${symbol} ${title}${progressbar}${note}`,{end:"\r"})
         }
         self.start = function(){
             timer = setInterval(()=>{
@@ -185,6 +184,10 @@ function createTaskList(context,options){
             newline()
             showCursor()
         }
+        self.indent = (str)=>{curIndent = curIndent+ (str? str : opts.indent);}
+        self.outdent = (reset)=>{
+            curIndent = (curIndent=='' || reset==true) ? opts.indent : curIndent.substring(0,curIndent.length-opts.indent.length)
+        }        
         Object.entries(opts.status).forEach(([key,state])=>{
             self[key] = (note)=>{            
                 let finalNote = note
@@ -198,6 +201,7 @@ function createTaskList(context,options){
     }
 
     let tasklistObj =  {
+        options:opts,
         add(...args){
             // 自动完成上一个任务
             if(curTask && !curTask.isEnd()){ 
@@ -207,6 +211,12 @@ function createTaskList(context,options){
             curTask.start()
             hideCursor()
             return curTask
+        },
+        indent(str){
+            curTask.indent(str)
+        },
+        outdent(reset){
+            curTask.outdent(reset)
         },
         // 运行workr任务函数
         async run(){
@@ -262,12 +272,16 @@ function createTaskList(context,options){
             }
             return result
         },
-        separator(char="─"){
+        separator(title="",char="─"){
+            if(!title) title=''
+            if(title=="-") title = "─"
             if(curTask && !curTask.isEnd()){ 
                 curTask.abort()
                 curTask=null
             }
-            consoleOutput(opts.indent + logsets.colors.darkGray(new Array(opts.width + 2).fill(char).join("")))
+            consoleOutput(opts.indent + logsets.colors.darkGray(paddingCenter(title,opts.width+4,char)))
+            
+            // consoleOutput(opts.indent + logsets.colors.darkGray(new Array(opts.width + 2).fill(char).join("")))
         }
     }
     Object.entries(opts.status).forEach(([key,state])=>{
@@ -282,14 +296,124 @@ function createTaskList(context,options){
  
 /**
  * 
- * @param {*} log 
- * @param {*} context  当前表格的上下文配置参数
+ * 创建多任务列表
+ * 
+ * let tasks = createTasks([
+ *      {
+ *          title:"任务标题",
+ *          execute:async ()=>{...}
+ *          complete:"任务完成时显示的内容", 
+ *          complete:async ({result,abort,task})=>{
+ *              abort() // 调用abort()中止后续任务
+ *              return "显示内容：如果没有则显示打钩符号代表完成"
+ *              return "skip"           // 跳过
+ *              return ()=>{
+ *                  task.skip()
+ *              }           // 执行其他状态方法  
+ *          },
+ *          error:"任务出错时显示的内容:{error}代表错误信息",
+ *          error:async (result:any,next,abort)=>{
+ * 
+ *          },
+ *          
+ * 
+ *      }
+ * 
+ * ],{
+ *  abortOnError:true               // 当某个任务出错时是否中止后续任务
+ *  context?:any                    // 任务执行上下文，用来传递给execute函数
+ * }})
+ * 
+ * 
+ * results = await tasks.run()          // 执行任务后择业
+ * 
+ * 
+ * @param {CreateTaskOptions} options 
  */
- export default function(logger,context){
-    logger.tasklist = (opts={})=>createTaskList.call(logger,context,opts)
-    logger.task = (...args)=>{
-        let tasks = createTaskList.call(logger,context,{title:null,indent:"",width:62})
+export function createTasks(context,tasks=[],options={}){
+    const {abortOnError=true,context:taskContext,showLine=false} = options || {}
+    const logsets = this
+    if(!Array.isArray(tasks)) throw new TypeError("tasks must be an array")
+    return {
+        run:async (title)=>{
+            let isAbort = false,hasError
+            let taskList = logsets.tasklist({
+                title,
+                indent:showLine ? " ├─ " : "  "
+            })
+            let results=[]
+            const abort =()=>{isAbort=true}
+            for(let i=0;i<tasks.length;i++){
+                const taskInfo = tasks[i]
+                const taskTitle = (Array.isArray(tasks[i].title) ? tasks[i].title: [tasks[i].title])
+                const task = typeof(taskInfo)=="string" ? taskList.separator(taskInfo) : taskList.add(...taskTitle)
+                if(typeof(taskInfo)=="string") continue // 忽略分割符                
+                if(isAbort) task.skip()
+                if(i==tasks.length-1){
+                    
+                }
+                if(typeof(taskInfo.execute)=="function"){
+                    try{
+                        const result = await taskInfo.execute.call(taskContext)                        
+                        results.push(result)         
+                        let completeTip = taskInfo.complete
+                        if(typeof(taskInfo[completeTip])=="function"){
+                            completeTip = await completeTip.call(taskContext,{result,abort,task})
+                        }
+                        if(typeof(completeTip)=='string' && (completeTip in taskList.options.status)){
+                            task[completeTip]()
+                        }else if(typeof(completeTip)=='function'){
+                            completeTip.call(taskContext,{result,abort,task})
+                        }else{
+                            task.complete(completeTip)
+                        }               
+                    }catch(error){
+                        hasError=error
+                        results.push(error)
+                        let errorTips = taskInfo.error
+                        if(typeof(taskInfo.error)=="function"){
+                            errorTips = await taskInfo.error.call(taskContext,{error,abort})
+                        }
+                        if(typeof(errorTips)=='string'){
+                            if((errorTips in taskList.options.status)){
+                                task[errorTips]()
+                            }else{
+                                errorTips=errorTips.replace("{message}",error.message)
+                                errorTips=errorTips.replace("{code}",error.code)
+                                errorTips=errorTips.replace("{stack}",error.stack)
+                                task.error(errorTips || error.message)
+                            }
+                        }else{
+                            task.error(errorTips || error.message)
+                        }
+                    }
+                }else{
+                    task.empty('未定义任务函数')
+                } 
+                if(hasError && abortOnError){
+                    throw hasError
+                }
+            }
+            return results
+        }    
+    }
+
+}
+
+/**
+ * 
+ * @param {*} log  指向logsets实例
+ * @param {*} context  指向logsets实例的context
+ */
+ export default function(logsets,context){
+    logsets.tasklist = (opts)=>{
+        if(typeof(opts)=="string") opts={title:opts}
+        return createTaskList.call(logsets,context,opts)
+    }
+    logsets.task = (...args)=>{
+        let tasks = createTaskList.call(logsets,context,{title:null,indent:"",width:62})
         return tasks.add(...args)
     }
+    logsets.createTasks=(tasks,opts)=>createTasks.call(logsets,context,tasks,opts)
 }
  

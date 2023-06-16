@@ -58,5 +58,24 @@ export declare const TaskListPlugin: {
     (logsets:Logsets,options:DeepRequired<TaskListPluginOptions>):TaskList
 }
 
+
+// createTasks类型
+export type CreateTaskDefine = {
+    title:string | [string,...rest]
+    execute:()=>Promise<any>,
+    complete:string | ((
+        {result,abort,task}:{result?:any, abort?:()=>void,task?:Task}
+    )=>Awaited<string | void>)
+    error?:string | ((
+        {result,abort,task}:{error?:any, abort?:()=>void,task?:Task}
+    )=>Awaited<string | void>)
+}  
+export interface CreateTasksOptions{
+    abortOnError?:boolean
+    context?:any,
+    showLine?:boolean           // 显示任务提示线
+}
+
+
 export default TaskListPlugin
  
