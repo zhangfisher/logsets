@@ -797,6 +797,11 @@ let results = await tasks.run("开始执行所有任务")
 // 返回任务函数的执行结果，如果任务出错，则会是Error对象
 // results === [any,any,Error,.....,...]
 
+if(results.errors){
+// results.errors=[Error,Error,...]
+}
+
+
 ```
 
 运行后的效果如下：
