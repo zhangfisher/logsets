@@ -76,6 +76,10 @@ export interface CreateTasksOptions{
     showLine?:boolean           // 显示任务提示线
 }
 
+export type TaskRunner={
+    run(title?:string):(any[] & {errors?:Error[]})
+}
+
 
 export default TaskListPlugin
  

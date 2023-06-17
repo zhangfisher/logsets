@@ -186,7 +186,7 @@ function createTaskList(context,options){
             newline()
             showCursor()
         }
-        self.indent = (str)=>{curIndent = curIndent+ (str? str : opts.indent);}
+        self.indent = ()=>{curIndent = curIndent + opts.indent}
         self.outdent = (reset)=>{
             curIndent = (curIndent=='' || reset==true) ? opts.indent : curIndent.substring(0,curIndent.length-opts.indent.length)
         }        
@@ -351,9 +351,6 @@ export function createTasks(context,tasks=[],options={}){
                 const task = typeof(taskInfo)=="string" ? taskList.separator(taskInfo) : taskList.add(...taskTitle)
                 if(typeof(taskInfo)=="string") continue // 忽略分割符                
                 if(isAbort) task.skip()
-                if(i==tasks.length-1){
-                    
-                }
                 if(typeof(taskInfo.execute)=="function"){
                     try{
                         const result = await taskInfo.execute.call(taskContext)                        
@@ -395,6 +392,10 @@ export function createTasks(context,tasks=[],options={}){
                 if(hasError && abortOnError){
                     throw hasError
                 }
+            }
+            const errors = results.filter(r=>r instanceof Error)
+            if(errors && errors.length>0){
+                results.errors=erros
             }
             return results
         }    
