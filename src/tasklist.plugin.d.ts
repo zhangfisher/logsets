@@ -73,7 +73,7 @@ export type CreateTaskDefine = {
 export interface CreateTasksOptions{
     abortOnError?:boolean
     context?:any,               
-    showLine?:boolean           // 显示任务提示线
+    showLine?:boolean,           // 显示任务提示线 
 }
 
 export type TaskRunner={

@@ -395,7 +395,7 @@ export function createTasks(context,tasks=[],options={}){
             }
             const errors = results.filter(r=>r instanceof Error)
             if(errors && errors.length>0){
-                results.errors=erros
+                results.errors=errors
             }
             return results
         }    

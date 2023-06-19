@@ -1,4 +1,4 @@
-import logsets from "./index.js"  
+import logsets from "../src/index.js"  
 
 async function delay(n=10){
     return new Promise(resolve=>setTimeout(resolve,n))
@@ -52,7 +52,7 @@ const tasks = logsets.createTasks([
     ],{abortOnError:false})
 
 
-let results = await tasks.run("开始执行所有任务")
+let results = await tasks.run(["开始执行{}任务",5])
 
 console.log(results)
 

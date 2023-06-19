@@ -6,7 +6,7 @@
     "module": "dist/index.mjs",
     "homepage": "https://zhangfisher.github.io/logsets/",
     "type": "module",
-    "types": "./index.d.ts",
+    "types": "./src/index.d.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "rollup -c",
@@ -36,7 +36,7 @@
         "@babel/runtime-corejs3": "^7.17.0",
         "ansicolor": "^1.1.100",
         "core-js": "^3.21.0",
-        "flex-tools": "^1.3.9"
+        "flex-tools": "^1.3.12"
     },
     "devDependencies": {
         "@babel/cli": "^7.17.0",

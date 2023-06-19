@@ -17,7 +17,7 @@ const plugins =  [
 ]
 export default  [
     {
-        input:  './index.js', 
+        input:  './src/index.js', 
         output: [
             {
                 file: 'dist/index.mjs', 
@@ -33,7 +33,7 @@ export default  [
         external:["@babel/runtime"]
     },
     {
-        input:  './utils.js', 
+        input:  './src/utils.js', 
         output: [
             {
                 file: 'dist/utils.mjs', 

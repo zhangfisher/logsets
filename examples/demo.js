@@ -1,4 +1,4 @@
-import logsets from "./index.js" 
+import logsets from "../src/index.js" 
  
 logsets.print(/^colored$/g)
 
