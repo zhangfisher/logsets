@@ -344,17 +344,21 @@ export function createTasks(context,tasks=[],options={}){
                 indent:showLine ? " ├─ " : "  "
             })
             let results=[]
+            let taskResult = undefined          // 任务执行结果
             const abort =()=>{isAbort=true}
             for(let i=0;i<tasks.length;i++){
                 const taskInfo = tasks[i]
                 const taskTitle = (Array.isArray(tasks[i].title) ? tasks[i].title: [tasks[i].title])
                 const task = typeof(taskInfo)=="string" ? taskList.separator(taskInfo) : taskList.add(...taskTitle)
                 if(typeof(taskInfo)=="string") continue // 忽略分割符                
-                if(isAbort) task.skip()
+                if(isAbort) {
+                    task.abort()
+                    break
+                }
                 if(typeof(taskInfo.execute)=="function"){
                     try{
-                        const result = await taskInfo.execute.call(taskContext)                        
-                        results.push(result)         
+                        taskResult = await taskInfo.execute.call(taskContext,taskResult)                        
+                        results.push(taskResult)         
                         let completeTip = taskInfo.complete
                         if(typeof(taskInfo[completeTip])=="function"){
                             completeTip = await completeTip.call(taskContext,{result,abort,task})
@@ -374,7 +378,10 @@ export function createTasks(context,tasks=[],options={}){
                             errorTips = await taskInfo.error.call(taskContext,{error,abort})
                         }
                         if(typeof(errorTips)=='string'){
-                            if((errorTips in taskList.options.status)){
+                            if(errorTips.toLowerCase()=="abort"){
+                                task.abort(`ABORT:${error.message}`)                                
+                                break
+                            }else if((errorTips in taskList.options.status)){
                                 task[errorTips]()
                             }else{
                                 errorTips=errorTips.replace("{message}",error.message)

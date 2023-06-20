@@ -793,16 +793,15 @@ const tasks = logsets.createTasks([
     ],{abortOnError:false})
 
 
-let results = await tasks.run("开始执行所有任务")
-// 返回任务函数的执行结果，如果任务出错，则会是Error对象
-// results === [any,any,Error,.....,...]
-
-if(results.errors){
-// results.errors=[Error,Error,...]
+try{
+    let results = await tasks.run("开始执行所有任务") 
+}catch(e){
+    console.log(e)
 }
 
-
 ```
+
+ 
 
 运行后的效果如下：
 
@@ -814,7 +813,12 @@ if(results.errors){
     ```javascript
     {
         title:"任务标题", // 任务标题，可以是字符串或者数组，数组中的字符串可以包含插值变量
-        execute:async ()=>{//...}, // 任务执行函数，可以是一个异步函数，也可以是一个返回Promise的函数
+        title:["任务标题{},{},{}",1,2,3], // 任务标题可以是字符串数组，对插值变量进行自动着色
+        execute:async (preResult)=>{
+            // preResult: 上一个任务的执行结果
+            // throw new Error("TimeOut")  // 任务执行失败
+        },
+        }, // 任务执行函数，可以是一个异步函数，也可以是一个返回Promise的函数
         // 任务完成后的状态，可以是字符串、函数
         // 字符串： 显示完成提示信息        
         complete:"任务完成", 
@@ -832,12 +836,13 @@ if(results.errors){
             return "其他任意字符串" // 代表该任务完成，等效于task.complete("其他任意字符串" )
             // 函数:  如果是函数
             return ()=>{
-                task.skip()
+                task.skip()             // 显示skip状态提示
             }
         },
         // 当任务执行失败时的状态，可以是字符串、函数
         error:"任务状态",//'ignore' | 'running' | 'complete' | 'error' | 'abort' | 'fail' | 'cancel' |  'skip' | 'stop' | 'todo'  
         error:"skip"           // 代表该任务被跳过，等效于task.skip()
+        error:"abort"          // 代表该任务被终止，等效于task.abort()
         error:"ignore"         // 代表该任务ignore，等效于task.ignore()
         error:"任务失败提示",   // 代表该任务失败，等效于task.error("任务失败提示" )
         error:"任务出错:{message}",   // 代表该任务失败，等效于task.error(`任务失败提示${error.message}` )
@@ -849,6 +854,16 @@ if(results.errors){
     }
 
     ```
+
+- `complete`用来配置当`execute`函数执行成功后的显示的状态文本。
+- 默认情况下，当执行任务函数`execute`出错时，`error`用来配置当`execute`函数执行出错后的的行为:
+    - `error='ignore' | 'running' | 'complete' | 'error' | 'fail' | 'cancel' | 'skip' | 'stop' | 'todo' `显示对应的状态文本。
+    - `error=abort`：终止后续任务的执行。   
+    - `error=任意字符串`: 直接显示
+    - `error=({error,abort})=>{}`：函数返回值可以是以上任意值。
+- `execute`函数的传入参数是上一个任务的执行结果，如果是第一个任务，则为`undefined`。
+- 默认情况下`abortOnError=true`，执行任务失败则会中止后续任务的执行。如果配置为`abortOnError=false`，则会继续执行后续任务，其行为由每个任务的`error`配置决定是否继续执行。
+- 在`complete`函数中可以显式地调用`abort()`方法来终止后续任务的执行。
  
 ### API
 

@@ -21,7 +21,7 @@ const tasks = logsets.createTasks([
         {
             title:"任务处理被停止",
             execute:async ()=>await delay(100),
-            complete:"ignore"
+            complete:({abort})=>abort()
         },
         "-",
         {
