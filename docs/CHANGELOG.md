@@ -1,3 +1,12 @@
+## [1.2.9](https://gitee.com/zhangfisher/logsets/compare/1.2.8...1.2.9) (2023-06-20)
+
+
+### Features
+
+* **tasklist:** 优化createTasks出错时的执行逻辑 ([2ce5fa2](https://gitee.com/zhangfisher/logsets/commits/2ce5fa232a9cdbc0a6b5dca968fddb76640b273d))
+
+
+
 ## [1.2.8](https://gitee.com/zhangfisher/logsets/compare/1.2.7...1.2.8) (2023-06-19)
 
 
