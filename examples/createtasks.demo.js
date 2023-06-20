@@ -10,6 +10,10 @@ const tasks = logsets.createTasks([
             execute:async ()=>{await delay(100);return 1}            
         },
         {   title:"准备对文件进行预处理",
+            execute:async ()=>{throw new Error("已安装")},
+            error:"abort"
+        },
+        {   title:"准备对文件进行预处理",
             execute:async ()=>await delay(100),
             complete:"已完成"
         },
