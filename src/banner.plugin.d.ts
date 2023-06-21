@@ -1,5 +1,5 @@
 import type { NamedColorStyles } from "./colors"
-import type { Logsets } from "../dist/index.cjs"
+import type { Logsets } from "./"
 import type { DeepRequired } from "ts-essentials"
 
 export interface BannerPluginOptions  { 

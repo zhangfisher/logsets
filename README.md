@@ -7,15 +7,16 @@
 - 支持强大的表格输出
 - 支持输出任务列表、进度条、横幅和树等扩展
 - 正确处理中文与英文混排时的对齐问题
+- 提供任务执行列表显示
 
 
 # **开源推荐：** 
 
 - **`VoerkaI18n`**: [基于Nodejs/React/Vue的一键国际化解决方案](https://zhangfisher.github.io/voerka-i18n/)
 - **`Logsets`**: [命令行应用增强输出库](https://zhangfisher.github.io/logsets/)
-- **`AutoPub`**:  [基于pnpm/monorepo的自动发包工具](https://zhangfisher.github.io/autopub/)
 - **`FlexDecorators`**:  [JavaScript/TypeScript装饰器开发](https://zhangfisher.github.io/flex-decorators/)
 - **`FlexState`**:  [有限状态机实现]](https://zhangfisher.github.io/flexstate/)
+- **`AutoPub`**:  [基于pnpm/monorepo的自动发包工具](https://zhangfisher.github.io/autopub/)
 
 
 # 安装
@@ -69,10 +70,16 @@ pnpm add logsets
 
 - 任务列表
 
-![image](./docs/images/tasklist.demo.gif) 
+![](./docs/images/tasklist.demo.gif) 
+![](./docs/images/createTasks.png) 
+
 
 - 树
 
 ![](./docs/images/tree1.png)
 ![](./docs/images/tree2.png)
+
+- 列表
+
+![](./docs/images/list.png)
 

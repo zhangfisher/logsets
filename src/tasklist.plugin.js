@@ -332,79 +332,79 @@ function createTaskList(context,options){
  * 
  * @param {CreateTaskOptions} options 
  */
-export function createTasks(context,tasks=[],options={}){
-    const {abortOnError=true,context:taskContext,showLine=false} = options || {}
+export function createTasks(logsetContext,tasks=[],options={}){
+    const {abortOnError=true,ignoreErrors=false} = options || {}
     const logsets = this
     if(!Array.isArray(tasks)) throw new TypeError("tasks must be an array")
     return {
-        run:async (title)=>{
-            let isAbort = false,hasError
+        run:async (title,context)=>{
+            let hasError = false
             let taskList = logsets.tasklist({
                 title,
-                indent:showLine ? " ├─ " : "  "
+                indent:"  "
             })
-            let results=[]
-            let taskResult = undefined          // 任务执行结果
-            const abort =()=>{isAbort=true}
+            const ctx = context || {}
+            let errors=[]
+            let hasAbort =false
             for(let i=0;i<tasks.length;i++){
                 const taskInfo = tasks[i]
                 const taskTitle = (Array.isArray(tasks[i].title) ? tasks[i].title: [tasks[i].title])
                 const task = typeof(taskInfo)=="string" ? taskList.separator(taskInfo) : taskList.add(...taskTitle)
                 if(typeof(taskInfo)=="string") continue // 忽略分割符                
-                if(isAbort) {
-                    task.abort()
-                    break
-                }
                 if(typeof(taskInfo.execute)=="function"){
                     try{
-                        taskResult = await taskInfo.execute.call(taskContext,taskResult)                        
-                        results.push(taskResult)         
-                        let completeTip = taskInfo.complete
-                        if(typeof(taskInfo[completeTip])=="function"){
-                            completeTip = await completeTip.call(taskContext,{result,abort,task})
-                        }
-                        if(typeof(completeTip)=='string' && (completeTip in taskList.options.status)){
-                            task[completeTip]()
-                        }else if(typeof(completeTip)=='function'){
-                            completeTip.call(taskContext,{result,abort,task})
+                        const result = await taskInfo.execute.call(ctx,ctx)   
+                        let [status,tip]=result ? (Array.isArray(result) ? result : (
+                            result in taskList.options.status ? [result] : ["complete",result])) : ["complete"]
+                        status = status.toLowerCase()
+                        if(status=='abort'){
+                            task.abort(tip)
+                            hasAbort=true
+                            if(!ignoreErrors) break
+                        }else if(status in taskList.options.status){
+                            task[status](tip)
                         }else{
-                            task.complete(completeTip)
-                        }               
+                            task.complete(tip)
+                        }
                     }catch(error){
                         hasError=error
-                        results.push(error)
-                        let errorTips = taskInfo.error
+                        errors.push(error)
+                        let errorResult = taskInfo.error
                         if(typeof(taskInfo.error)=="function"){
-                            errorTips = await taskInfo.error.call(taskContext,{error,abort})
+                            errorResult = await taskInfo.error.call(ctx,{error,context:ctx})
                         }
-                        if(typeof(errorTips)=='string'){
-                            if(errorTips.toLowerCase()=="abort"){
-                                task.abort(`ABORT:${error.message}`)                                
-                                break
-                            }else if((errorTips in taskList.options.status)){
-                                task[errorTips]()
-                            }else{
-                                errorTips=errorTips.replace("{message}",error.message)
-                                errorTips=errorTips.replace("{code}",error.code)
-                                errorTips=errorTips.replace("{stack}",error.stack)
-                                task.error(errorTips || error.message)
-                            }
+                        let [errStatus,errTip]= errorResult ? (Array.isArray(errorResult) ? errorResult : (
+                            errorResult in taskList.options.status ? [errorResult] : ["error",errorResult])) : ["error"]                        
+                        errStatus = errStatus.toLowerCase()
+                        if(typeof(errTip)=='string'){
+                            errTip=errTip.replace("{message}",error.message)
+                            errTip=errTip.replace("{code}",error.code)
+                            errTip=errTip.replace("{stack}",error.stack)
+                        }                        
+                        if(errStatus=='abort'){
+                            task.abort(errTip)
+                            hasAbort=true
+                            if(!ignoreErrors) break
+                        }else if(errStatus in taskList.options.status){
+                            task[errStatus](errTip)
                         }else{
-                            task.error(errorTips || error.message)
+                            task.error(errTip)
                         }
                     }
                 }else{
-                    task.empty('未定义任务函数')
+                    task.skip()
                 } 
-                if(hasError && abortOnError){
+                if(!ignoreErrors && hasError && (abortOnError || hasAbort)){
                     throw hasError
                 }
             }
-            const errors = results.filter(r=>r instanceof Error)
-            if(errors && errors.length>0){
-                results.errors=errors
+            if(!ignoreErrors && hasError && (abortOnError || hasAbort)){
+                throw hasError
             }
-            return results
+            if(errors && errors.length>0){
+                ctx.errors=errors
+            }
+            return ctx
         }    
     }
 

@@ -1,4 +1,3 @@
-import { Class } from './index.d';
 import type { Banner,BannerPluginOptions } from "./banner.plugin"
 import type { Task,TaskList,TaskListPluginOptions,CreateTaskDefine,CreateTasksOptions,TaskRunner } from "./tasklist.plugin"
 import type { Progressbar,ProgressbarPluginOptions } from "./progressbar.plugin"
@@ -6,6 +5,7 @@ import type { Tree,TreePluginOptions } from "./tree.plugin"
 import type { Table,TablePluginOptions} from "./table.plugin"
 import type { NamedColorStyles } from "./colors"
 import type ansicolor from "ansicolor"
+import type { ListPluginOptions,ListItem} from './list.plugin';
 
 export type Class = new (...args: any[]) => any
 
@@ -110,6 +110,7 @@ export interface Logsets{
     progressbar(options?:ProgressbarPluginOptions):Progressbar
     tree(options?:TreePluginOptions):Tree
     table(options?:TablePluginOptions):Table
+    list(title:string | [string,...any] ,items:(string|ListItem)[],options?:ListPluginOptions):void
 }
 
 

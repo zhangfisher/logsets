@@ -2,7 +2,7 @@ module.exports = {
 	extends: ["@commitlint/config-conventional"],
 	defaultIgnores: false,
 	rules: { 
-        "scope-enum":[1,"always",["core","banner","progressbar","tree","table","tasklist"]]
+        "scope-enum":[1,"always",["core","banner","progressbar","tree","table","tasklist","list"]]
     },
 	prompt: {
         settings:{

@@ -8,6 +8,7 @@ import progressbarPlugin from "./progressbar.plugin.js"
 import tablePlugin from "./table.plugin.js"
 import tasklistPlugin from "./tasklist.plugin.js"
 import treePlugin from "./tree.plugin.js"
+import listPlugin from "./list.plugin.js"
 import { isPlainObject,deepMerge } from 'flex-tools'
 
 const DEBUG = 'DEBUG'
@@ -44,9 +45,13 @@ const FATAL = 'FATAL'
  * @param  {Array | object} vars
  * @returns
  */
-function getColorizedTemplate(template,...args) {
+function getColorizedTemplate(template,...args) {    
     let logOptions = this
     let vars
+    if(arguments.length===1 && Array.isArray(arguments[0])){
+        template = arguments[0][0]
+        args= [...arguments][0].slice(1)
+    }
     if (args.length === 1){
         vars =  typeof args[0] === 'function' ? args[0]() : 
          (isPlainObject(args[0]) ? args[0] : (Array.isArray(args[0]) ? args[0] : [args[0]]))
@@ -238,6 +243,7 @@ function createLogger(opts = {}) {
     log.use(tablePlugin)
     log.use(tasklistPlugin)
     log.use(treePlugin)
+    log.use(listPlugin)
     return log
 }
 

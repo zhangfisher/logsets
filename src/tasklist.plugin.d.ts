@@ -62,22 +62,18 @@ export declare const TaskListPlugin: {
 // createTasks类型
 export type CreateTaskDefine = {
     title:string | [string,...rest]
-    execute:(result:any)=>Promise<any>,
-    complete:string | ((
-        {result,abort,task}:{result?:any, abort?:()=>void,task?:Task}
-    )=>Awaited<InlineTaskStatus | string | void>)
+    execute:(context?:any)=>Promise<InlineTaskStatus | string | [InlineTaskStatus,string] | void>,
     error?:string | ((
-        {error,abort}:{error?:Error, abort?:()=>void}
-    )=>Awaited<InlineTaskStatus | string | void>)
+        {error}:{error?:Error}
+    )=>Awaited<InlineTaskStatus | string | [InlineTaskStatus,string] | void>)
 }  
 export interface CreateTasksOptions{
     abortOnError?:boolean
-    context?:any,               
-    showLine?:boolean,           // 显示任务提示线 
+    ignoreErrors?:boolean          
 }
 
 export type TaskRunner={
-    run(title?:string):any
+    run(title?:string,context?:any):any
 }
 
 

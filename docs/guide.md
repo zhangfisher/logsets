@@ -714,9 +714,33 @@ tasks.add("正在连接")
 tasks.connected()
 ```
 
-### 简化任务列表
+### API
 
-当需要执行多个任务时，我们需要写很多的样板代码，如：
+- **add(title)**
+
+  新增加一个任务，增加后会自动进入运行状态，如果上一个任务还在进行中会自动完成。
+  如果`title`是数组，则内部会调用`log`方法输出。因此，任务标题也支持对插值变量进行着色后输出。
+
+- **<状态名称>(note)**
+
+  使当前正在进行的任务结束并进入指定的状态，传入的可选的`note`参数显示在最右侧。
+
+- **indent**
+
+    增加缩进，每次调用增加一个缩进，可多次调用
+
+- **outdent**
+
+    减少缩进
+
+
+
+## 执行任务列表
+
+### 基本用法
+
+当需要执行多个任务时使用`tasklist`来进行任务指示，需要写很多的样板代码，如：
+
 ```javascript
 const logsets = require("logsets")
 
@@ -741,33 +765,49 @@ try{
 
 ```
 
-我们提供了一个API，可以简化上述代码，如下：
+我们提供了一个`createTasks`方法，可以简化上述代码，如下：
 
 ```javascript
-
 const tasks = logsets.createTasks([
+        {
+            title:"任务处理被停止",
+            execute:async ()=>{
+                await delay(100)
+                return "abort"
+            }
+        },
         {
             title:"开始扫描文件",
             execute:async ()=>{await delay(100);return 1}            
         },
         {   title:"准备对文件进行预处理",
-            execute:async ()=>await delay(100),
-            complete:"已完成"
+            execute:async ()=>{throw new Error("已安装")}, 
+        },
+        {   title:"准备对文件进行预处理",
+            execute:async ()=>{
+                await delay(100)
+                return "已完成"
+            }
         },
         {
             title:"读取文件并编译成exe文件",
-            execute:async ()=>await delay(100),
-            complete:({task})=>task.stop()
-        },
+            execute:async ()=>{
+                await delay(100)
+                return ['stop',"不干了"]
+            }            
+        },        
         {
             title:"任务处理被停止",
-            execute:async ()=>await delay(100),
-            complete:"ignore"
+            execute:async ()=>{
+                await delay(100)
+                return ["abort",'真的不干了']
+            }
         },
         "-",
         {
             title:"任务执行失败",
-            execute:async ()=>{throw new Error("TimeOut")}
+            execute:async ()=>{throw new Error("TimeOut")},
+            error:["ignore","忽略:{message}"]
         },
         {
             title:"任务待办状态",
@@ -790,101 +830,113 @@ const tasks = logsets.createTasks([
             execute:async ()=>{throw new Error("TimeOut")},
             error:()=>"skip"
         },      
-    ],{abortOnError:false})
+    ],{ignoreErrors:true})
 
 
-try{
-    let results = await tasks.run("开始执行所有任务") 
-}catch(e){
-    console.log(e)
-}
+    try{
+        let results = await tasks.run(["开始执行{}任务",5])
+        console.log(results)            
+    }catch(e){
+        console.error(e)
+    }
 
 ```
 
- 
 
 运行后的效果如下：
 
 ![](./images/createTasks.png)
 
-- `createTasks`方法接受两个参数，第一个参数是任务列表，第二个参数是配置参数。
-- 任务列表结构如下:
 
-    ```javascript
+### 声明任务列表
+
+`createTasks`方法接受两个参数，第一个参数是任务列表，第二个参数是配置参数。
+
+```javascript
+createTasks(tasks:CreateTaskDefine[],options?:CreateTasksOptions):TaskRunner
+```
+
+`CreateTaskDefine`是一个对象,用来声明任务，包含以下属性：
+
+每一个任务均指定一个`execute`函数，根据该函数的返回值来决定任务状态提示信息。
+
+```javascript
     {
-        title:"任务标题", // 任务标题，可以是字符串或者数组，数组中的字符串可以包含插值变量
-        title:["任务标题{},{},{}",1,2,3], // 任务标题可以是字符串数组，对插值变量进行自动着色
-        execute:async (preResult)=>{
-            // preResult: 上一个任务的执行结果
-            // throw new Error("TimeOut")  // 任务执行失败
-        },
-        }, // 任务执行函数，可以是一个异步函数，也可以是一个返回Promise的函数
-        // 任务完成后的状态，可以是字符串、函数
-        // 字符串： 显示完成提示信息        
-        complete:"任务完成", 
-        // 函数:  如果是函数，当任务成功执行时会传入3个参数
-        complete:({result,abort,task})=>{
-            // result: 任务执行结果,即execute函数的返回值
-            // abort:  任务终止函数，调用后会终止后续的执行任务
-            // task:   当前任务对象，可以调用task.error()、task.skip()等方法            
-
+        // 任务标题，可以是字符串或者数组，数组中的字符串可以包含插值变量
+        title:"任务标题", 
+         // 任务标题可以是字符串数组，对插值变量进行自动着色
+        title:["任务标题{},{},{}",1,2,3],
+        execute:async (context)=>{
+            // context是run方法传入的上下文对象，可以在任务执行函数中使用，可以在此保存任务执行的中间结果  
             // 返回值可以是字符串、函数
             // 字符串： 显示完成提示信息
-            return "任务状态,"  //'ignore' | 'running' | 'complete' | 'error' | 'abort' | 'fail' | 'cancel' | 'skip' | 'stop' | 'todo'
+            return "<内置任务状态>"  //'ignore' | 'running' | 'complete' | 'error' | 'abort' | 'fail' | 'cancel' | 'skip' | 'stop' | 'todo'
+            return ["<内置任务状态>","提示信息"]  // 第二个参数是提示信息 
+            return "abort"           // 代表该任务被跳过，等效于task.abort()并中断后续任务
             return "skip"           // 代表该任务被跳过，等效于task.skip()
+            return ["skip","跳过操作"]// 代表该任务被跳过，等效于task.skip("跳过操作")
             return "ignore"         // 代表该任务ignore，等效于task.ignore()
-            return "其他任意字符串" // 代表该任务完成，等效于task.complete("其他任意字符串" )
-            // 函数:  如果是函数
-            return ()=>{
-                task.skip()             // 显示skip状态提示
-            }
-        },
+            return "其他任意字符串"  // 代表该任务完成，等效于task.complete("其他任意字符串" )
+        }, 
         // 当任务执行失败时的状态，可以是字符串、函数
-        error:"任务状态",//'ignore' | 'running' | 'complete' | 'error' | 'abort' | 'fail' | 'cancel' |  'skip' | 'stop' | 'todo'  
-        error:"skip"           // 代表该任务被跳过，等效于task.skip()
-        error:"abort"          // 代表该任务被终止，等效于task.abort()
-        error:"ignore"         // 代表该任务ignore，等效于task.ignore()
-        error:"任务失败提示",   // 代表该任务失败，等效于task.error("任务失败提示" )
-        error:"任务出错:{message}",   // 代表该任务失败，等效于task.error(`任务失败提示${error.message}` )
-        error:"任务出错:{code}",   // 代表该任务失败，等效于task.error(`任务失败提示${error.code}` )
-        error:"任务出错:{stack}",   // 代表该任务失败，等效于task.error(`任务失败提示${error.stack}` )
-        error:({error,abort})=>{
-            // 返回以上任务状态或错误提示信息
+        error:"<内置的任务状态>",//'ignore' | 'running' | 'complete' | 'error' | 'abort' | 'fail' | 'cancel' |  'skip' | 'stop' | 'todo'  
+        error:["<内置的任务状态>","提示信息"], // 第二个参数是提示信息
+        error:"skip"                   // 代表该任务被跳过，等效于task.skip()
+        error:["skip","跳过"]          // 代表该任务被跳过，等效于task.skip("跳过")
+        error:"abort"                  // 代表该任务被终止，等效于task.abort()
+        error:"ignore"                 // 代表该任务ignore，等效于task.ignore()
+        error:"任务失败提示",           // 代表该任务失败，等效于task.error("任务失败提示" )
+        error:"任务出错:{message}",     // 代表该任务失败，等效于task.error(`任务失败提示${error.message}` )
+        error:"任务出错:{code}",        // 代表该任务失败，等效于task.error(`任务失败提示${error.code}` )
+        error:"任务出错:{stack}",       // 代表该任务失败，等效于task.error(`任务失败提示${error.stack}` )
+        error:({error})=>{
+            
         }
     }
 
-    ```
+```
+- `execute`参数用来指定一个异步任务执行函数，注意必须是异步函数.
+- `execute`可以返回以下值：
+    - `void | undefined`：代表任务执行成功，等效于`task.complete()`
+    - `内置的任务状态`： 取值是`'ignore' | 'running' | 'complete' | 'error' | 'fail' | 'cancel' | 'skip' | 'stop' | 'todo'`，代表任务执行的状态，等效于`task[status]()`
+    - `["内置的任务状态","提示信息"]`： 数组类型，第一个参数是`'ignore' | 'running' | 'complete' | 'error' | 'fail' | 'cancel' | 'skip' | 'stop' | 'todo'`，代表任务执行的状态，等效于`task[status](提示信息)`
+    - `string`: 任意字符串，代表任务执行成功，等效于`task.complete(任意字符串)`
 
-- `complete`用来配置当`execute`函数执行成功后的显示的状态文本。
 - 默认情况下，当执行任务函数`execute`出错时，`error`用来配置当`execute`函数执行出错后的的行为:
     - `error='ignore' | 'running' | 'complete' | 'error' | 'fail' | 'cancel' | 'skip' | 'stop' | 'todo' `显示对应的状态文本。
-    - `error=abort`：终止后续任务的执行。   
-    - `error=任意字符串`: 直接显示
-    - `error=({error,abort})=>{}`：函数返回值可以是以上任意值。
-- `execute`函数的传入参数是上一个任务的执行结果，如果是第一个任务，则为`undefined`。
-- 默认情况下`abortOnError=true`，执行任务失败则会中止后续任务的执行。如果配置为`abortOnError=false`，则会继续执行后续任务，其行为由每个任务的`error`配置决定是否继续执行。
-- 在`complete`函数中可以显式地调用`abort()`方法来终止后续任务的执行。
+    - `error='abort'`：终止后续任务的执行。   
+    - `error=['abort','提示信息']`：终止后续任务的执行。   
+    - `error="内置的任务状态"`: 等效于`task[status]()`
+    - `error=["内置的任务状态","提示信息"]`: 等效于`task[status](提示信息)`
+    - `error=(error)=>{}`：函数返回值可以是以上任意值。
+    - 如果没有指定`error`参数，则默认是执行等效于`task.error(error.message)`，继续执行后续任务。如果指定了`abortOnError=true`则停止后续任务的执行。
+    - 当指定`error`是一个字符串时，可以指定`{message}`,`{code}`,`{stack}`这三个插值变量，如`error="出错了:{message}"`
+
+
+- 在满足以下条件时停止后续任务的执行:
+    - 在`execute`显式返回`abort`或`["abort",""]`
+    - 当`execute`函数出错时，显式指定`error=abort`或`error=["abort",""]`或`error=(error)=>{返回'abort'或["abort",""]}`
+    - 指定`abortOnError=true`时，则无论`error`指定任何值均会停止后续任务的执行
+    - 如果`abortOnError=false`时，则也可以通过指定`execute`或`error`返回`abort`或`["abort",""]`来停止任务
+    - 如果`ignoreErrors=true`，则以上规则失效，所有任务均会得到执行，该选项用于调试。
+
+ - 当任务出错时，如果选择了继续执行后续任务，则`tasks.run`不会触发错误，而可以通过`tasks.run`的返回值来获取错误信息。比如执行了10个任务有6个出错，但是均选择了`skip`,则此时`tasks.run().errors==[Error,Error,....]`
+
+### 配置参数
+
+```javascript
+createTasks(tasks:CreateTaskDefine[],options?:CreateTasksOptions):TaskRunner
+
+interface CreateTasksOptions{
+    abortOnError?:boolean
+    ignoreErrors?:boolean            
+}
+```
+
+- `ignoreErrors`忽略所有错误，所有任务均会得到执行，该选项用于调试。
+- `abortOnError`当任务出错时，是否停止后续任务的执行，默认为`true`。如果`=false`,也可以通过指定`execute`或`error`返回`abort`或`["abort",""]`来停止后续任务的执行。
+
  
-### API
-
-- **add(title)**
-
-  新增加一个任务，增加后会自动进入运行状态，如果上一个任务还在进行中会自动完成。
-  如果`title`是数组，则内部会调用`log`方法输出。因此，任务标题也支持对插值变量进行着色后输出。
-
-- **<状态名称>(note)**
-
-  使当前正在进行的任务结束并进入指定的状态，传入的可选的`note`参数显示在最右侧。
-
-- **indent**
-
-    增加缩进，每次调用增加一个缩进，可多次调用
-
-- **outdent**
-
-    减少缩进
-
-
 ## 任务
 
 显示正在执行的单个任务，输出效果与`tasklist`一样，差别在于`task`只显示一项任务，并且没有缩进。
@@ -911,6 +963,124 @@ let task = logsets.task("下载文件：{},大小:{}, 已下载{}","package.json
 输出效果如下:
 
 ![](./images/task.png)
+
+
+  
+## 列表
+
+显示信息列表
+
+### 基本用法
+
+```javascript
+import logsets from "logsets"
+logsets.list(["欢迎使用{}国际化解决方案",'VoerkaI18n'], [
+    {
+		title: "全流程支持",
+		description:"从文本提取/自动翻译/编译/动态切换的全流程工程化支持，适用于大型项目",
+	},
+	{
+		title: "集成自动翻译",
+        type:"×",
+		description:["调用{}支持对提取的文本进行自动翻译，大幅度提高工程效率","在线翻译API"],
+	},
+	{
+		title: "符合直觉",
+        type:['○','yellow'],
+        style:"red",
+		description:"在源码中直接使用符合直觉的翻译形式，不需要绞尽脑汁想种种key",
+	},
+	{
+		title: ["支持{}","TypeScript"],
+		description: "内置支持TypeScript类型以及生成TypeScript源码",
+	},
+	{
+		title: "自动提取文本",        
+		description: "提供扫描提取工具对源码文件中需要翻译的文本进行提取",
+	},
+	{
+		title: "适用性",
+		description:
+			"支持任意Javascript应用,包括Nodejs/Vue/React/ReactNative等。",
+	},
+	{
+        title: "多库联动", description: "支持多包工程下多库进行语言切换的联动" },
+	{
+		title: "工具链",
+		description: "提供Vue/React/Babel等扩展插件，简化各种应用开发",
+	},
+	{
+		title: "插值变量",
+		description:
+			"强大的插值变量机制，能扩展支持复数、日期、货币等灵活强大的多语言特性",
+	},
+	{ title: "语言补丁", description: "在应用上线后发现错误时可以在线修复" },
+	{ title: "动态增加语种", description: "可以在应用上线后动态增加语种支持" },
+	{ title: ["测试覆盖率{}","90%+"], description: "核心运行时超过90%的测试覆盖率" }
+] 
+```
+
+输出效果如下：
+
+![](./images/list.png)
+
+
+### 定义列表项
+
+```javascript
+interface ListItem{
+    title:string | [string,string]
+    description?:string
+    type?:string | [string,string]
+    style?:string | [string,string]
+
+}
+logsets.list(title,[
+    // 只提供标题
+    "工具链:提供Vue/React/Babel等扩展插件，简化各种应用开发",
+    // 完整列表项
+    {   
+        title:"工具链",
+        // 允许指定插值变量，对变量进行着色
+        title:["支持的框架:{}/{}/{}","React","Vue","Babel"],
+        // 描述信息，支持多行
+        description:"描述信息\n描述信息\n描述信息"
+        // 描述信息也支持对变量进行着色
+        description:["描述{},{}",1,2]
+        // 默认的列表图标为√，可以指定其他图标
+        type:"×",
+        // 也可以指定图标的颜色
+        type:["×","red"]
+        // 指定列表标题的颜色
+        style:"red",
+        // 指定列表标题和描述的颜色
+        style:["red","yellow"]
+    }
+])
+
+```
+
+### 配置参数
+
+```javascript
+
+logsets.list(title,items:ListItem[],options:ListPluginOptions)
+
+interface ListPluginOptions  { 
+    indent?       : string                          // 整体缩进
+    showOrderNumber?:boolean                        // 是否显示序号
+    title?        : {
+       emoji?     :  string                        
+       style?     : string,                         // 标题样式
+    },
+    item?:{
+       indent?       :string                        // 缩进
+       type?      : [string,string]                 // [列表图标字符,颜色样式]
+       style?     : [string,string]                 // [标题颜色样式,描述颜色样式]
+    }
+}
+```
+
 
 ## 横幅
 
@@ -975,6 +1145,7 @@ banner.render()
 }
 ```
 
+
 ### API
 
 - **add(arg1,arg2,...,{options})**
@@ -1004,7 +1175,7 @@ banner.render()
   
   ```
 
-  
+
 
 ## 树
 
