@@ -1,3 +1,12 @@
+## [1.3.1](https://gitee.com/zhangfisher/logsets/compare/1.2.9...1.3.1) (2023-06-21)
+
+
+### Features
+
+* **list:** 新增加`list`用来显示信息列表 ([455bdac](https://gitee.com/zhangfisher/logsets/commits/455bdac8eed4b4ddab893c088f1008105fd75f69))
+
+
+
 ## [1.2.9](https://gitee.com/zhangfisher/logsets/compare/1.2.8...1.2.9) (2023-06-20)
 
 
