@@ -353,6 +353,7 @@ export function createTasks(logsetContext,tasks=[],options={}){
                 if(typeof(taskInfo)=="string") continue // 忽略分割符                
                 if(typeof(taskInfo.execute)=="function"){
                     try{
+                        ctx.task = task
                         const result = await taskInfo.execute.call(ctx,ctx)   
                         let [status,tip]=result ? (Array.isArray(result) ? result : (
                             result in taskList.options.status ? [result] : ["complete",result])) : ["complete"]

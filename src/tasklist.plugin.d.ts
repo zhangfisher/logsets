@@ -59,10 +59,15 @@ export declare const TaskListPlugin: {
 }
 
 
+export type  ExecuteContext = {
+    task:Task
+} & Record<string,any>
+
+
 // createTasks类型
 export type CreateTaskDefine = {
     title:string | [string,...rest]
-    execute:(context?:any)=>Promise<InlineTaskStatus | string | [InlineTaskStatus,string] | void>,
+    execute:(context?:ExecuteContext)=>Promise<InlineTaskStatus | string | [InlineTaskStatus,string] | void>,
     error?:string | ((
         {error}:{error?:Error}
     )=>Awaited<InlineTaskStatus | string | [InlineTaskStatus,string] | void>)
@@ -73,7 +78,7 @@ export interface CreateTasksOptions{
 }
 
 export type TaskRunner={
-    run(title?:string,context?:any):any
+    run(title?:string,context?:ExecuteContext):any
 }
 
 

@@ -789,6 +789,14 @@ const tasks = logsets.createTasks([
                 return "已完成"
             }
         },
+        {   title:"执行过程中显示进度",
+            execute:async ({task})=>{
+                for(let i=0;i<100;i++){
+                    await delay(100)
+                    task.note(i+"%")
+                }
+            }
+        },
         {
             title:"读取文件并编译成exe文件",
             execute:async ()=>{
@@ -920,7 +928,32 @@ createTasks(tasks:CreateTaskDefine[],options?:CreateTasksOptions):TaskRunner
     - 如果`abortOnError=false`时，则也可以通过指定`execute`或`error`返回`abort`或`["abort",""]`来停止任务
     - 如果`ignoreErrors=true`，则以上规则失效，所有任务均会得到执行，该选项用于调试。
 
- - 当任务出错时，如果选择了继续执行后续任务，则`tasks.run`不会触发错误，而可以通过`tasks.run`的返回值来获取错误信息。比如执行了10个任务有6个出错，但是均选择了`skip`,则此时`tasks.run().errors==[Error,Error,....]`
+- 当任务出错时，如果选择了继续执行后续任务，则`tasks.run`不会触发错误，而可以通过`tasks.run`的返回值来获取错误信息。比如执行了10个任务有6个出错，但是均选择了`skip`,则此时`tasks.run().errors==[Error,Error,....]`
+
+#### 任务上下文
+
+执行任务列表时可以传入一个上下对象参数，该参数将会传递给每个任务的`execute`函数，同时会在上下文中注入一个`task`对象，可以在任务执行过程中调用`task.note`来修改任务的执行信息。
+
+```typescript
+
+const tasks = logsets.createTasks([
+    {
+        title:"正在下载文件",
+       execute: async function (context) {
+            const {a,task}  = context   // task是自动注入的任务对象
+			await delay();
+            for(let i=0;i<10;i++){
+                await delay(100)
+                task.note(`${i}%`)  // 修改任务的执行信息
+            }
+		},
+    }
+])
+
+await tasks.run("开始执行",{a:1})  // 可选地传入一个上下文对象
+```
+
+
 
 ### 配置参数
 
