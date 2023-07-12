@@ -1,3 +1,12 @@
+## [1.3.2](https://gitee.com/zhangfisher/logsets/compare/1.3.1...1.3.2) (2023-07-12)
+
+
+### Features
+
+* **tasklist:** createTasks的execute函数现在传入一个task对象，可以用来在任务执行期间修改任务提示信息 ([04153af](https://gitee.com/zhangfisher/logsets/commits/04153af61f2fd6ce3a87645f56f659ce760c1b6a))
+
+
+
 ## [1.3.1](https://gitee.com/zhangfisher/logsets/compare/1.2.9...1.3.1) (2023-06-21)
 
 
