@@ -1,3 +1,12 @@
+## [1.3.5](https://gitee.com/zhangfisher/logsets/compare/1.3.4...1.3.5) (2023-10-07)
+
+
+### Features
+
+* **tasklist:** 新增加`logsets.run`方法用来快速执行任务列表 ([83ad0d9](https://gitee.com/zhangfisher/logsets/commits/83ad0d9dabc17a3c4d3966ef704c43e54c927315))
+
+
+
 ## [1.3.4](https://gitee.com/zhangfisher/logsets/compare/1.3.3...1.3.4) (2023-10-07)
 
 
