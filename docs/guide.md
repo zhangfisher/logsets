@@ -969,7 +969,32 @@ interface CreateTasksOptions{
 - `ignoreErrors`忽略所有错误，所有任务均会得到执行，该选项用于调试。
 - `abortOnError`当任务出错时，是否停止后续任务的执行，默认为`true`。如果`=false`,也可以通过指定`execute`或`error`返回`abort`或`["abort",""]`来停止后续任务的执行。
 
- 
+## 快速执行任务列表
+
+提供了一个快速执行任务列表的方法，可以通过`logsets.run`来执行任务列表。
+
+`logsets.run`的参数与`createTasks`的参数一样，只是`logsets.run`会自动创建一个任务列表，然后执行。
+
+```javascript
+const logsets = require("logsets")
+
+await logsets.run([{...},{...}],{
+
+    title:"正在下载文件",
+    title:["正在下载{}文件",6]      // 指定插值变量
+})
+
+// 等效于
+
+const tasks = logsets.createTasks([{...},{...}],{
+    title:"正在下载文件",
+    title:["正在下载{}文件",6]      // 指定插值变量
+    // 其他配置项同createTasks
+})
+await tasks.run()
+
+```
+
 ## 任务
 
 显示正在执行的单个任务，输出效果与`tasklist`一样，差别在于`task`只显示一项任务，并且没有缩进。

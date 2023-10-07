@@ -105,6 +105,7 @@ export interface Logsets{
     banner(options?:BannerPluginOptions):Banner
     tasklist(options?:TaskListPluginOptions | string):TaskList<Exclude<(typeof options),undefined>['status']>
     createTasks(tasks:CreateTaskDefine[],options?:CreateTasksOptions):TaskRunner
+    run(tasks:CreateTaskDefine[],options?:RunTasksOptions):Promise<any>
     task(title:string,vars?:any[] | Record<string,any>):Task
     task(title:string,...vars:any[]):Task
     progressbar(options?:ProgressbarPluginOptions):Progressbar

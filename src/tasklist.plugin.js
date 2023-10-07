@@ -411,6 +411,12 @@ export function createTasks(logsetContext,tasks=[],options={}){
 
 }
 
+export async function runTasks(logsetContext,tasks=[],options={}){
+    const runner = createTasks.call(this,logsetContext,tasks,options)
+    await runner.run(options.title,options.context)
+}
+
+
 /**
  * 
  * @param {*} log  指向logsets实例
@@ -426,5 +432,6 @@ export function createTasks(logsetContext,tasks=[],options={}){
         return tasks.add(...args)
     }
     logsets.createTasks=(tasks,opts)=>createTasks.call(logsets,context,tasks,opts)
+    logsets.run=async (tasks,opts)=>await runTasks.call(logsets,context,tasks,opts)
 }
  

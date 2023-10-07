@@ -3,8 +3,7 @@ import logsets from "../src/index.js";
 async function delay(n = 100) {
 	return new Promise((resolve) => setTimeout(resolve, n));
 }
-
-let tasks = logsets.createTasks([
+const taskList =[
 	{
 		title: "开始扫描文件",
 		execute: async function () {
@@ -23,7 +22,7 @@ let tasks = logsets.createTasks([
 
 			await delay();
             for(let i=0;i<100;i++){
-                await delay(500)
+                await delay(100)
                 task.note(`${i}%`)
             }
 		},
@@ -59,8 +58,15 @@ let tasks = logsets.createTasks([
 			await delay();
 		},
 	},
-]);
+]
+let tasks = logsets.createTasks(taskList);
 
 tasks.run().then(() => {
 	console.log("done");
+	logsets.run(taskList,{title:["开始执行{}个任务",5]}).then(() => {
+		console.log("done");
+	});
+	
 });
+
+

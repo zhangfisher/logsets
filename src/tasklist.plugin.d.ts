@@ -78,9 +78,14 @@ export interface CreateTasksOptions{
 }
 
 export type TaskRunner={
-    run(title?:string,context?:ExecuteContext):any
+    run(title?:string | any[],context?:ExecuteContext):any
 }
 
+
+export type RunTasksOptions = CreateTasksOptions & {
+    title?:Parameters<TaskRunner['run']>[0],
+    context?:Parameters<TaskRunner['run']>[1],
+}
 
 export default TaskListPlugin
  
