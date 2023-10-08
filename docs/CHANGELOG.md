@@ -1,3 +1,12 @@
+## [1.3.6](https://gitee.com/zhangfisher/logsets/compare/1.3.5...1.3.6) (2023-10-08)
+
+
+### Features
+
+* **tasklist:** 调整`logsets.run`的签名方式 ([662f257](https://gitee.com/zhangfisher/logsets/commits/662f257bfae7fcc4496ff5c678d9b49b029d1020))
+
+
+
 ## [1.3.5](https://gitee.com/zhangfisher/logsets/compare/1.3.4...1.3.5) (2023-10-07)
 
 
