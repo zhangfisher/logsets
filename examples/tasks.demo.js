@@ -63,7 +63,7 @@ let tasks = logsets.createTasks(taskList);
 
 tasks.run().then(() => {
 	console.log("done");
-	logsets.run(taskList,{title:["开始执行{}个任务",5]}).then(() => {
+	logsets.run(["开始执行{}个任务",5],taskList).then(() => {
 		console.log("done");
 	});
 	

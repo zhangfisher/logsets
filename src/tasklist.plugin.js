@@ -411,9 +411,9 @@ export function createTasks(logsetContext,tasks=[],options={}){
 
 }
 
-export async function runTasks(logsetContext,tasks=[],options={}){
+export async function runTasks(logsetContext,title,tasks=[],options={}){
     const runner = createTasks.call(this,logsetContext,tasks,options)
-    await runner.run(options.title,options.context)
+    await runner.run(title,options.context)
 }
 
 
@@ -432,6 +432,6 @@ export async function runTasks(logsetContext,tasks=[],options={}){
         return tasks.add(...args)
     }
     logsets.createTasks=(tasks,opts)=>createTasks.call(logsets,context,tasks,opts)
-    logsets.run=async (tasks,opts)=>await runTasks.call(logsets,context,tasks,opts)
+    logsets.run=async (title,tasks,opts)=>await runTasks.call(logsets,context,title,tasks,opts)
 }
  

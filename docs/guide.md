@@ -978,20 +978,15 @@ interface CreateTasksOptions{
 ```javascript
 const logsets = require("logsets")
 
-await logsets.run([{...},{...}],{
-
-    title:"正在下载文件",
-    title:["正在下载{}文件",6]      // 指定插值变量
-})
+await logsets.run("正在下载文件",[{...},{...}])
+await logsets.run(["正在下载{}文件",6],[{...},{...}]) // 标题支持插值变量着色
+ 
 
 // 等效于
 
-const tasks = logsets.createTasks([{...},{...}],{
-    title:"正在下载文件",
-    title:["正在下载{}文件",6]      // 指定插值变量
-    // 其他配置项同createTasks
-})
-await tasks.run()
+const tasks = logsets.createTasks([{...},{...}])
+await tasks.run("正在下载文件")
+await tasks.run(["正在下载{}文件",6])
 
 ```
 

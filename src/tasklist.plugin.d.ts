@@ -83,7 +83,6 @@ export type TaskRunner={
 
 
 export type RunTasksOptions = CreateTasksOptions & {
-    title?:Parameters<TaskRunner['run']>[0],
     context?:Parameters<TaskRunner['run']>[1],
 }
 
