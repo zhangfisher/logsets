@@ -1,6 +1,6 @@
 import { isRegexp,getOwnEnumPropSymbols} from "./utils.js"  
-import { isPlainObject } from 'flex-tools';
-
+import { isPlainObject } from 'flex-tools'; 
+import ansicolor from "ansicolor";
 /**
  * 获取对象的键名对齐的长度
  */
@@ -13,6 +13,12 @@ function getObjectKeysMaxLength(keys){
 
 export default function stringifyObject(input, options, pad) {
 	const seen = [];
+
+    const objBegin = ansicolor.magenta("{")
+    const objEnd = ansicolor.magenta("}")
+    
+    const arrayBegin = "[ "
+    const arrayEnd = " ]"
 
 	return (function stringify(input, options = {}, pad = '') {
 		const indent = options.indent || '\t';
@@ -74,13 +80,13 @@ export default function stringifyObject(input, options, pad) {
 
 		if (Array.isArray(input)) {
 			if (input.length === 0) {
-				return '[]';
+				return arrayBegin+ arrayEnd;
 			}
 			seen.push(input);
             let returnValue
             let addOverflowTag = options.Array.maxItems>0 &&  input.length > options.Array.maxItems
             if(options.Array.compact===true || (options.compact===true && options.Array.compact!==false)){
-                returnValue = '[ '+ input.map((element, i) => {    
+                returnValue = arrayBegin+ input.map((element, i) => {    
                     if(addOverflowTag && i===options.Array.maxItems){
                         return "...";
                     }else if(i>options.Array.maxItems){
@@ -92,9 +98,9 @@ export default function stringifyObject(input, options, pad) {
                         value = options.transform(input, i, value);
                     }    
                     return   value + eol;
-                }).join('') + ' ]'; 
+                }).join('') + arrayEnd; 
             }else{
-                returnValue = '[' + tokens.newline + input.map((element, i) => {
+                returnValue = arrayBegin + tokens.newline + input.map((element, i) => {
                     let eol = input.length - 1 === i ? tokens.newline : ',' + tokens.newlineOrSpace;
                     
                     if(addOverflowTag && i===options.Array.maxItems){
@@ -108,7 +114,7 @@ export default function stringifyObject(input, options, pad) {
                         value = options.transform(input, i, value);
                     }                    
                     return tokens.indent + value + eol;
-                }).join('') + tokens.pad + ']';   
+                }).join('') + tokens.pad + arrayEnd;   
             } 
             if(addOverflowTag && typeof(options.Array.memo)==="function"){
                 returnValue+=options.Array.memo(input)
@@ -130,14 +136,14 @@ export default function stringifyObject(input, options, pad) {
 			}
 
 			if (objectKeys.length === 0) {
-				return '{}';
+				return objBegin + ' ' + objEnd;
 			}
 
 			seen.push(input);
             let returnValue
             let addOverflowTag = options.Object.maxItems>0 &&  objectKeys.length > options.Object.maxItems
             if(options.Object.compact===true || (options.compact===true && options.Object.compact!==false)){
-                returnValue = '{' + objectKeys.map((element, i) => {
+                returnValue = objBegin + objectKeys.map((element, i) => {
                     if(addOverflowTag && i===options.Object.maxItems){
                         return  "..." 
                     }else if(i>options.Object.maxItems){
@@ -153,10 +159,10 @@ export default function stringifyObject(input, options, pad) {
                         value = options.transform(input, element, value);
                     }
                     return String(key) + ': ' + value + eol;
-                }).join('')  + '}';
+                }).join('')  + objEnd;
             }else{
                 let keyPadding = getObjectKeysMaxLength(objectKeys)+2
-                returnValue = '{' + tokens.newline + objectKeys.map((element, i) => {
+                returnValue = objBegin + tokens.newline + objectKeys.map((element, i) => {
                     const eol = objectKeys.length - 1 === i ? tokens.newline : ',' + tokens.newlineOrSpace;
                     
                     if(addOverflowTag && i===options.Object.maxItems){
@@ -180,7 +186,7 @@ export default function stringifyObject(input, options, pad) {
                     }catch(e){
                         console.log(e)
                     }
-                }).join('') + tokens.pad + '}';                
+                }).join('') + tokens.pad + objEnd;                
             } 
             if(addOverflowTag && typeof(options.Array.memo)==="function"){
                 returnValue+=options.Object.memo(objectKeys)

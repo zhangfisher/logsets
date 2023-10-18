@@ -80,7 +80,7 @@ logsets.format({
         jack11:{name:"jack",age:21,sex:false}, 
         jack12:{name:"jack",age:21,sex:false}, 
     }
-},{Array:{maxItems:5},Object:{maxItems:5}})
+},{Array:{maxItems:5},Object:{maxItems:5},title:"产品列表： "})
 
 
 
@@ -93,7 +93,7 @@ logsets.format({
         company:"中华人民共和国北京市二环路",
         family:"福建省泉州市惠安路1512号"
     }
-})
+},{title:"产品经理： "})
 
 // const o1={asks:{ price: "2000", amt: 10 } ,
 // bids: [ { price: "500", amt: 10 },
