@@ -10,7 +10,8 @@ import {
     repeatChars
   } from './utils.js'
 import ansicolor from 'ansicolor' 
-import { isPlainObject,deepMerge } from 'flex-tools';
+import { deepMerge } from 'flex-tools/object/deepMerge'
+import { isPlainObject } from 'flex-tools/typecheck/isPlainObject'
 
 
 const { isEscaped }  = ansicolor

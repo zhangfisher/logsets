@@ -1,6 +1,6 @@
 import ansicolor  from "ansicolor";
 const { isEscaped,strip } = ansicolor
-import { isPlainObject,isAsyncFunction} from 'flex-tools';
+import { isPlainObject,isAsyncFunction} from 'flex-tools/typecheck/isPlainObject'
 
 export function isClass(cls){
     let result = false

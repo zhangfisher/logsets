@@ -66,7 +66,7 @@ export type  ExecuteContext = {
 
 // createTasks类型
 export type CreateTaskDefine = {
-    title:string | [string,...rest]
+    title:string | [string,...rest:any[]]
     execute:(context?:ExecuteContext)=>Promise<InlineTaskStatus | string | [InlineTaskStatus,string] | void>,
     error?:string | ((
         {error}:{error?:Error}

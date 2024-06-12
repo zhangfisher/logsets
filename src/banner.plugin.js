@@ -24,7 +24,7 @@
 
 */
 import { consoleOutput, getLeftRepeatChars, getRightRepeatChars, getStringWidth, paddingCenter,paddingStart, paddingEnd } from "./utils.js"
-import { deepMerge } from 'flex-tools' 
+import { deepMerge } from 'flex-tools/object/deepMerge' 
 
 const  DefaultBannersOptions = { 
     indent       : " ",                          // 横幅缩进

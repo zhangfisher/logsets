@@ -13,7 +13,7 @@
  */
 
  import { consoleOutput} from "./utils.js"
- import { deepMerge } from 'flex-tools' 
+ import { deepMerge } from 'flex-tools/object/deepMerge' 
  
  const  DefaultListOptions = { 
      indent       : "",                          // 整体缩进

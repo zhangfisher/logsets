@@ -1,5 +1,5 @@
 import { isRegexp,getOwnEnumPropSymbols} from "./utils.js"  
-import { isPlainObject } from 'flex-tools';
+import { isPlainObject } from 'flex-tools/typecheck/isPlainObject';
 
 /**
  * 获取对象的键名对齐的长度

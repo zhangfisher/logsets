@@ -20,7 +20,7 @@ progressbar.end()
 
  */
 
-import { deepMerge } from 'flex-tools'
+import { deepMerge } from 'flex-tools/object/deepMerge'
 import { hideCursor,showCursor,consoleOutput } from './utils.js'
 
 // 预设的主题样式

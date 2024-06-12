@@ -3,7 +3,7 @@
 import stringifyObject from './stringify.js';
 import ansicolor from 'ansicolor'
 import { getDataType } from './utils.js';
-import { isPlainObject } from 'flex-tools';
+import { isPlainObject } from 'flex-tools/typecheck/isPlainObject';
 
 Object.assign(ansicolor.rgb,{
     bgDarkGray: [13,213,33]

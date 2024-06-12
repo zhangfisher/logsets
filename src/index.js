@@ -9,7 +9,8 @@ import tablePlugin from "./table.plugin.js"
 import tasklistPlugin from "./tasklist.plugin.js"
 import treePlugin from "./tree.plugin.js"
 import listPlugin from "./list.plugin.js"
-import { isPlainObject,deepMerge } from 'flex-tools'
+import { deepMerge } from 'flex-tools/object/deepMerge'
+import { isPlainObject } from 'flex-tools/typecheck/isPlainObject'
 
 const DEBUG = 'DEBUG'
 const INFO  = 'INFO'

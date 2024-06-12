@@ -46,9 +46,7 @@ tasks.next()
  */
 
 import { consoleOutput, getStringWidth,hideCursor,showCursor,newline, paddingEnd ,paddingCenter} from './utils.js' 
-import { deepMerge } from 'flex-tools' 
-
-
+import { deepMerge } from 'flex-tools/object/deepMerge' 
 
 const DefaultTaskListOptions  = { 
     indent    : "  ",       // 列表缩进 
