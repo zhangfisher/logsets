@@ -10,7 +10,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "rollup -c",
-        "release": "nrm use npm && npm version patch --commit-hooks=false && npm run build && npm publish && nrm use taobao && cnpm sync logsets",
+        "release": "nrm use npm && npm version patch --commit-hooks=false && npm run build && npm publish",
         "dev:docs": "docsify serve docs",
         "prepare": "husky install",
         "commit": "git add . && git cz",
