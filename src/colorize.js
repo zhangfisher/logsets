@@ -91,11 +91,13 @@ export default function colorize(obj, opts={}) {
         return colorizeBaseType(obj,options[objType]) 
     }  
 
-	return stringifyObject(obj, {
+    const { title='' } = opts
+
+	return title+ stringifyObject(obj, {
 		...options, 
 		transform: (obj, key, originalResult) => {  // 获取值类型                
             if(obj == null){
-                const valueType = getDataType(originalResult);
+                //const valueType = getDataType(originalResult);
                 return colorizeBaseType(originalResult,options[objType])
             }else{
                 const value = obj[key]; 

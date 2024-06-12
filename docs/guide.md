@@ -218,6 +218,9 @@ logsets.format({
 logsets.format({...},{compact:true, Array:{maxItems:5,compact:false},Object:{maxItems:5}})
 ```
 
+`logsets.format`支持指定一个`{title:"标题"}`参数，用来输出一个带标题的对象。
+
+
 ## 显示分割条
 
 `logsets.separator(width)`可以输出一条水平分割线， `width`参数是可选的，默认是`60`。

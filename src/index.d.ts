@@ -71,7 +71,7 @@ export interface Logsets{
     print(arg1:any,arg2:any,arg3:any,options?:{end?:string,append?:string}):void
     
     // 带缩进格式和着色过的对象
-    format(obj:Record<string,any> | any[],options?:{end?:string,append?:string}):void
+    format(obj:Record<string,any> | any[],options?:LogsetsOptions & {title?:string}):void
     
     // 日志输出
     debug(message:string,args?:any[] | Record<string,any>,memo?:string):void

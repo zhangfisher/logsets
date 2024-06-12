@@ -180,12 +180,10 @@ function print() {
 
 function format(value, options = {}) {
     if (typeof value === 'function') value = value()
-    const opts = Object.assign({ compact: false }, options)
-    consoleOutput(colorize(
-        value,
-        deepMerge(this, options)
-    )
-    )
+    const opts = Object.assign({ 
+        title:''
+    }, options)
+    consoleOutput(colorize(value,deepMerge(this, opts)))
 }
 
 /**
@@ -200,8 +198,8 @@ function printTemplate(message, ...args) {
 /**
  *
  *  const logger = createLogger({})
- *  logger.log("{a}+{b}",{a:1,b:2})                        // 变量插值输出
- *  logger.log("{}+{}",1,2)                                // 位置参数插值输出
+ *  logger.log("{a}+{b}",{a:1,b:2})                  // 变量插值输出
+ *  logger.log("{}+{}",1,2)                          // 位置参数插值输出
  *  logger.print(...)
  *  logger.config({compact:true}).print(...)         // 设置全局配置
  *  logger.set().print(...)                          // 设置临时配置
