@@ -1,3 +1,12 @@
+## [1.3.10](https://gitee.com/zhangfisher/logsets/compare/1.3.9...1.3.10) (2024-06-13)
+
+
+### Features
+
+* **core:** `format`方法新增加`title`属性用来输出标题 ([872c7ef](https://gitee.com/zhangfisher/logsets/commits/872c7effe4a04f27aeec39b2c97df9747fc13067))
+
+
+
 ## [1.3.9](https://gitee.com/zhangfisher/logsets/compare/1.3.8...1.3.9) (2024-06-12)
 
 

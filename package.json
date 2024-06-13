@@ -1,10 +1,10 @@
 {
     "name": "logsets",
-    "version": "1.3.9",
+    "version": "1.3.10",
     "description": "Nodejs terminal application output colorized enhancement",
     "main": "dist/index.cjs",
     "module": "dist/index.mjs",
-    "homepage": "https://zhangfisher.github.io/logsets/", 
+    "homepage": "https://zhangfisher.github.io/logsets/",
     "types": "./src/index.d.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
