@@ -1,8 +1,11 @@
-import logsets from "../src/index.js";
+const logsets = require("../src/")
+
 
 async function delay(n = 100) {
 	return new Promise((resolve) => setTimeout(resolve, n));
 }
+
+const run = async ()=>{
 const taskList =[
 	{
 		title: "开始扫描文件",
@@ -70,3 +73,7 @@ tasks.run().then(() => {
 });
 
 
+}
+
+
+run()

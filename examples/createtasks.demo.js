@@ -1,9 +1,9 @@
-import logsets from "../src/index.js"  
+const logsets = require("../src/")
 
 async function delay(n=10){
     return new Promise(resolve=>setTimeout(resolve,n))
 } 
-
+(async ()=>{
 const tasks = logsets.createTasks([
         {
             title:"任务处理被停止",
@@ -78,3 +78,4 @@ const tasks = logsets.createTasks([
         console.error(e)
     }
 
+})()

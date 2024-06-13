@@ -1,16 +1,16 @@
-import "flex-tools/string/index.js"
-import colorize, { getColorizeFunction,colorizeString } from './colorize.js'
-import { DefaultOptions } from './consts.js'
-import { paddingCenter,isPlainFunction, consoleOutput, forEachInterpolateVars } from './utils.js'
-import ansicolor from 'ansicolor'
-import bannerPlugin from "./banner.plugin.js"
-import progressbarPlugin from "./progressbar.plugin.js"
-import tablePlugin from "./table.plugin.js"
-import tasklistPlugin from "./tasklist.plugin.js"
-import treePlugin from "./tree.plugin.js"
-import listPlugin from "./list.plugin.js"
-import { deepMerge } from 'flex-tools/object/deepMerge'
-import { isPlainObject } from 'flex-tools/typecheck/isPlainObject'
+const flexToolsString = require("flex-tools/string");
+const { colorize,getColorizeFunction,colorizeString } = require("./colorize"); 
+const { DefaultOptions } = require("./consts");
+const { paddingCenter, isPlainFunction, consoleOutput, forEachInterpolateVars } = require("./utils");
+const ansicolor = require("ansicolor");
+const bannerPlugin = require("./banner.plugin");
+const progressbarPlugin = require("./progressbar.plugin");
+const tablePlugin = require("./table.plugin");
+const tasklistPlugin = require("./tasklist.plugin");
+const treePlugin = require("./tree.plugin");
+const listPlugin = require("./list.plugin");
+const { deepMerge } = require("flex-tools/object/deepMerge");
+const { isPlainObject } = require("flex-tools/typecheck/isPlainObject");
 
 const DEBUG = 'DEBUG'
 const INFO  = 'INFO'
@@ -250,4 +250,4 @@ const defaultLogger = createLogger()
 
 Object.assign(createLogger,defaultLogger)
 
-export default createLogger
+module.exports = createLogger

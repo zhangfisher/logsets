@@ -42,9 +42,8 @@
 
  */
 
-import { consoleOutput, getStringWidth } from "./utils.js"
-import { deepMerge } from 'flex-tools/object/deepMerge'
-
+const { consoleOutput, getStringWidth } = require('./utils')
+const {deepMerge} = require('flex-tools/object/deepMerge');
 
 const DefaultTreeOptions  = {
     root: "Root",    
@@ -112,6 +111,6 @@ function createTree(context,options){
  * @param {*} log 
  * @param {*} context  当前上下文配置参数
  */
- export default function(logger,context){
+ module.exports = function(logger,context){
     logger.tree = (opts={})=>createTree.call(logger,context,opts)
 }

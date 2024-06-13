@@ -1,8 +1,9 @@
-import ansicolor  from "ansicolor";
+const ansicolor  =require("ansicolor");
 const { isEscaped,strip } = ansicolor
-import { isPlainObject,isAsyncFunction} from 'flex-tools/typecheck/isPlainObject'
+const { isPlainObject,} = require('flex-tools/typecheck/isPlainObject')
+const { isAsyncFunction } = require('flex-tools/typecheck/isAsyncFunction')
 
-export function isClass(cls){
+function isClass(cls){
     let result = false
     if (typeof(cls) === 'function' && cls.prototype) {
         try {
@@ -13,13 +14,13 @@ export function isClass(cls){
     }
     return result;
 }
-export function isClassInstance(obj){
+function isClassInstance(obj){
     return obj.constructor && obj.constructor.toString().startsWith("class") 
 }
  
 
 // 获取所有给定对象所有自有的Symbol值的可枚举属性的数组
-export function getOwnEnumPropSymbols(obj){
+function getOwnEnumPropSymbols(obj){
 	return Object
     .getOwnPropertySymbols(obj)
     .filter((keySymbol) => Object.prototype.propertyIsEnumerable.call(obj, keySymbol));
@@ -35,7 +36,7 @@ export function getOwnEnumPropSymbols(obj){
  * 
  * @param  {...any} texts 
  */
-export function consoleOutput(...texts){
+function consoleOutput(...texts){
     let options = {
         append:" ",
         end:"\n"  //换行符
@@ -50,13 +51,13 @@ export function consoleOutput(...texts){
         process.stdout.write(options.end) 
     }
 }
-export function newline(){
+function newline(){
     process.stdout.write("\n") 
 }
-export function hideCursor(){
+function hideCursor(){
     process.stdout.write(`${"\x1b"}[?25l`) 
 }
-export function showCursor(){
+function showCursor(){
     process.stdout.write(`${"\x1b"}[?25h`) 
 }
 
@@ -69,7 +70,7 @@ export function showCursor(){
  * @param {*} fillChar 
  * @returns 
  */
-export function paddingCenter(s,width,fillChar=" ") { 
+function paddingCenter(s,width,fillChar=" ") { 
     let len = getStringWidth(String(s))
     let llength=parseInt((width-len)/2)
    // if(llength<=0) return 
@@ -79,7 +80,7 @@ export function paddingCenter(s,width,fillChar=" ") {
         return s
     }    
 } 
-export function paddingStart(s,width,fillChar=" ") { 
+function paddingStart(s,width,fillChar=" ") { 
     let len = getStringWidth(String(s)) 
    // if(len>=width) return s 
     try{
@@ -89,7 +90,7 @@ export function paddingStart(s,width,fillChar=" ") {
     }
    
 }  
-export function paddingEnd(s,width,fillChar=" ") { 
+function paddingEnd(s,width,fillChar=" ") { 
     let len = getStringWidth(String(s)) 
    // if(len>=width) return s 
    try{
@@ -99,7 +100,7 @@ export function paddingEnd(s,width,fillChar=" ") {
    }    
 } 
 // 获取左边连续的字符串
-export function getLeftRepeatChars(s,char=" "){
+function getLeftRepeatChars(s,char=" "){
     let r = []
     for(let i=0;i<=s.length;i++){
         if(s[i]!==char) break
@@ -107,7 +108,7 @@ export function getLeftRepeatChars(s,char=" "){
     } 
     return r.join("")
 }
-export function getRightRepeatChars(s,char=" "){
+function getRightRepeatChars(s,char=" "){
     let r = []
     for(let i=s.length-1;i>=0;i--){
         if(s[i]!==char) break
@@ -116,7 +117,7 @@ export function getRightRepeatChars(s,char=" "){
     return r.join("")
 }
 
-export function repeatChars(count,char){
+function repeatChars(count,char){
     return new Array(count).fill(char).join("")
 }
 
@@ -133,7 +134,7 @@ function getSignalLineWidth(s){
 
 // 获取字符串长度，中文按2个字符表示，多行字符串取其中最长的一行
 // 如果是着色过的会自动去掉着色再计算
-export function getStringWidth(str){  
+function getStringWidth(str){  
     if(isPlainObject(str) || Array.isArray(str)) str = JSON.stringify(str)
     if(typeof(str)!=="string") str = String(str)
     if(isEscaped(str)) str = strip(str)
@@ -141,12 +142,12 @@ export function getStringWidth(str){
 } 
 
 // 返回指定内空是否是基本的数据类型
-export function isBaseDataType(value){
+function isBaseDataType(value){
     return !(Array.isArray(value) || isPlainObject(value))
 }
  
 // 截取字符串，超过显示省略号，支持中文
-export function cutstr(str, len) {
+function cutstr(str, len) {
     if(getStringWidth(str)<=len) return str
     if(len<4) len = 4 
     var str_length = 0;
@@ -179,7 +180,7 @@ export function cutstr(str, len) {
  * @param {*} width 
  * @param {*} fillChar 
  */
-export function truncateString(s,width=80,fillChar="\n"){
+function truncateString(s,width=80,fillChar="\n"){
     if(s.length<=width) return s
     let lines=[] , index = 0
     while(index<s.length){
@@ -189,7 +190,7 @@ export function truncateString(s,width=80,fillChar="\n"){
     return lines.join(fillChar)
 }
  
-export function getDataType(v){
+function getDataType(v){
 	if (v === null)  return 'Null' 
 	if (v === undefined) return 'Undefined'  
     if(isClass(v)) return 'Class'
@@ -199,11 +200,11 @@ export function getDataType(v){
 	return v.constructor && v.constructor.name;
 };
  
-export function isPlainFunction(obj){
+function isPlainFunction(obj){
     return typeof obj === 'function' && !isClass(obj)
 }
  
-export function isRegexp(value) {
+function isRegexp(value) {
 	return Object.prototype.toString.call(value) === '[object RegExp]';
 }
 
@@ -215,7 +216,7 @@ export function isRegexp(value) {
  * @param {*} text 
  * @param {Function(word,match)} callback
  */
-export function forEachInterpolateVars(text,callback){
+function forEachInterpolateVars(text,callback){
     if(!(text.includes("{") && text.includes("}"))) return text
     if(typeof(text) === 'string'){
         return text.replace(/\{\s?(.*?)\s?\}/gm,(match,word)=>{
@@ -230,3 +231,32 @@ export function forEachInterpolateVars(text,callback){
     }    
 }
  
+
+
+module.exports = {
+    isClass,
+    isClassInstance,
+    getOwnEnumPropSymbols,
+    consoleOutput,
+    newline,
+    hideCursor,
+    showCursor,
+    paddingCenter,
+    paddingStart,
+    paddingEnd,
+    getLeftRepeatChars,
+    getRightRepeatChars,
+    repeatChars,
+    getSignalLineWidth,
+    getStringWidth,
+    isBaseDataType,
+    cutstr,
+    truncateString,
+    getDataType,
+    isPlainFunction,
+    isRegexp,
+    forEachInterpolateVars
+
+
+
+}

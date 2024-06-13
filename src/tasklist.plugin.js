@@ -45,8 +45,9 @@ tasks.next()
    
  */
 
-import { consoleOutput, getStringWidth,hideCursor,showCursor,newline, paddingEnd ,paddingCenter} from './utils.js' 
-import { deepMerge } from 'flex-tools/object/deepMerge' 
+const { consoleOutput, getStringWidth,hideCursor,showCursor,newline, paddingEnd ,paddingCenter}  = require('./utils')
+const {deepMerge} = require('flex-tools/object/deepMerge');
+
 
 const DefaultTaskListOptions  = { 
     indent    : "  ",       // 列表缩进 
@@ -330,7 +331,7 @@ function createTaskList(context,options){
  * 
  * @param {CreateTaskOptions} options 
  */
-export function createTasks(logsetContext,tasks=[],options={}){
+function createTasks(logsetContext,tasks=[],options={}){
     const {abortOnError=true,ignoreErrors=false} = options || {}
     const logsets = this
     if(!Array.isArray(tasks)) throw new TypeError("tasks must be an array")
@@ -409,7 +410,7 @@ export function createTasks(logsetContext,tasks=[],options={}){
 
 }
 
-export async function runTasks(logsetContext,title,tasks=[],options={}){
+async function runTasks(logsetContext,title,tasks=[],options={}){
     const runner = createTasks.call(this,logsetContext,tasks,options)
     await runner.run(title,options.context)
 }
@@ -420,7 +421,7 @@ export async function runTasks(logsetContext,title,tasks=[],options={}){
  * @param {*} log  指向logsets实例
  * @param {*} context  指向logsets实例的context
  */
- export default function(logsets,context){
+module.exports =  function(logsets,context){
     logsets.tasklist = (opts)=>{
         if(typeof(opts)=="string") opts={title:opts}
         return createTaskList.call(logsets,context,opts)

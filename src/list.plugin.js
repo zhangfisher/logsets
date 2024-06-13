@@ -12,8 +12,8 @@
  * 
  */
 
- import { consoleOutput} from "./utils.js"
- import { deepMerge } from 'flex-tools/object/deepMerge' 
+const consoleOutput = require("./utils").consoleOutput;
+const {deepMerge} = require('flex-tools/object/deepMerge');
  
  const  DefaultListOptions = { 
      indent       : "",                          // 整体缩进
@@ -87,7 +87,7 @@
   * @param {*} logger 
   * @param {*} context  当前上下文配置参数
   */
-export default function(logger,context){
+module.exports =  function(logger,context){
     logger.list = (title,items,options)=>createList.call(logger,context).show(title,items,options)
 }
 

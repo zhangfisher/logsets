@@ -4,8 +4,7 @@
     "description": "Nodejs terminal application output colorized enhancement",
     "main": "dist/index.cjs",
     "module": "dist/index.mjs",
-    "homepage": "https://zhangfisher.github.io/logsets/",
-    "type": "module",
+    "homepage": "https://zhangfisher.github.io/logsets/", 
     "types": "./src/index.d.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",

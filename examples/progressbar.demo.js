@@ -1,38 +1,39 @@
-import createLogger from "../src/index.js" 
-import processbarPlugin from "../src/progressbar.plugin.js"
+const logsets = require("../src")  
 
-const logger = createLogger()
-logger.use(processbarPlugin)
+const run = async ()=>{
+    const progressbar = logsets.progressbar({
+        title:"下载进度：",
+        slider:{
+            style:"bgDarkGray,red",
+            char:"="
+        }
+    })
 
-const progressbar = logger.progressbar({
-    title:"下载进度：",
-    slider:{
-        style:"bgDarkGray,red",
-        char:"="
+    async function delay(n=10){
+        return new Promise(resolve=>setTimeout(resolve,n))
     }
-})
+    progressbar.begin()
+    for(let i = 0 ; i <= 60; i++){
+        await delay()
+        progressbar.value(i)
+    }
+    progressbar.end()
+    logsets.log("")
 
-async function delay(n=10){
-    return new Promise(resolve=>setTimeout(resolve,n))
+    progressbar.begin()
+    progressbar.value(82)
+    progressbar.stop(logsets.colors.red("下载停止"))
+    logsets.log("")
+    
+    progressbar.begin()
+    progressbar.value(36)
+    progressbar.error(logsets.colors.yellow("下载失败"))
+    logsets.log("")
+
+
+
+    logsets.log("File download complate!")
+
 }
-progressbar.begin()
-for(let i = 0 ; i <= 60; i++){
-    await delay()
-    progressbar.value(i)
-}
-progressbar.end()
-logger.log("")
 
-progressbar.begin()
-progressbar.value(82)
-progressbar.stop(logger.colors.red("下载停止"))
-logger.log("")
- 
-progressbar.begin()
-progressbar.value(36)
-progressbar.error(logger.colors.yellow("下载失败"))
-logger.log("")
-
-
-
-logger.log("File download complate!")
+run()

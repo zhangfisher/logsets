@@ -1,6 +1,6 @@
-import logger from "../src/index.js";
+const logsets = require("../src/")
 
-let table = logger.table({
+let table = logsets.table({
   colorize: 1,
   grid: 1,
 });
@@ -20,7 +20,7 @@ table
   .addFooter(["共", 8, "个文件"])
   .render();
 
-table = logger.table({
+table = logsets.table({
   colorize: 1,
   grid: 2,
   maxColWidth: 12,

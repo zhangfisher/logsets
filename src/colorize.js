@@ -1,9 +1,9 @@
-'use strict';
 
-import stringifyObject from './stringify.js';
-import ansicolor from 'ansicolor'
-import { getDataType } from './utils.js';
-import { isPlainObject } from 'flex-tools/typecheck/isPlainObject';
+const stringifyObject = require('./stringify');
+const ansicolor = require('ansicolor');
+const { getDataType } = require('./utils');
+const { isPlainObject } = require('flex-tools/typecheck/isPlainObject');
+
 
 Object.assign(ansicolor.rgb,{
     bgDarkGray: [13,213,33]
@@ -33,7 +33,7 @@ Object.assign(ansicolor.rgb,{
  * @param {*} style 
  * @returns 
  */
-export function getColorizeFunction(style){
+function getColorizeFunction(style){
     let func 
     if(isPlainObject(style)) style = style.style || ""
     try{
@@ -52,7 +52,8 @@ export function getColorizeFunction(style){
     }    
     return func || ansicolor.dim
 }
-export function colorizeString(text,style){
+
+function colorizeString(text,style){
     return getColorizeFunction(style)(text)
 }
 
@@ -83,7 +84,7 @@ function colorizeBaseType(value,opts){
  * @param {*} opts 
  * @returns 
  */
-export default function colorize(obj, opts={}) {   
+function colorize(obj, opts={}) {   
     let options = opts
     
     const objType = getDataType(obj);    
@@ -117,3 +118,8 @@ export default function colorize(obj, opts={}) {
 } 
 
 
+module.exports = {
+    colorize,
+    getColorizeFunction,
+    colorizeString
+}

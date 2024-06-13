@@ -1,4 +1,4 @@
-import { darkGray } from "ansicolor" 
+const { darkGray } = require("ansicolor")
 
 // 'foreground colors'
 //     .red.green.yellow.blue.magenta.cyan.white.darkGray.black
@@ -11,7 +11,7 @@ import { darkGray } from "ansicolor"
 // 'styles'
 //     .bright.dim.italic.underline.inverse // your platform should support italic
 
-export const DefaultOptions ={
+const DefaultOptions ={
     indent: "  ",                                           // 缩进
     singleQuotes: false,                                    // 显示单引号 
     template: "[{level}] {datetime} - {message}",           // 模板
@@ -69,4 +69,8 @@ export const DefaultOptions ={
         error    : "red",
         fatal    : "red"
     } 
+} 
+
+module.exports = {
+    DefaultOptions
 }

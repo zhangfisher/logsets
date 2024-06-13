@@ -1,8 +1,7 @@
-import createLogger from "../src/index.js"  
+const logsets = require("../src")  
 
-const logger = createLogger() 
-
-let banner = logger.banner({ 
+ 
+let banner = logsets.banner({ 
 })
 
 banner.add("Logsets Utility Toolkit")
@@ -13,7 +12,7 @@ banner.add("Help:{} ","https://zhangfisher.github.io/flexci/")
 banner.render()
 
 
-banner = logger.banner({ 
+banner = logsets.banner({ 
     width:60
 })
 
@@ -31,7 +30,7 @@ banner.add("Logsets工具库")
 
 
 
-    const banner1 = logger.banner()
+    const banner1 = logsets.banner()
     banner1.add("VoerkaI18n")
     banner1.add("VoerkaI18n command line interactive tools",{style:"darkGray"})
     banner1.add() 

@@ -1,5 +1,5 @@
-import colorize, { getColorizeFunction } from './colorize.js'
-import {
+const{ colorize,getColorizeFunction} = require('./colorize');
+const {
     getDataType,
     getStringWidth, 
     paddingCenter,
@@ -8,11 +8,10 @@ import {
     paddingEnd,
     isBaseDataType,
     repeatChars
-  } from './utils.js'
-import ansicolor from 'ansicolor' 
-import { deepMerge } from 'flex-tools/object/deepMerge'
-import { isPlainObject } from 'flex-tools/typecheck/isPlainObject'
-
+} = require('./utils');
+const ansicolor = require('ansicolor');
+const{ deepMerge } = require('flex-tools/object/deepMerge');
+const { isPlainObject} = require('flex-tools/typecheck/isPlainObject');
 
 const { isEscaped }  = ansicolor
 
@@ -509,6 +508,6 @@ const DefaultTableOptions  = {
  * @param {*} logger      日志实例对象，可以调用logger.log()等方法
  * @param {*} context     全局配置参数
  */
-export default function(logger,context){
+module.exports = function(logger,context){
     logger.table = (opts={})=>createTable.call(logger,context,opts)
 }

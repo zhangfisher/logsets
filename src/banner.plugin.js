@@ -23,8 +23,9 @@
    ★☆
 
 */
-import { consoleOutput, getLeftRepeatChars, getRightRepeatChars, getStringWidth, paddingCenter,paddingStart, paddingEnd } from "./utils.js"
-import { deepMerge } from 'flex-tools/object/deepMerge' 
+const utils = require("./utils")
+const { consoleOutput, getLeftRepeatChars, getRightRepeatChars, getStringWidth, paddingCenter,paddingStart, paddingEnd } = utils
+const { deepMerge } = require('flex-tools/object/deepMerge')
 
 const  DefaultBannersOptions = { 
     indent       : " ",                          // 横幅缩进
@@ -135,6 +136,6 @@ function createBanner(context,options){
  * @param {*} logger 
  * @param {*} context  当前上下文配置参数
  */
- export default function(logger,context){
+module.exports = function(logger,context){
     logger.banner = (opts={})=>createBanner.call(logger,context,opts)
 }

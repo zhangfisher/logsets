@@ -20,8 +20,9 @@ progressbar.end()
 
  */
 
-import { deepMerge } from 'flex-tools/object/deepMerge'
-import { hideCursor,showCursor,consoleOutput } from './utils.js'
+const {deepMerge} = require('flex-tools/object/deepMerge');
+const { hideCursor, showCursor } = require('./utils');
+
 
 // 预设的主题样式
 const PresetThemes = {
@@ -135,7 +136,7 @@ function createProgressbar(context,options){
  * @param {*} log 
  * @param {*} context  当前表格的上下文配置参数
  */
- export default function(logger,context){
+module.exports = function(logger,context){
     logger.progressbar = (opts={})=>createProgressbar.call(logger,context,opts)
 }
  

@@ -1,6 +1,6 @@
 
 
-import logsets from "../src/index.js"  
+const logsets = require("../src/")
 
 
 

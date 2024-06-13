@@ -1,5 +1,7 @@
-import { isRegexp,getOwnEnumPropSymbols} from "./utils.js"  
-import { isPlainObject } from 'flex-tools/typecheck/isPlainObject';
+const isRegexp = require("./utils").isRegexp;
+const getOwnEnumPropSymbols = require("./utils").getOwnEnumPropSymbols;
+const { isPlainObject } = require('flex-tools/typecheck/isPlainObject');
+
 
 /**
  * 获取对象的键名对齐的长度
@@ -10,8 +12,7 @@ function getObjectKeysMaxLength(keys){
     },0)
 }
 
-
-export default function stringifyObject(input, options, pad) {
+module.exports = function stringifyObject(input, options, pad) {
 	const seen = [];
 
 	return (function stringify(input, options = {}, pad = '') {
