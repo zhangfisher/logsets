@@ -69,5 +69,7 @@
   },
   "pnpm": {
     "enable-pre-post-scripts": true
-  }
+  },
+  "packageManager": "pnpm@9.0.0"
+
 }
