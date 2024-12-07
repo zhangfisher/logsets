@@ -21,7 +21,7 @@ export interface BannerPluginOptions  {
 }
  
 export interface Banner{
-    add(text:string,vars?:any[] | Record<string>,options?:BannerPluginOptions):Banner
+    add(text:string,vars?:any[] | Record<string,any>,options?:BannerPluginOptions):Banner
     render():void
 }
 
