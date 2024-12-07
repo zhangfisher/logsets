@@ -35,51 +35,51 @@ pnpm add logsets
 
 - 模板字符串输出
 
-![image](./docs/images/log.jpg)
+![image](./docs/guide/images/log.jpg)
 
 - 按数据类型输出
 
-![image](./docs/images/log2.jpg)
+![image](./docs/guide/images/log2.jpg)
 
 - 格式化输出对象
 
-![image](./docs/images/log3.jpg)
-![image](./docs/images/log5.jpg)
+![image](./docs/guide/images/log3.jpg)
+![image](./docs/guide/images/log5.jpg)
 
 - 输出日志级别
 
-![image](./docs/images/log11.jpg)
+![image](./docs/guide/images/log11.jpg)
 
 - 表格输出
 
-![image](./docs/images/log6.jpg)
+![image](./docs/guide/images/log6.jpg)
  
-![image](./docs/images/log7.jpg)
+![image](./docs/guide/images/log7.jpg)
 
-![image](./docs/images/log8.jpg)
+![image](./docs/guide/images/log8.jpg)
 
 - 进度条
 
-![](./docs/images/progressbar.png)
+![](./docs/guide/images/progressbar.png)
 
 - 横幅
 
-![](./docs/images/banner1.png)
-![](./docs/images/banner2.png)
+![](./docs/guide/images/banner1.png)
+![](./docs/guide/images/banner2.png)
 
 
 - 任务列表
 
-![](./docs/images/tasklist.demo.gif) 
-![](./docs/images/createTasks.png) 
+![](./docs/guide/images/tasklist.demo.gif) 
+![](./docs/guide/images/createTasks.png) 
 
 
 - 树
 
-![](./docs/images/tree1.png)
-![](./docs/images/tree2.png)
+![](./docs/guide/images/tree1.png)
+![](./docs/guide/images/tree2.png)
 
 - 列表
 
-![](./docs/images/list.png)
+![](./docs/guide/images/list.png)
 
