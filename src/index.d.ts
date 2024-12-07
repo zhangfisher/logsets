@@ -1,5 +1,8 @@
 import type { Banner,BannerPluginOptions } from "./banner.plugin"
-import type { Task,TaskList,TaskListPluginOptions,CreateTaskDefine,CreateTasksOptions,TaskRunner } from "./tasklist.plugin"
+import type { Task,TaskList,TaskListPluginOptions,CreateTaskDefine,CreateTasksOptions,TaskRunner, 
+    RunTasksOptions,
+    TaskWrokerResult 
+} from "./tasklist.plugin"
 import type { Progressbar,ProgressbarPluginOptions } from "./progressbar.plugin"
 import type { Tree,TreePluginOptions } from "./tree.plugin"
 import type { Table,TablePluginOptions} from "./table.plugin"
@@ -52,7 +55,7 @@ export interface LogsetsOptions{
         error?    : NamedColorStyles
         fatal?    : NamedColorStyles
     } 
-};
+} 
 
 export interface Logsets{
     // 注册插件
@@ -108,6 +111,7 @@ export interface Logsets{
     run(title:string | [string,...any],tasks:CreateTaskDefine[],options?:RunTasksOptions):Promise<any>
     task(title:string,vars?:any[] | Record<string,any>):Task
     task(title:string,...vars:any[]):Task
+    task(title:string | [string,...any],worker:()=>Promise<TaskWrokerResult>):Promise<void>
     progressbar(options?:ProgressbarPluginOptions):Progressbar
     tree(options?:TreePluginOptions):Tree
     table(options?:TablePluginOptions):Table

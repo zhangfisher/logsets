@@ -40,7 +40,7 @@ export interface Task {
 
 export type InlineTaskStatus =  'ignore' | 'running' | 'complete' | 'error' | 'abort' | 'fail' | 'cancel' | 'skip' | 'stop' | 'todo'
 
-export type TaskWrokerResult =void |  string | InlineTaskStatus | Uppercase<InlineTaskStatus> | [InlineTaskStatus,string] |  [Uppercase<InlineTaskStatus>,string] 
+export type TaskWrokerResult = void |  string | InlineTaskStatus | Uppercase<InlineTaskStatus> | [InlineTaskStatus,string] |  [Uppercase<InlineTaskStatus>,string] 
 
 export type TaskList<CUSTOM_STATUS=any> = {
     add(title:string,vars?:any[] | Record<string,any>):void

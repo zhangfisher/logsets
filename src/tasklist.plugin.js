@@ -295,6 +295,7 @@ function createTaskList(context,options){
     return tasklistObj
 }
  
+
 /**
  * 
  * 创建多任务列表
@@ -355,7 +356,8 @@ function createTasks(logsetContext,tasks=[],options={}){
                         ctx.task = task
                         const result = await taskInfo.execute.call(ctx,ctx)   
                         let [status,tip]=result ? (Array.isArray(result) ? result : (
-                            result in taskList.options.status ? [result] : ["complete",result])) : ["complete"]
+                            result in taskList.options.status ? [result] : ["complete",result])
+                        ) : ["complete"]
                         status = status.toLowerCase()
                         if(status=='abort'){
                             task.abort(tip)
@@ -426,9 +428,29 @@ module.exports =  function(logsets,context){
         if(typeof(opts)=="string") opts={title:opts}
         return createTaskList.call(logsets,context,opts)
     }
+
     logsets.task = (...args)=>{
-        let tasks = createTaskList.call(logsets,context,{title:null,indent:"",width:62})
-        return tasks.add(...args)
+        const tasks = createTaskList.call(logsets,context,{title:null,indent:"",width:62})
+        if(args.length==2 && (typeof(args[0])=="string" || Array.isArray(args[0])) && typeof(args[1])=="function"){
+            const title = args[0]
+            const task  = tasks.add(Array.isArray(title) ? [...title] : title)
+            const fn = args[1]
+            return Promise.resolve(fn()).then((result)=>{
+                if(!result) return task.complete()
+                let [ method, tip ] = Array.isArray(result) ? result : [result]
+                method = method.toLowerCase()
+                if(method in task){
+                    task[method](tip)
+                }else{
+                    task.complete(tip)
+                }
+            }).catch(e=>{
+                task.error(e.message)
+            })
+            
+        }else{            
+            return tasks.add(...args)
+        }        
     }
     logsets.createTasks=(tasks,opts)=>createTasks.call(logsets,context,tasks,opts)
     logsets.run=async (title,tasks,opts)=>await runTasks.call(logsets,context,title,tasks,opts)

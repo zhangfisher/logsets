@@ -40,12 +40,12 @@ export default defineConfig({
           { text: "进度条", link: "/guide/progressbar" },
           { text: "分割条", link: "/guide/separator" },
           { text: "表格", link: "/guide/table" },
-          { text: "任务", link: "/guide/task" },
           {   text: "任务列表", 
               link: "/guide/tasklist",
               items:[
                 { text: "执行任务列表", link: "/guide/run-tasklist" },
                 { text: "快速任务列表", link: "/guide/quick-tasklist" },
+                { text: "执行单个任务", link: "/guide/task" },
               ]
 
           },
