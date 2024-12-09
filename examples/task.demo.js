@@ -28,6 +28,13 @@ async function run(){
     await logsets.task(["正常执行任务:{}","voerkai18n"],async ()=>{
         await delay(1000)        
     })
+    await logsets.task(["正常执行任务:{}","voerkai18n"],async (task)=>{
+        await delay(1000)        
+        for(let i=0;i<10;i++){
+            task.note(i+1)
+            await delay(100)
+        }
+    })
 }
 
 run()

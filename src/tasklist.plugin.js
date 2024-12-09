@@ -435,7 +435,7 @@ module.exports =  function(logsets,context){
             const title = args[0]
             const task  = tasks.add(Array.isArray(title) ? [...title] : title)
             const fn = args[1]
-            return Promise.resolve(fn()).then((result)=>{
+            return Promise.resolve(fn(task)).then((result)=>{
                 if(!result) return task.complete()
                 let [ method, tip ] = Array.isArray(result) ? result : [result]
                 method = method.toLowerCase()
@@ -445,7 +445,7 @@ module.exports =  function(logsets,context){
                     task.complete(tip)
                 }
             }).catch(e=>{
-                task.error(e.message)
+                task.error(e.stack)
             })
             
         }else{            

@@ -111,7 +111,7 @@ export interface Logsets{
     run(title:string | [string,...any],tasks:CreateTaskDefine[],options?:RunTasksOptions):Promise<any>
     task(title:string,vars?:any[] | Record<string,any>):Task
     task(title:string,...vars:any[]):Task
-    task(title:string | [string,...any],worker:()=>Promise<TaskWrokerResult>):Promise<void>
+    task(title:string | [string,...any],worker:(task:Task)=>Promise<TaskWrokerResult>):Promise<void>
     progressbar(options?:ProgressbarPluginOptions):Progressbar
     tree(options?:TreePluginOptions):Tree
     table(options?:TablePluginOptions):Table
