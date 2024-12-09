@@ -16,7 +16,8 @@
     "version": "conventional-changelog -p angular -i ./docs/CHANGELOG.md -s -r 0 && git add ./docs/CHANGELOG.md",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "publish:all":"changeset version && changeset publish"
   },
   "exports": {
     ".": {
@@ -71,5 +72,4 @@
     "enable-pre-post-scripts": true
   },
   "packageManager": "pnpm@9.0.0"
-
 }
