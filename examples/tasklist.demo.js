@@ -52,6 +52,7 @@ const run = async ()=>{
     //     await delay(1000)
     //     taskObj[task.result](task.note)
     // }
+    
     logsets.separator()
     let task = logsets.task("正在构建文件")
     await delay(100)

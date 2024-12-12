@@ -116,6 +116,15 @@ export interface Logsets{
     tree(options?:TreePluginOptions):Tree
     table(options?:TablePluginOptions):Table
     list(title:string | [string,...any] ,items:(string|ListItem)[],options?:ListPluginOptions):void
+
+    header(message: string):void
+    header(message: string,vars?:any[]):void
+    header(message: string,vars?:Record<string,any>):void
+    header(message: string,...vars:any[]):void
+    h(message: string):void
+    h(message: string,vars?:any[]):void
+    h(message: string,vars?:Record<string,any>):void
+    h(message: string,...vars:any[]):void
 }
 
 

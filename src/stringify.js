@@ -14,7 +14,6 @@ function getObjectKeysMaxLength(keys){
 
 module.exports = function stringifyObject(input, options, pad) {
 	const seen = [];
-
 	return (function stringify(input, options = {}, pad = '') {
 		const indent = options.indent || '\t';
 

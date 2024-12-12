@@ -132,8 +132,7 @@ function createTaskList(context,options){
     function createTask(...args){ 
         const self = this 
         let status = "running"     // 0-进行中，1-完成，2-错误，3-跳过，4-停止
-        let spinnerIndex = 0       // 动态旋转序号
-        let spinnerDir = 0          // 动态旋转方向
+        let spinnerIndex = 0       // 动态旋转序号 
         let progressValue = 0      // 进度值
         let timer = null
         let listNote = null
@@ -238,7 +237,7 @@ function createTaskList(context,options){
                 throw new TypeError()
             }
             const taskOpts = Object.assign({
-                catchError:false,            // 当运行worker出错时是否捕获
+                abortOnError:true,          // 当运行worker出错时抛出
                 showErrorStack:true         // 显示错误堆栈详细信息
             }, options)
             // 自动完成上一个任务
@@ -264,12 +263,12 @@ function createTaskList(context,options){
                 }                
             }catch(e){
                 curTask.error(e.message)                
-                if(taskOpts.showErrorStack && taskOpts.catchError){
+                if(taskOpts.showErrorStack){
                     logsets.log(e.stack)
                 }
-                if(!taskOpts.catchError){
-                    throw e
-                }
+                // if(taskOpts.abortOnError){
+                //     throw e
+                // }
             }
             return result
         },

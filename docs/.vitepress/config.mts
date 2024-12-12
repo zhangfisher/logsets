@@ -39,6 +39,7 @@ export default defineConfig({
           { text: "日志", link: "/guide/log" },
           { text: "进度条", link: "/guide/progressbar" },
           { text: "分割条", link: "/guide/separator" },
+          { text: "标题", link: "/guide/header" },
           { text: "表格", link: "/guide/table" },
           {   text: "任务列表", 
               link: "/guide/tasklist",

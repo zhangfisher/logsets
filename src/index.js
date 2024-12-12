@@ -9,6 +9,7 @@ const tablePlugin = require("./table.plugin");
 const tasklistPlugin = require("./tasklist.plugin");
 const treePlugin = require("./tree.plugin");
 const listPlugin = require("./list.plugin");
+const headerPlugin = require("./header.plugin");
 const { deepMerge } = require("flex-tools/object/deepMerge");
 const { isPlainObject } = require("flex-tools/typecheck/isPlainObject");
 
@@ -243,6 +244,7 @@ function createLogger(opts = {}) {
     log.use(tasklistPlugin)
     log.use(treePlugin)
     log.use(listPlugin)
+    log.use(headerPlugin)
     return log
 }
 

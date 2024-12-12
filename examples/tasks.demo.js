@@ -25,7 +25,7 @@ const taskList =[
 
 			await delay();
             for(let i=0;i<100;i++){
-                await delay(100)
+                await delay(5)
                 task.note(`${i}%`)
             }
 		},
@@ -41,6 +41,7 @@ const taskList =[
 		title: "任务执行失败",
 		execute: async function () {
 			await delay();
+			// throw new Error("任务执行失败");
 		},
 	},
 	{
