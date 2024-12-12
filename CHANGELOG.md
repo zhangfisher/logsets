@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.13
+
+### Patch Changes
+
+- 8d11df6: add logsets.header output head
+
 ## 1.3.12
 
 ### Patch Changes
