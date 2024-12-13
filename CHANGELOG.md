@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.14
+
+### Patch Changes
+
+- 93ad063: fix `logsets.colors`的类型提示
+
 ## 1.3.13
 
 ### Patch Changes
