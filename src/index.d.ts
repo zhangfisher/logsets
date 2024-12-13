@@ -1,13 +1,9 @@
 import type { Banner,BannerPluginOptions } from "./banner.plugin"
-import type { Task,TaskList,TaskListPluginOptions,CreateTaskDefine,CreateTasksOptions,TaskRunner, 
-    RunTasksOptions,
-    TaskWrokerResult 
-} from "./tasklist.plugin"
+import type { Task,TaskList,TaskListPluginOptions,CreateTaskDefine,CreateTasksOptions,TaskRunner, RunTasksOptions,TaskWrokerResult } from "./tasklist.plugin"
 import type { Progressbar,ProgressbarPluginOptions } from "./progressbar.plugin"
 import type { Tree,TreePluginOptions } from "./tree.plugin"
 import type { Table,TablePluginOptions} from "./table.plugin"
-import type { NamedColorStyles } from "./colors"
-import type ansicolor from "ansicolor"
+import type { NamedColorStyles,ColorizedMethods } from "./colors"
 import type { ListPluginOptions,ListItem} from './list.plugin';
 
 export type Class = new (...args: any[]) => any
@@ -101,7 +97,7 @@ export interface Logsets{
     
     options:LogsetsOptions
     
-    colors:ansicolor
+    colors:ColorizedMethods
     
     config(options:LogsetsOptions):Logsets
 
