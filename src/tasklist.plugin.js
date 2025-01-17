@@ -47,7 +47,7 @@ tasks.next()
 
 const { consoleOutput, getStringWidth,hideCursor,showCursor,newline, paddingEnd ,paddingCenter}  = require('./utils')
 const {deepMerge} = require('flex-tools/object/deepMerge');
-
+const ansicolor = require('ansicolor');
 
 const DefaultTaskListOptions  = { 
     indent    : "  ",       // 列表缩进 
@@ -115,8 +115,7 @@ const DefaultTaskListOptions  = {
   
 function createTaskList(context,options){
     const logsets = this  
-    const opts = deepMerge({},DefaultTaskListOptions,options) 
-    let curIndent = opts.indent
+    const opts = deepMerge({},DefaultTaskListOptions,options)  
     // 显示任务标题 ? bright
     if(opts.title){
         let titleColorizer = logsets.getColorizer(opts.style)
@@ -129,162 +128,180 @@ function createTaskList(context,options){
     const spinnerChars = ["|","/","-","\\","|","/","-","\\"]
     const getColorizer = logsets.getColorizer 
 
-    function createTask(...args){ 
-        const self = this 
-        let status = "running"     // 0-进行中，1-完成，2-错误，3-跳过，4-停止
-        let spinnerIndex = 0       // 动态旋转序号 
-        let progressValue = 0      // 进度值
-        let timer = null
-        let listNote = null
-        self.isEnd = ()=>status!="running"
-        self.note = (info) => listNote = logsets.colors.darkGray(paddingEnd(info,20))
-        self.render = ()=>{
-            // 显示列表项符号
-            const symbolOptions =  opts.status[status]
-            let symbol = symbolOptions.symbol
-            if(status==="running"){
-                symbol = spinnerChars[spinnerIndex++]
-                if(spinnerIndex>=spinnerChars.length) {
-                    spinnerIndex = 0  
-                }
-                symbol = getColorizer(symbolOptions.style)(symbol) 
-            }else{
-                symbol = getColorizer(symbolOptions.style)(symbolOptions.symbol)                
-            }
-            // 文本内容
-            let title = logsets.getColorizedTemplate(...args)
-            // 显示进度条
-            let progressbarWidth = opts.width - getStringWidth(title) 
-            let progressbar = ""
-            if(progressbarWidth<1) progressbarWidth = 0
-            if(opts.progressbar.char.length>0 && progressbarWidth>0){
-                progressValue ++ 
-                if(progressValue>progressbarWidth) progressValue = 0
-                if(status!=="running"){
-                    progressValue = progressbarWidth
-                }
-                progressbar = new Array(progressValue).fill(opts.progressbar.char).join("")
-                progressbar = paddingEnd(progressbar,progressbarWidth," ")
-                progressbar = getColorizer(opts.progressbar.style)(progressbar)
-            }     
-            // 显示note
-            let note =listNote || opts.status[status].note
-            note = paddingEnd(getColorizer(opts.status[status].style)(note),30)
-            consoleOutput(`${curIndent}${symbol} ${title}${progressbar}${note}`,{end:"\r"})
+    function createTask(...args) {
+      const self = this;
+      let status = "running"; // 0-进行中，1-完成，2-错误，3-跳过，4-停止
+      let spinnerIndex = 0; // 动态旋转序号
+      let progressValue = 0; // 进度值
+      let timer = null;
+      let listNote = null;
+      self.options = opts
+      self.isEnd = () => status != "running";
+      self.note = (info) =>
+        (listNote = logsets.colors.darkGray(paddingEnd(info, 20)));
+      self.render = () => {
+        // 显示列表项符号
+        const symbolOptions = opts.status[status];
+        let symbol = symbolOptions.symbol;
+        if (status === "running") {
+          symbol = spinnerChars[spinnerIndex++];
+          if (spinnerIndex >= spinnerChars.length) {
+            spinnerIndex = 0;
+          }
+          symbol = getColorizer(symbolOptions.style)(symbol);
+        } else {
+          symbol = getColorizer(symbolOptions.style)(symbolOptions.symbol);
         }
-        self.start = function(){
-            timer = setInterval(()=>{
-                if(status!=="running") clearInterval(timer)     //  停止任务
-                self.render()                           // 反复渲染任务
-            },opts.refInterval)
+        // 文本内容
+        let title = logsets.getColorizedTemplate(...args);
+        // 显示进度条
+        let progressbarWidth = opts.width - getStringWidth(title);
+        let progressbar = "";
+        if (progressbarWidth < 1) progressbarWidth = 0;
+        if (opts.progressbar.char.length > 0 && progressbarWidth > 0) {
+          progressValue++;
+          if (progressValue > progressbarWidth) progressValue = 0;
+          if (status !== "running") {
+            progressValue = progressbarWidth;
+          }
+          progressbar = Array.from({ length: progressValue })
+            .fill(opts.progressbar.char)
+            .join("");
+          progressbar = paddingEnd(progressbar, progressbarWidth, " ");
+          progressbar = getColorizer(opts.progressbar.style)(progressbar);
         }
-        self.end=()=>{
-            clearInterval(timer) 
-            self.render()
-            newline()
-            showCursor()
-        }
-        self.indent = ()=>{curIndent = curIndent + opts.indent}
-        self.outdent = (reset)=>{
-            curIndent = (curIndent=='' || reset==true) ? opts.indent : curIndent.substring(0,curIndent.length-opts.indent.length)
-        }        
-        Object.entries(opts.status).forEach(([key,state])=>{
-            self[key] = (note)=>{            
-                let finalNote = note
-                if(typeof(note)==="function") finalNote = note()
-                if(finalNote instanceof Error)  finalNote = note.error
-                listNote = note || state.note
-                status = key
-                self.end()
-            }
-        }) 
-    }
+        // 显示note
+        let note = listNote || opts.status[status].note;
+        note = paddingEnd(getColorizer(opts.status[status].style)(note), 30);
+        consoleOutput(`${opts.indent}${symbol} ${title}${progressbar}${note}`, {
+          end: "\r",
+        });
+      };
+      self.start = function () {
+        timer = setInterval(() => {
+          if (status !== "running") clearInterval(timer); //  停止任务
+          self.render(); // 反复渲染任务
+        }, opts.refInterval);
+      };
+      self.end = () => {
+        clearInterval(timer);
+        self.render();
+        newline();
+        showCursor();
+      };
+      self.indent = () => {
+        opts.indent = opts.indent + opts.indent;
+      };
+      self.outdent = (reset) => {
+        opts.indent =
+          opts.indent == "" || reset == true
+            ? opts.indent
+            : opts.indent.substring(0, opts.indent.length - opts.indent.length);
+      };
+      Object.entries(opts.status).forEach(([key, state]) => {
+        self[key] = (note) => {
+          let finalNote = note;
+          if (typeof note === "function") finalNote = note();
+          if (finalNote instanceof Error) finalNote = note.error;
+          listNote = note || state.note;
+          status = key;
+          self.end();
+        };
+      });
+    } 
 
-    let tasklistObj =  {
-        options:opts,
-        add(...args){
-            // 自动完成上一个任务
-            if(curTask && !curTask.isEnd()){ 
-                curTask.complete()             
-            }            
-            curTask = new createTask(...args)
-            curTask.start()
-            hideCursor()
-            return curTask
-        },
-        indent(str){
-            curTask.indent(str)
-        },
-        outdent(reset){
-            curTask.outdent(reset)
-        },
-        // 运行workr任务函数
-        async run(){
-            let title,vars,worker,options
-            if(arguments.length==2){
-                title=arguments[0]
-                worker=arguments[1]
-            }else if(arguments.length==3){
-                title=arguments[0]
-                vars=arguments[1]
-                worker=arguments[2]
-            }else if(arguments.length==4){
-                title=arguments[0]
-                vars=arguments[1]
-                worker=arguments[2]
-                options=arguments[3]
-            }else{
-                throw new TypeError()
-            }
-            const taskOpts = Object.assign({
-                abortOnError:true,          // 当运行worker出错时抛出
-                showErrorStack:true         // 显示错误堆栈详细信息
-            }, options)
-            // 自动完成上一个任务
-            if(curTask && !curTask.isEnd()){ 
-                curTask.complete()             
-            }            
-            curTask = new createTask(title,vars)
-            curTask.start()
-            let result = 'ok'
-            try{
-                result = await worker()
-                if(typeof(result) == 'string' && (result.toLowerCase() in opts.status)){
-                    curTask[result.toLowerCase()]()
-                }else if(Array.isArray(result)){
-                    if(result.length<2) result.push(undefined)
-                    if(typeof(result[0]) == 'string' && (result[0].toLowerCase() in opts.status)){
-                        curTask[result[0].toLowerCase()](result[1])
-                    }else{
-                        curTask.complete()    
-                    }
-                }else{
-                    curTask.complete(result)
-                }                
-            }catch(e){
-                curTask.error(e.message)                
-                if(taskOpts.showErrorStack){
-                    logsets.log(e.stack)
-                }
-                // if(taskOpts.abortOnError){
-                //     throw e
-                // }
-            }
-            return result
-        },
-        separator(title="",char="─"){
-            if(!title) title=''
-            if(title=="-") title = "─"
-            if(curTask && !curTask.isEnd()){ 
-                curTask.abort()
-                curTask=null
-            }
-            consoleOutput(opts.indent + logsets.colors.darkGray(paddingCenter(title,opts.width+4,char)))
-            
-            // consoleOutput(opts.indent + logsets.colors.darkGray(new Array(opts.width + 2).fill(char).join("")))
+    let tasklistObj = {
+      options: opts,
+      add(...args) {
+        // 自动完成上一个任务
+        if (curTask && !curTask.isEnd()) {
+          curTask.complete();
         }
-    }
-    Object.entries(opts.status).forEach(([key,state])=>{
+        curTask = new createTask(...args);
+        curTask.start();
+        hideCursor();
+        return curTask;
+      },
+      indent(str) {
+        curTask.indent(str);
+      },
+      outdent(reset) {
+        curTask.outdent(reset);
+      },
+      // 运行workr任务函数
+      async run() {
+        let title, vars, worker, options;
+        if (arguments.length == 2) {
+          title = arguments[0];
+          worker = arguments[1];
+        } else if (arguments.length == 3) {
+          title = arguments[0];
+          vars = arguments[1];
+          worker = arguments[2];
+        } else if (arguments.length == 4) {
+          title = arguments[0];
+          vars = arguments[1];
+          worker = arguments[2];
+          options = arguments[3];
+        } else {
+          throw new TypeError();
+        }
+        const taskOpts = Object.assign(
+          {
+            abortOnError: true, // 当运行worker出错时抛出
+            showErrorStack: true, // 显示错误堆栈详细信息
+          },
+          options
+        );
+        // 自动完成上一个任务
+        if (curTask && !curTask.isEnd()) {
+          curTask.complete();
+        }
+        curTask = new createTask(title, vars);
+        curTask.start();
+        let result = "ok";
+        try {
+          result = await worker();
+          if (
+            typeof result == "string" &&
+            result.toLowerCase() in opts.status
+          ) {
+            curTask[result.toLowerCase()]();
+          } else if (Array.isArray(result)) {
+            if (result.length < 2) result.push(undefined);
+            if (
+              typeof result[0] == "string" &&
+              result[0].toLowerCase() in opts.status
+            ) {
+              curTask[result[0].toLowerCase()](result[1]);
+            } else {
+              curTask.complete();
+            }
+          } else {
+            curTask.complete(result);
+          }
+        } catch (e) {
+          curTask.error(e.message);
+          if (taskOpts.showErrorStack) {
+            logsets.log(e.stack);
+          }
+        }
+        return result;
+      },
+      separator(title = "", char = "─") {
+        if (!title) title = "";
+        if (title == "-") title = "─";
+        if (curTask && !curTask.isEnd()) {
+          curTask.abort();
+          curTask = null;
+        }
+        consoleOutput(
+          opts.indent +
+            logsets.colors.darkGray(paddingCenter(title, opts.width + 4, char))
+        ); 
+      },
+    };
+    Object.entries(opts.status).forEach(([key])=>{
         tasklistObj[key] = note=>{
             if(curTask){
                 curTask[key](note)
@@ -332,7 +349,7 @@ function createTaskList(context,options){
  * @param {CreateTaskOptions} options 
  */
 function createTasks(logsetContext,tasks=[],options={}){
-    const {abortOnError=true,ignoreErrors=false} = options || {}
+    const {abortOnError=true,ignoreErrors=false, grouped=false } = options || {}
     const logsets = this
     if(!Array.isArray(tasks)) throw new TypeError("tasks must be an array")
     return {
@@ -340,17 +357,23 @@ function createTasks(logsetContext,tasks=[],options={}){
             let hasError = false
             let taskList = logsets.tasklist({
                 title,
-                indent:"  "
-            })
-            const ctx = context || {}
-            let errors=[]
+                indent:  grouped ? ansicolor.darkGray(" │ ") : '  '
+            }) 
+            const ctx = context || {} 
             let hasAbort =false
             for(let i=0;i<tasks.length;i++){
                 const taskInfo = tasks[i]
-                const taskTitle = (Array.isArray(tasks[i].title) ? tasks[i].title: [tasks[i].title])
-                const task = typeof(taskInfo)=="string" ? taskList.separator(taskInfo) : taskList.add(...taskTitle)
-                if(typeof(taskInfo)=="string") continue // 忽略分割符                
-                if(typeof(taskInfo.execute)=="function"){
+                const taskTitle = (Array.isArray(tasks[i].title) ? tasks[i].title: [tasks[i].title])                
+                if(taskInfo == "-"){
+                    if(grouped) taskList.options.indent = ansicolor.darkGray(" ├──") 
+                    taskList.separator(taskInfo)
+                }else if(Array.isArray(taskInfo) || typeof(taskInfo)=="string"){
+                    const message =(grouped ? ansicolor.darkGray(" ├── ") : '') + (Array.isArray(taskInfo) ? taskInfo[0] : taskInfo)
+                    const args = Array.isArray(taskInfo) ? taskInfo.slice(1) : []
+                    logsets.log(logsets.colorizeString(message,"bright"),...args)
+                }else if(typeof(taskInfo)=="object" && typeof(taskInfo.execute)=="function"){ 
+                    if(grouped) taskList.options.indent = ansicolor.darkGray(i==tasks.length-1 ? " └── " : " │   ") 
+                    const task =  taskList.add(...taskTitle)
                     try{
                         ctx.task = task
                         const result = await taskInfo.execute.call(ctx,ctx)   
@@ -368,20 +391,26 @@ function createTasks(logsetContext,tasks=[],options={}){
                             task.complete(tip)
                         }
                     }catch(error){
-                        hasError=error
-                        errors.push(error)
-                        let errorResult = taskInfo.error
-                        if(typeof(taskInfo.error)=="function"){
-                            errorResult = await taskInfo.error.call(ctx,{error,context:ctx})
+                        hasError=error 
+                        let customError = taskInfo.error
+                        let errStatus,errTip
+                        if(customError){
+                            if(typeof(taskInfo.error)=="function"){
+                                customError = await taskInfo.error.call(ctx,{error,context:ctx})
+                            }
+                            [errStatus,errTip]= customError ? (Array.isArray(customError) ? customError : (
+                                customError in taskList.options.status ? [customError] : ["error",customError])) : ["error"]                        
+                            errStatus = errStatus.toLowerCase()
+                            if(typeof(errTip)=='string'){
+                                errTip=errTip.replace("{message}",error.message)
+                                errTip=errTip.replace("{code}",error.code)
+                                errTip=errTip.replace("{stack}",error.stack)
+                            }                        
+                        }else{
+                            errStatus = "error"
+                            errTip = error.message
                         }
-                        let [errStatus,errTip]= errorResult ? (Array.isArray(errorResult) ? errorResult : (
-                            errorResult in taskList.options.status ? [errorResult] : ["error",errorResult])) : ["error"]                        
-                        errStatus = errStatus.toLowerCase()
-                        if(typeof(errTip)=='string'){
-                            errTip=errTip.replace("{message}",error.message)
-                            errTip=errTip.replace("{code}",error.code)
-                            errTip=errTip.replace("{stack}",error.stack)
-                        }                        
+                        
                         if(errStatus=='abort'){
                             task.abort(errTip)
                             hasAbort=true
@@ -391,19 +420,13 @@ function createTasks(logsetContext,tasks=[],options={}){
                         }else{
                             task.error(errTip)
                         }
+                        console.error(error.stack)
                     }
-                }else{
-                    task.skip()
-                } 
+                }
+ 
                 if(!ignoreErrors && hasError && (abortOnError || hasAbort)){
                     throw hasError
                 }
-            }
-            if(!ignoreErrors && hasError && (abortOnError || hasAbort)){
-                throw hasError
-            }
-            if(errors && errors.length>0){
-                ctx.errors=errors
             }
             return ctx
         }    
@@ -444,7 +467,8 @@ module.exports =  function(logsets,context){
                     task.complete(tip)
                 }
             }).catch(e=>{
-                task.error(e.stack)
+                task.error(e.message)
+                console.error(e.stack)
             })
             
         }else{            

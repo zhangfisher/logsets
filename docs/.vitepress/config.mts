@@ -46,7 +46,8 @@ export default defineConfig({
               items:[
                 { text: "执行任务列表", link: "/guide/run-tasklist" },
                 { text: "快速任务列表", link: "/guide/quick-tasklist" },
-                { text: "执行单个任务", link: "/guide/task" },
+                { text: "分组任务列表", link: "/guide/grouped-tasks" },
+                { text: "执行单个任务", link: "/guide/task" },                
               ]
 
           },

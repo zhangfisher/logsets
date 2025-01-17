@@ -41,9 +41,10 @@ const taskList =[
 		title: "任务执行失败",
 		execute: async function () {
 			await delay();
-			// throw new Error("任务执行失败");
+			throw new Error("任务执行失败");
 		},
 	},
+	["asdsdsd","asdsdsd"],
 	{
 		title: "任务待办状态",
 		execute: async function () {
@@ -63,13 +64,15 @@ const taskList =[
 		},
 	},
 ]
-let tasks = logsets.createTasks(taskList);
+let tasks = logsets.createTasks(taskList,{
+	ignoreErrors:true
+});
 
-tasks.run().then(() => {
+tasks.run("开始执行任务").then(() => {
 	console.log("done");
-	logsets.run(["开始执行{}个任务",5],taskList).then(() => {
-		console.log("done");
-	});
+	// logsets.run(["开始执行{}个任务",5],taskList).then(() => {
+	// 	console.log("done");
+	// });
 	
 });
 

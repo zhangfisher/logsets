@@ -47,7 +47,7 @@ function getColorizeFunction(style){
                 }
             }
         }
-    }catch(e){
+    }catch{
         return ansicolor.dim
     }    
     return func || ansicolor.dim
