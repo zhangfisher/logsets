@@ -41,15 +41,16 @@ export default defineConfig({
           { text: "分割条", link: "/guide/separator" },
           { text: "标题", link: "/guide/header" },
           { text: "表格", link: "/guide/table" },
-          {   text: "任务列表", 
-              link: "/guide/tasklist",
-              items:[
+          {   
+            text: "任务列表", 
+            collapsed:false,
+            items:[
+                { text: "创建任务列表", link: "/guide/tasklist" },
                 { text: "执行任务列表", link: "/guide/run-tasklist" },
                 { text: "快速任务列表", link: "/guide/quick-tasklist" },
                 { text: "分组任务列表", link: "/guide/grouped-tasks" },
                 { text: "执行单个任务", link: "/guide/task" },                
-              ]
-
+            ]
           },
           { text: "树", link: "/guide/tree" }
         ]
