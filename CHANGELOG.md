@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.15
+
+### Patch Changes
+
+- 02384cd: 任务列表新支持分组
+
 ## 1.3.14
 
 ### Patch Changes
