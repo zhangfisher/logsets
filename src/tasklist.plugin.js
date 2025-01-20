@@ -137,8 +137,13 @@ function createTaskList(context,options){
       let listNote = null;
       self.options = opts
       self.isEnd = () => status != "running";
-      self.note = (info) =>
-        (listNote = logsets.colors.darkGray(paddingEnd(info, 20)));
+      self.note = (info) =>{
+        if(Array.isArray(info)){
+          listNote = logsets.getColorizedTemplate(...info)
+        }else{
+          listNote = logsets.colors.darkGray(paddingEnd(info, 20))
+        }        
+      }        
       self.render = () => {
         // 显示列表项符号
         const symbolOptions = opts.status[status];
@@ -199,11 +204,19 @@ function createTaskList(context,options){
             : opts.indent.substring(0, opts.indent.length - opts.indent.length);
       };
       Object.entries(opts.status).forEach(([key, state]) => {
-        self[key] = (note) => {
-          let finalNote = note;
-          if (typeof note === "function") finalNote = note();
-          if (finalNote instanceof Error) finalNote = note.error;
-          listNote = note || state.note;
+        self[key] = (...args) => {
+          const notes = [...args].map((note) => {
+            if (typeof note === "function") return note();
+            if (note instanceof Error) return note.message;
+            return note;
+          });
+          const colorizedNote = logsets.getColorizedTemplate(...notes);
+
+          // let finalNote = note;
+          // if (typeof note === "function") finalNote = note();
+          // if (finalNote instanceof Error) finalNote = note.message;
+
+          listNote = colorizedNote || state.note;
           status = key;
           self.end();
         };
@@ -297,14 +310,14 @@ function createTaskList(context,options){
         }
         consoleOutput(
           opts.indent +
-            logsets.colors.darkGray(paddingCenter(title, opts.width + 4, char))
+            logsets.colors.darkGray(paddingCenter(title, opts.width + 6, char))
         ); 
       },
     };
     Object.entries(opts.status).forEach(([key])=>{
-        tasklistObj[key] = note=>{
+        tasklistObj[key] = (...args)=>{
             if(curTask){
-                curTask[key](note)
+                curTask[key](...args)
             }
         }
     }) 

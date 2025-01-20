@@ -48,6 +48,7 @@ const FATAL = 'FATAL'
  * @returns
  */
 function getColorizedTemplate(template,...args) {    
+    if(!template) return ""
     let logOptions = this
     let vars
     if(arguments.length===1 && Array.isArray(arguments[0])){
@@ -140,6 +141,9 @@ function logOutput(level, message, args, memo) {
     consoleOutput(output)
 }
 
+
+
+
 /**
  *
  *  logger.options({}).print(...)
@@ -198,7 +202,7 @@ function printTemplate(message, ...args) {
 
 /**
  *
- *  const logger = createLogger({})
+ *  const logger = createLogsets({})
  *  logger.log("{a}+{b}",{a:1,b:2})                  // 变量插值输出
  *  logger.log("{}+{}",1,2)                          // 位置参数插值输出
  *  logger.print(...)
@@ -212,7 +216,7 @@ function printTemplate(message, ...args) {
  * @param {*} opts
  */
 
-function createLogger(opts = {}) {
+function createLogsets(opts = {}) {
     let options = deepMerge(DefaultOptions, opts)
     let log = {}
     log.log                  = (message, ...args) => printTemplate.call(options, message, ...args)
@@ -248,8 +252,8 @@ function createLogger(opts = {}) {
     return log
 }
 
-const defaultLogger = createLogger()
+const defaultLogger = createLogsets()
 
-Object.assign(createLogger,defaultLogger)
+Object.assign(createLogsets,defaultLogger)
 
-module.exports = createLogger
+module.exports = createLogsets

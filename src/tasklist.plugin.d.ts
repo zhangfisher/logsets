@@ -23,19 +23,19 @@ export type CustomTaskList<CUSTOM_STATUS> = {
     [key in keyof CUSTOM_STATUS]: (note?:string)=>void 
 }
 export interface Task {    
-    note(info:string):void
     running():boolean    
     start():void
     end():void
-    running(note?:string):void
-    complete(note?:string):void
-    error(note?:string):void
-    fail(note?:string):void
-    skip(note?:string):void
-    stop(note?:string):void
-    todo(note?:string):void 
-    ignore(note?:string):void
-    cancel(note?:string):void 
+    note(info:string | string[]):void
+    running(note?:string | string[]):void
+    complete(note?:string | string[]):void
+    error(note?:string | string[]):void
+    fail(note?:string | string[]):void
+    skip(note?:string | string[]):void
+    stop(note?:string | string[]):void
+    todo(note?:string | string[]):void 
+    ignore(note?:string | string[]):void
+    cancel(note?:string | string[]):void 
 }
 
 export type InlineTaskStatus =  'ignore' | 'running' | 'complete' | 'error' | 'abort' | 'fail' | 'cancel' | 'skip' | 'stop' | 'todo'
