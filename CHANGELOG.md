@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.16
+
+### Patch Changes
+
+- b1c8057: feat: task.note 和 task.[status]支持插值字符串
+
 ## 1.3.15
 
 ### Patch Changes
