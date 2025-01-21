@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.17
+
+### Patch Changes
+
+- efb127d: update taslkgroup symbol
+
 ## 1.3.16
 
 ### Patch Changes
