@@ -378,10 +378,10 @@ function createTasks(logsetContext,tasks=[],options={}){
                 const taskInfo = tasks[i]
                 const taskTitle = (Array.isArray(tasks[i].title) ? tasks[i].title: [tasks[i].title])                
                 if(taskInfo == "-"){
-                    if(grouped) taskList.options.indent = ansicolor.darkGray(" ├──") 
+                    if(grouped) taskList.options.indent = ansicolor.darkGray("  ├──") // ├
                     taskList.separator(taskInfo)
                 }else if(Array.isArray(taskInfo) || typeof(taskInfo)=="string"){
-                    const message =(grouped ? ansicolor.darkGray(" ├── ") : '') + (Array.isArray(taskInfo) ? taskInfo[0] : taskInfo)
+                    const message =(grouped ? ansicolor.darkGray(" ♦── ") : '') + (Array.isArray(taskInfo) ? taskInfo[0] : taskInfo)
                     const args = Array.isArray(taskInfo) ? taskInfo.slice(1) : []
                     logsets.log(logsets.colorizeString(message,"bright"),...args)
                 }else if(typeof(taskInfo)=="object" && typeof(taskInfo.execute)=="function"){ 
