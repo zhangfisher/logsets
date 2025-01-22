@@ -47,7 +47,7 @@ tasks.next()
 
 const { consoleOutput, getStringWidth,hideCursor,showCursor,newline, paddingEnd ,paddingCenter}  = require('./utils')
 const {deepMerge} = require('flex-tools/object/deepMerge');
-const ansicolor = require('ansicolor');
+const ansicolor = require('ansicolor'); 
 
 const DefaultTaskListOptions  = { 
     indent    : "  ",       // 列表缩进 
@@ -234,6 +234,14 @@ function createTaskList(context,options){
         curTask.start();
         hideCursor();
         return curTask;
+      },      
+      create(...args) {// 创任务但不自动开始
+          if (curTask && !curTask.isEnd()) {
+            curTask.complete();
+          }
+          curTask = new createTask(...args);
+          hideCursor();
+          return curTask;
       },
       indent(str) {
         curTask.indent(str);

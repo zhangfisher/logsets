@@ -99,8 +99,8 @@ logsets.list(title,[
 logsets.list(title,items:ListItem[],options:ListPluginOptions)
 
 interface ListPluginOptions  { 
-    grouped?      : boolean                          // 是否分组显示
-    groupSymbol?  : string                           // 分组符号，默认为"♦"
+    grouped?      : boolean                         // 是否分组显示
+    groupSymbol?  : string                          // 分组符号，默认为"♦"
     indent?       : string                          // 整体缩进
     showOrderNumber?:boolean                        // 是否显示序号
     title?        : {
