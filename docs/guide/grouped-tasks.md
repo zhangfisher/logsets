@@ -75,4 +75,4 @@ let tasks = logsets.createTasks(taskList,{
 });
 ```
 
-![](./images/grouped-tasks-line.png)
+![](./images/task-grouped.png)

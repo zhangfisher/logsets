@@ -54,7 +54,11 @@ logsets.list(["欢迎使用{}国际化解决方案",'VoerkaI18n'], [
 
 输出效果如下：
 
-![](./images/list.png)
+![](./images/list2.png)
+
+
+## 动态列表
+
 
 
 ## 定义列表项
@@ -99,6 +103,8 @@ logsets.list(title,[
 logsets.list(title,items:ListItem[],options:ListPluginOptions)
 
 interface ListPluginOptions  { 
+    grouped?      : boolean                          // 是否分组显示
+    groupSymbol?  : string                           // 分组符号，默认为"♦"
     indent?       : string                          // 整体缩进
     showOrderNumber?:boolean                        // 是否显示序号
     title?        : {
