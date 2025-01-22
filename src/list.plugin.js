@@ -34,14 +34,20 @@ const {deepMerge} = require('flex-tools/object/deepMerge');
 function createList(){
      const logsets = this      
      return { 
-        show(title,items=[],options={}){ 
+        async show(title,items=[],options={}){ 
             const opts = deepMerge({},DefaultListOptions,options) 
+
+            const getItem = typeof(items)=='function' ? items : (index)=>items[index]
+
             // 显示标题
             const colorizedTitle = logsets.getColorizer(opts.title.style)(logsets.getColorizedTemplate(title))
             consoleOutput(`${opts.indent} ${opts.title.emoji} ${colorizedTitle}`)
-            // 显示总结项            
-            items.forEach((item,index)=>{
-
+            let index =0
+            let isEndItem = false
+            const setEnd = ()=>isEndItem = true
+            while(true){
+                const item = await getItem(index++,setEnd)
+                if(item == undefined) break
                 if(typeof(item)=='string' || Array.isArray(item)){
                     const [message,...args] = Array.isArray(item) ? item : [item]
                     logsets.log(
@@ -67,7 +73,7 @@ function createList(){
                     if(!itemData) return
                     // 显示分组线
                     if(opts.grouped){                        
-                        if(index==items.length-1 && !item.description){
+                        if(isEndItem && !item.description){
                             itemTitle.push(logsets.colors.darkGray(`└─ `))
                         }else{
                             itemTitle.push(logsets.colors.darkGray(`│   `))
@@ -92,7 +98,7 @@ function createList(){
                                  opts.indent                                
                                 + opts.item.indent
                                 + (opts.grouped ? 
-                                    logsets.colors.darkGray(index==items.length-1 ? `└── ` : `│  `) 
+                                    logsets.colors.darkGray(isEndItem ? `└── ` : `│  `) 
                                     : ''
                                 )
                                 + indent
@@ -101,8 +107,7 @@ function createList(){
                     }
                 }
 
-                
-            })            
+            }           
         }
      }
  
@@ -118,5 +123,5 @@ function createList(){
   * @param {*} context  当前上下文配置参数
   */
 module.exports =  function(logsets,context){
-    logsets.list = (title,items,options)=>createList.call(logsets,context).show(title,items,options)
+    logsets.list = async (title,items,options)=>await createList.call(logsets,context).show(title,items,options)
 }

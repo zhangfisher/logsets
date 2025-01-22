@@ -1,6 +1,6 @@
 
-
 const logsets = require("../src/")
+const delay = async (n = 100) => new Promise((resolve) => setTimeout(resolve, n));
 
 const items = [
     {
@@ -56,6 +56,19 @@ logsets.list(["欢迎使用{}国际化解决方案",'VoerkaI18n'],items,{
 	title:{		
 		emoji:"🔥",
 	}
+}).then(async ()=>{
+	await logsets.list(["欢迎使用{}国际化解决方案",'VoerkaI18n'],async (index,end)=>{
+		await delay()
+		if(index===items.length-1) end()
+		return items[index]
+	},{
+		showOrderNumber:false,
+		title:{		
+			emoji:"💎",
+		}
+	}).then(()=>{
+		console.log("完成")
+	})
 })
 
 

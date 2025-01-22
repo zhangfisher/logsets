@@ -103,7 +103,7 @@ export interface Logsets{
 
     banner(options?:BannerPluginOptions):Banner
     tasklist(options?:TaskListPluginOptions | string):TaskList<Exclude<(typeof options),undefined>['status']>
-    createTasks(tasks:CreateTaskDefine[],options?:CreateTasksOptions):TaskRunner
+    createTasks(tasks:CreateTaskDefine[] | ((index:number,end:()=>void)=>CreateTaskDefine | Promise<CreateTaskDefine>),options?:CreateTasksOptions):TaskRunner
     run(title:string | [string,...any],tasks:CreateTaskDefine[],options?:RunTasksOptions):Promise<any>
     task(title:string,vars?:any[] | Record<string,any>):Task
     task(title:string,...vars:any[]):Task
@@ -111,7 +111,7 @@ export interface Logsets{
     progressbar(options?:ProgressbarPluginOptions):Progressbar
     tree(options?:TreePluginOptions):Tree
     table(options?:TablePluginOptions):Table
-    list(title:string | [string,...any] ,items:(string|ListItem)[],options?:ListPluginOptions):void
+    list(title:string | [string,...any] ,items:(string|ListItem)[] | ((index:number)=>string|ListItem),options?:ListPluginOptions):Promise<void>
 
     header(message: string):void
     header(message: string,vars?:any[]):void

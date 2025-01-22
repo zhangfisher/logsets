@@ -372,7 +372,9 @@ function createTaskList(context,options){
 function createTasks(logsetContext,tasks=[],options={}){
     const {abortOnError=true,ignoreErrors=false, grouped=false } = options || {}
     const logsets = this
-    if(!Array.isArray(tasks)) throw new TypeError("tasks must be an array")
+
+    if(!Array.isArray(tasks) && typeof(tasks)!=='function') throw new TypeError("tasks must be an array or a function")
+
     return {
         run:async (title,context)=>{
             let hasError = false
@@ -382,9 +384,16 @@ function createTasks(logsetContext,tasks=[],options={}){
             }) 
             const ctx = context || {} 
             let hasAbort =false
-            for(let i=0;i<tasks.length;i++){
-                const taskInfo = tasks[i]
-                const taskTitle = (Array.isArray(tasks[i].title) ? tasks[i].title: [tasks[i].title])                
+
+            let taskIndex = 0
+            const getTasks = typeof(tasks)=="function" ? tasks : (index)=>{
+                return tasks[index]
+            }
+
+            while(true){
+                const taskInfo = await getTasks(taskIndex++)                
+                if(taskInfo == undefined) break 
+                const taskTitle = (Array.isArray(taskInfo.title) ? taskInfo.title: [taskInfo.title])                
                 if(taskInfo == "-"){
                     if(grouped) taskList.options.indent = ansicolor.darkGray("  ├──") // ├
                     taskList.separator(taskInfo)
@@ -392,8 +401,12 @@ function createTasks(logsetContext,tasks=[],options={}){
                     const message =(grouped ? ansicolor.darkGray(" ♦── ") : '') + (Array.isArray(taskInfo) ? taskInfo[0] : taskInfo)
                     const args = Array.isArray(taskInfo) ? taskInfo.slice(1) : []
                     logsets.log(logsets.colorizeString(message,"bright"),...args)
-                }else if(typeof(taskInfo)=="object" && typeof(taskInfo.execute)=="function"){ 
+                }else if(typeof(taskInfo)=="object"){ 
                     if(grouped) taskList.options.indent = ansicolor.darkGray(i==tasks.length-1 ? " └── " : " │   ") 
+                    if(typeof(taskInfo.execute)!="function"){
+                      taskList.create(...taskTitle)
+                      continue
+                    }
                     const task =  taskList.add(...taskTitle)
                     try{
                         ctx.task = task
@@ -448,7 +461,8 @@ function createTasks(logsetContext,tasks=[],options={}){
                 if(!ignoreErrors && hasError && (abortOnError || hasAbort)){
                     throw hasError
                 }
-            }
+
+            } 
             return ctx
         }    
     }
