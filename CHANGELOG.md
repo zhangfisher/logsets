@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.18
+
+### Patch Changes
+
+- 9ce0194: add grouped of list
+
 ## 1.3.17
 
 ### Patch Changes
