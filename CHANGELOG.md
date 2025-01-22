@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.19
+
+### Patch Changes
+
+- a28b695: tasks support function
+
 ## 1.3.18
 
 ### Patch Changes
