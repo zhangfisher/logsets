@@ -119,6 +119,10 @@ const run = async ()=>{
         delay(1000)   
         throw new TypeError("下载失败")
     })
+    await tasks.run("20. 正在下载文件{}","b.zip", ()=>{
+        delay(2000)       
+    })
+    
     
 }
 

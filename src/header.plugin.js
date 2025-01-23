@@ -21,6 +21,6 @@
  */
 module.exports = function(logger,context){
     logger.h = logger.header = (message,...args)=>{
-        logger.log(logger.colorizeString(message,"bright"),...args)
+        logger.log(logger.colorizeString(message,"bright,lightCyan"),...args)
     }    
 }

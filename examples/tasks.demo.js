@@ -37,6 +37,23 @@ const run = async ()=>{
 				await delay();
 			},
 		},
+		"构建流程",
+		{
+			title: ["编码读取文件并编译成{}文件","exe"],
+		},
+		{
+			title: "读取文件并编译成exe文件",
+		},
+		{
+			title: "读取文件并编译成exe文件",
+		},
+		{
+			title: "读取文件并编译成exe文件",
+		},
+		{
+			title: "读取文件并编译成exe文件",
+		},
+		"任务执行",
 		{
 			title: "任务执行失败",
 			execute: async function () {
@@ -65,7 +82,8 @@ const run = async ()=>{
 		},
 	]
 	let tasks = logsets.createTasks(taskList,{
-		ignoreErrors:true
+		ignoreErrors:true,
+		grouped:true
 	});
 
 	tasks.run("开始执行任务").then(() => {
