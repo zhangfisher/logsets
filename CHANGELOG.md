@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.20
+
+### Patch Changes
+
+- 536eec8: update tasklist
+
 ## 1.3.19
 
 ### Patch Changes
