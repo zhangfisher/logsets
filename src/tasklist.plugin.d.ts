@@ -43,8 +43,9 @@ export type InlineTaskStatus =  'ignore' | 'running' | 'complete' | 'error' | 'a
 export type TaskWrokerResult = void |  string | InlineTaskStatus | Uppercase<InlineTaskStatus> | [InlineTaskStatus,string] |  [Uppercase<InlineTaskStatus>,string] 
 
 export type TaskList<CUSTOM_STATUS=any> = {
-    add(title:string,vars?:any[] | Record<string,any>):void
-    add(title:string,...vars:any[]):void
+    add(title:string,vars?:any[] | Record<string,any>):Task
+    add(title:string,...vars:any[]):Task
+    addGroup(title:string,...vars:any[]):void
     // 运行函数任务
     run(title:string,vars:any[] | Record<string,any>,worker:()=>Promise<TaskWrokerResult>,options?:{catchError?:boolean,showErrorStack?:boolean}):TaskWrokerResult
     run(title:string,worker:()=>Promise<TaskWrokerResult>,options?:{catchError?:boolean,showErrorStack?:boolean}):TaskWrokerResult

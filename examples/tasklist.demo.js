@@ -18,7 +18,7 @@ const run = async ()=>{
     
     const taskData = [
         {title:"开始扫描文件",result:"complete",note:"OK"},
-        {title:"准备对文件进行预处理",result:"error",note:"ERROR:文件没有找到"},
+        {title:"准备对文件进行预处理",result:"error",note:new Error("文件没有找到")},
         {title:"读取文件并编译成exe文件",result:"skip",note:"SKIP"},
         "-",
         {title:"任务处理被停止",result:"stop",note:"STOP"},

@@ -142,6 +142,8 @@ function createTaskList(context, options) {
     console.log(titleColorizer(logsets.getColorizedTemplate(...title)));
   }
 
+  if (opts.grouped) opts.indent = ansicolor.darkGray(" ├──"); // ├
+
   let curTask = null;
 
   const spinnerChars = ["|", "/", "-", "\\", "|", "/", "-", "\\"];
@@ -192,9 +194,7 @@ function createTaskList(context, options) {
           if (status !== "running") {
             progressValue = progressbarWidth;
           }
-          progressbar = Array.from({ length: progressValue })
-            .fill(opts.progressbar.char)
-            .join("");
+          progressbar = Array.from({ length: progressValue }).fill(opts.progressbar.char).join("");
           progressbar = paddingEnd(progressbar, progressbarWidth, " ");
           progressbar = getColorizer(opts.progressbar.style)(progressbar);
         }
@@ -202,7 +202,7 @@ function createTaskList(context, options) {
         let note = listNote || opts.status[status].note;
         note = paddingEnd(getColorizer(opts.status[status].style)(note), 30);
 
-        consoleOutput(`${opts.indent}${symbol} ${title}${progressbar}${note}`, {
+        consoleOutput(`${opts.indent} ${symbol} ${title}${progressbar}${note}`, {
           end: "\r",
         });
       }
@@ -235,17 +235,20 @@ function createTaskList(context, options) {
           if (note instanceof Error) return note.message;
           return note;
         });
-        const colorizedNote = logsets.getColorizedTemplate(...notes);
-
-        // let finalNote = note;
-        // if (typeof note === "function") finalNote = note();
-        // if (finalNote instanceof Error) finalNote = note.message;
-
+        const colorizedNote = logsets.getColorizedTemplate(...notes); 
         listNote = colorizedNote || state.note;
         status = key;
         self.end();
       };
     });
+    self.error = (error) => {
+      status = "error";
+      listNote = error instanceof Error ? error.message : error; 
+      self.end();
+      if (error instanceof Error) {
+        shwoErrorStack(error,opts.grouped ? ansicolor.darkGray(" │ ") : opts.indent);
+      }
+    }
   }
 
   let tasklistObj = {
@@ -260,8 +263,11 @@ function createTaskList(context, options) {
       hideCursor();
       return curTask;
     },
+    addGroup(title,...args) {
+       const message =( opts.grouped ? ansicolor.darkGray(" ♦── ") : "") + title;
+        logsets.log(logsets.colorizeString(message, "bright,lightCyan"),...args);
+    },
     create(...args) {
-      // 创任务但不自动开始
       if (curTask && !curTask.isEnd()) {
         curTask.complete();
       }
@@ -327,9 +333,7 @@ function createTaskList(context, options) {
         }
       } catch (e) {
         curTask.error(e.message);
-        if (taskOpts.showErrorStack) {
-          logsets.log(e.stack);
-        }
+        shwoErrorStack(error, grouped ? ansicolor.darkGray(" │ ") : "  ");
       }
       return result;
     },
@@ -573,8 +577,6 @@ module.exports = function (logsets, context) {
       return tasks.add(...args);
     }
   };
-  logsets.createTasks = (tasks, opts) =>
-    createTasks.call(logsets, context, tasks, opts);
-  logsets.run = async (title, tasks, opts) =>
-    await runTasks.call(logsets, context, title, tasks, opts);
+  logsets.createTasks = (tasks, opts) => createTasks.call(logsets, context, tasks, opts);
+  logsets.run = async (title, tasks, opts) => await runTasks.call(logsets, context, title, tasks, opts);
 };

@@ -53,7 +53,8 @@ tasks.separator()
 tasks.indent()  
 // 减少缩进
 tasks.outdent()  
-
+// 任务分组标题
+tasks.addGroup("分组标题")  
 
 // 一般用法
 
