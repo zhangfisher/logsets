@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.24
+
+### Patch Changes
+
+- 6071858: fix addMemo types
+
 ## 1.3.23
 
 ### Patch Changes
