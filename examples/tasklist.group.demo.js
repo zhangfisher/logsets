@@ -52,6 +52,15 @@ const run = async ()=>{
         }        
     } 
     
+    let task
+    try{
+        task = tasks.add("正在连接")
+        throw new Error("连接失败")
+    }catch(e){
+        task.error(e)
+    }
+
+    
     
 }
 

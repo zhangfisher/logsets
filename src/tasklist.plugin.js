@@ -243,7 +243,7 @@ function createTaskList(context, options) {
     });
     self.error = (error) => {
       status = "error";
-      listNote = error instanceof Error ? error.message : error; 
+      listNote = error instanceof Error ? error.message.split("\n")[0] : error; 
       self.end();
       if (error instanceof Error) {
         shwoErrorStack(error,opts.grouped ? ansicolor.darkGray(" │ ") : opts.indent);
@@ -332,8 +332,8 @@ function createTaskList(context, options) {
           curTask.complete(result);
         }
       } catch (e) {
-        curTask.error(e.message);
-        shwoErrorStack(error, grouped ? ansicolor.darkGray(" │ ") : "  ");
+        curTask.error(e);
+        // shwoErrorStack(error, grouped ? ansicolor.darkGray(" │ ") : "  ");
       }
       return result;
     },
