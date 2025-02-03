@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.23
+
+### Patch Changes
+
+- ed486fa: fix task indent
+
 ## 1.3.22
 
 ### Patch Changes
