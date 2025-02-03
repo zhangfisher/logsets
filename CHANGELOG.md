@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.22
+
+### Patch Changes
+
+- 0421777: 优化 task 错误显示
+
 ## 1.3.21
 
 ### Patch Changes
