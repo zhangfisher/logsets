@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.21
+
+### Patch Changes
+
+- ee04ed6: add grouped support for tasklist
+
 ## 1.3.20
 
 ### Patch Changes
