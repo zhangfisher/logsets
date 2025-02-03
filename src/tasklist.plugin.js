@@ -180,7 +180,7 @@ function createTaskList(context, options) {
       }
       let title = logsets.getColorizedTemplate(...args);
       if (self.progressbar === false) {
-        consoleOutput(`${opts.indent}${symbol} ${title}`, {
+        consoleOutput(`${opts.indent} ${symbol} ${title}`, {
           end: "\r",
         });
       } else {
@@ -253,24 +253,29 @@ function createTaskList(context, options) {
 
   let tasklistObj = {
     options: opts,
-    add(...args) {
-      // 自动完成上一个任务
-      if (curTask && !curTask.isEnd()) {
+    endLastTask(){
+      if (curTask && !curTask.isEnd()) {// 自动完成上一个任务
         curTask.complete();
       }
+    },
+    add(...args) {      
+      this.endLastTask()
       curTask = new createTask(...args);
       curTask.start();
       hideCursor();
       return curTask;
     },
     addGroup(title,...args) {
-       const message =( opts.grouped ? ansicolor.darkGray(" ♦── ") : "") + title;
-        logsets.log(logsets.colorizeString(message, "bright,lightCyan"),...args);
+      this.endLastTask()
+      const message =( opts.grouped ? ansicolor.darkGray(" ♦── ") : "") + title;
+      logsets.log(logsets.colorizeString(message, "bright,lightCyan"),...args);
+    },    
+    addMemo(title,...args) {
+      this.endLastTask()
+      this.create(title,...args);
     },
     create(...args) {
-      if (curTask && !curTask.isEnd()) {
-        curTask.complete();
-      }
+      this.endLastTask()
       curTask = new createTask(...args);
       curTask.progressbar = false;
       hideCursor();
@@ -300,10 +305,10 @@ function createTaskList(context, options) {
       } else {
         throw new TypeError();
       }
-      const taskOpts = Object.assign(
+      Object.assign(opts,
         {
-          abortOnError: true, // 当运行worker出错时抛出
-          showErrorStack: true, // 显示错误堆栈详细信息
+          abortOnError: true,     // 当运行worker出错时抛出
+          showErrorStack: true,   // 显示错误堆栈详细信息
         },
         options
       );
@@ -332,12 +337,12 @@ function createTaskList(context, options) {
           curTask.complete(result);
         }
       } catch (e) {
-        curTask.error(e);
-        // shwoErrorStack(error, grouped ? ansicolor.darkGray(" │ ") : "  ");
+        curTask.error(e); 
       }
       return result;
     },
     separator(title = "", char = "─") {
+      this.endLastTask()
       if (!title) title = "";
       if (title == "-") title = "─";
       if (curTask && !curTask.isEnd()) {
@@ -570,8 +575,7 @@ module.exports = function (logsets, context) {
           }
         })
         .catch((e) => {
-          task.error(e.message);
-          console.error(e.stack);
+          task.error(e);
         });
     } else {
       return tasks.add(...args);

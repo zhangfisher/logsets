@@ -28,7 +28,7 @@ const run = async ()=>{
         {title:["下载文件：{},大小:{}, 已下载{}",["package.json",122,344]],result:"todo",note:"TODO"},
 
     ]
-    
+    tasks.addMemo("任务列表")
 
     for(let task of taskData){
         if(task=="-") {
