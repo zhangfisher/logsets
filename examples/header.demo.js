@@ -8,3 +8,4 @@ const logsets = require("../src")
   logsets.header("My name is {#red tom}")
   logsets.h("{#blue Voerkai18n}是一个非常不错的{#red,dim 多语言}解决方案!")
 
+  logsets.header("准备翻译{}个文件",500)

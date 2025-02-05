@@ -16,11 +16,11 @@
 */
  /**
  * 
- * @param {*} logger 
+ * @param {*} logsets 
  * @param {*} context  当前上下文配置参数
  */
-module.exports = function(logger,context){
-    logger.h = logger.header = (message,...args)=>{
-        logger.log(logger.colorizeString(message,"bright,lightCyan"),...args)
+module.exports = function(logsets,context){
+    logsets.h = logsets.header = (message,...args)=>{        
+        logsets.log(logsets.colorizeString(logsets.getColorizedTemplate(message,...args),"bright,lightCyan"))
     }    
 }
