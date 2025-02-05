@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.25
+
+### Patch Changes
+
+- 213ef6c: update header style
+
 ## 1.3.24
 
 ### Patch Changes
