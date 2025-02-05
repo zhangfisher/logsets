@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.27
+
+### Patch Changes
+
+- 2b4d3d2: 优化任务列表的结束项显示
+
 ## 1.3.25
 
 ### Patch Changes
