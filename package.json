@@ -11,7 +11,6 @@
     "build": "rollup -c",
     "release": "nrm use npm && npm version patch --commit-hooks=false && npm run build && npm publish",
     "dev:docs": "docsify serve docs",
-    "prepare": "husky install",
     "commit": "git add . && git cz",
     "version": "conventional-changelog -p angular -i ./docs/CHANGELOG.md -s -r 0 && git add ./docs/CHANGELOG.md",
     "docs:dev": "vitepress dev docs",
@@ -67,9 +66,6 @@
     "commitizen": {
       "path": "@commitlint/cz-commitlint"
     }
-  },
-  "pnpm": {
-    "enable-pre-post-scripts": true
-  },
+  }, 
   "packageManager": "pnpm@9.0.0"
 }
