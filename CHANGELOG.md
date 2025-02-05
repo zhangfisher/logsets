@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.26
+
+### Patch Changes
+
+- 2916400: tasklist add done method
+
 ## 1.3.25
 
 ### Patch Changes
