@@ -142,7 +142,7 @@ function createTaskList(context, options) {
     console.log(titleColorizer(logsets.getColorizedTemplate(...title)));
   }
 
-  if (opts.grouped) opts.indent = ansicolor.darkGray(" ├──"); // ├
+  if (opts.grouped) opts.indent = ansicolor.darkGray(" │  "); // ├
 
   let curTask = null;
 
@@ -273,6 +273,12 @@ function createTaskList(context, options) {
     addMemo(title,...args) {
       this.endLastTask()
       this.create(title,...args);
+      this.endLastTask()
+    },
+    done(title,...args){ 
+      if(!title) title = "Done!" 
+      const message =( opts.grouped ? ansicolor.darkGray(" └── ") : "") + title;
+      logsets.log(logsets.colorizeString(message, "bright,lightCyan"),...args);
     },
     create(...args) {
       this.endLastTask()
