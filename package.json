@@ -38,7 +38,7 @@
     "@babel/runtime-corejs3": "^7.17.0",
     "ansicolor": "^1.1.100",
     "core-js": "^3.21.0",
-    "flex-tools": "^1.4.12"
+    "flex-tools": "^1.4.27"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.0",
@@ -66,6 +66,6 @@
     "commitizen": {
       "path": "@commitlint/cz-commitlint"
     }
-  }, 
+  },
   "packageManager": "pnpm@9.0.0"
 }
