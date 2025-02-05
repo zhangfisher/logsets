@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.25
+
+### Patch Changes
+
+- 59e58ca: 优化任务列表的结束项
+
 ## 1.3.24
 
 ### Patch Changes
