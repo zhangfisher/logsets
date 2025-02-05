@@ -553,7 +553,7 @@ module.exports = function (logsets, context) {
     const tasks = createTaskList.call(logsets, context, {
       title: null,
       indent: "",
-      width: 62,
+      width: 78,
     });
     if (
       args.length == 2 &&
