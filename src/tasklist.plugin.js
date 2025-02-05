@@ -267,8 +267,8 @@ function createTaskList(context, options) {
     },
     addGroup(title,...args) {
       this.endLastTask()
-      const message =( opts.grouped ? ansicolor.darkGray(" ♦── ") : "") + title;
-      logsets.log(logsets.colorizeString(message, "bright,lightCyan"),...args);
+      const message =( opts.grouped ? ansicolor.darkGray(" ♦── ") : "") + title;      
+      logsets.log(logsets.colorizeString(logsets.getColorizedTemplate(message,...args), "bright,lightCyan"))
     },    
     addMemo(title,...args) {
       this.endLastTask()
@@ -405,7 +405,7 @@ function createTasks(logsetContext, tasks = [], options = {}) {
   const {
     abortOnError = true,
     ignoreErrors = false,
-    grouped = false,
+    grouped = true,
   } = options || {};
   const logsets = this;
 
@@ -426,10 +426,10 @@ function createTasks(logsetContext, tasks = [], options = {}) {
       let isEndItem = false;
       const setEnd = () => (isEndItem = true);
 
-      const getTasks =
-        typeof tasks == "function"
+      const getTasks = typeof tasks == "function"
           ? tasks
-          : (index) => {
+          : (index,end) => {
+            if(index==tasks.length-1) end()
               return tasks[index];
             };
 
@@ -441,22 +441,18 @@ function createTasks(logsetContext, tasks = [], options = {}) {
           : [taskInfo.title];
         if (taskInfo == "-") {
           // 分隔线
-          if (grouped) taskList.options.indent = ansicolor.darkGray(" ├──"); // ├
+          if (grouped) taskList.options.indent = ansicolor.darkGray(` ├──`); // ├
           taskList.separator(taskInfo);
         } else if (Array.isArray(taskInfo) || typeof taskInfo == "string") {
           // Header
-          const message =
-            (grouped ? ansicolor.darkGray(" ♦── ") : "") +
-            (Array.isArray(taskInfo) ? taskInfo[0] : taskInfo);
+          const message = (grouped ? ansicolor.darkGray(" ♦── ") : "") + (Array.isArray(taskInfo) ? taskInfo[0] : taskInfo);
           const args = Array.isArray(taskInfo) ? taskInfo.slice(1) : [];
-          logsets.log(
-            logsets.colorizeString(message, "bright,lightCyan"),
-            ...args
-          );
+          logsets.log(logsets.colorizeString(logsets.getColorizedTemplate(message,...args), "bright,lightCyan"))
+
         } else if (typeof taskInfo == "object") {
           if (grouped)
             taskList.options.indent = ansicolor.darkGray(
-              isEndItem ? " └── " : " │   "
+              (isEndItem || taskInfo.end )? " └──"  : " │  "
             );
           if (typeof taskInfo.execute != "function") {
             taskList.create(...taskTitle);

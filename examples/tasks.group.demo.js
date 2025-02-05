@@ -78,6 +78,7 @@ const taskList =[
 			await delay();
 			return 'cancel'
 		},
+		end:true
 	},
 ]
 let tasks = logsets.createTasks(taskList,{grouped:true});

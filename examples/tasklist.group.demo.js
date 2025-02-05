@@ -26,7 +26,7 @@ const run = async ()=>{
         {title:"任务处理被停止",result:"stop",note:"STOP"},
         {title:"任务执行失败",result:"fail",note:"FAIL"},
         {title:"任务待办状态",result:"todo",note:"TODO"},
-        "下载文件",    
+        ["下载{}文件","voerkai18n"],    
         {title:["下载文件：{},大小:{}, 已下载{}","package.json",122,344],result:"todo",note:"TODO"},
         {title:["下载文件：{},大小:{}, 已下载{}",["package.json",122,344]],result:"todo",note:"TODO"},
 
