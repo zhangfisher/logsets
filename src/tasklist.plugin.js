@@ -278,6 +278,7 @@ function createTaskList(context, options) {
     addMemo(title,...args) {
       this.endLastTask()
       this.create(title,...args);
+      this.endLastTask()
     },
     create(...args) {
       this.endLastTask()
