@@ -42,13 +42,9 @@ jobs:
         uses: actions/configure-pages@v3
       - name: Install pnpm 
         run:
-          npm install -g pnpm
-      # - name : pnpm store prune
-      #   run: |
-      #     pnpm store prune
-      #     rm pnpm-lock.yaml
+          npm install -g pnpm 
       - name: Install dependencies
-        run: pnpm install  --no-frozen-lockfile 
+        run: pnpm install --registry=https://registry.npmjs.org/ --no-frozen-lockfile 
       - name: pnpm docs:build
         run: |
           pnpm docs:build 

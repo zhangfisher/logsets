@@ -31,14 +31,10 @@ jobs:
                   cache: pnpm
 
             - name: Install pnpm
-              run: npm install -g pnpm
-            # - name : pnpm store prune
-            #   run: |
-            #     pnpm store prune
-            #     rm pnpm-lock.yaml      
+              run: npm install -g pnpm     
             # 安装依赖
             - name: Install dependencies
-              run: pnpm install  --no-frozen-lockfile
+              run: pnpm install   --registry=https://registry.npmjs.org/ --no-frozen-lockfile
             - name: Build package
               run: pnpm build  
             - name: Create Release Pull Request or Publish to npm
