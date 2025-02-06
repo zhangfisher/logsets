@@ -35,7 +35,7 @@ jobs:
             # - name : pnpm store prune
             #   run: |
             #     pnpm store prune
-            #     rm pnpm-lock.yaml    
+            #     rm pnpm-lock.yaml      
             # 安装依赖
             - name: Install dependencies
               run: pnpm install  --registry=https://registry.npmjs.org/ --no-frozen-lockfile
