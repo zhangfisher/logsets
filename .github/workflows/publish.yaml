@@ -38,7 +38,7 @@ jobs:
             #     rm pnpm-lock.yaml      
             # 安装依赖
             - name: Install dependencies
-              run: pnpm install  --registry=https://registry.npmjs.org/ --no-frozen-lockfile
+              run: pnpm install  --no-frozen-lockfile
             - name: Build package
               run: pnpm build  
             - name: Create Release Pull Request or Publish to npm
