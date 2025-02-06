@@ -91,8 +91,11 @@ const run = async ()=>{
 		// logsets.run(["开始执行{}个任务",5],taskList).then(() => {
 		// 	console.log("done");
 		// });	
-		let fntasks = logsets.createTasks((index)=>{
+		let fntasks = logsets.createTasks((index,end)=>{
 			if(index<taskList.length){
+				if(index===taskList.length-1){
+					end()
+				}
 				return taskList[index]
 			}else{
 				return null
