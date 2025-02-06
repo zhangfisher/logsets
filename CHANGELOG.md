@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.29
+
+### Patch Changes
+
+- 311aa1d: fix addmemo last no display
+
 ## 1.3.28
 
 ### Patch Changes
