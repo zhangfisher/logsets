@@ -435,7 +435,7 @@ function createTasks(logsetContext, tasks = [], options = {}) {
       const getTasks = typeof tasks == "function"
           ? tasks
           : (index,end) => {
-            if(index==tasks.length-1) end()
+            if(index==tasks.length-1 && tasks[index].end!==false) end()
               return tasks[index];
             };
 

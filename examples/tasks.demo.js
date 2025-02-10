@@ -76,6 +76,7 @@ const run = async ()=>{
 		},
 		{
 			title: ["下载文件：{},大小:{}, 已下载{}", ["package.json", 122, 344]],
+			end:false,
 			execute: async function () {
 				await delay();
 			},
@@ -86,8 +87,7 @@ const run = async ()=>{
 		grouped:true
 	});
 
-	tasks.run("开始执行任务").then(() => {
-		console.log("done");
+	tasks.run("开始执行任务").then(() => { 
 		// logsets.run(["开始执行{}个任务",5],taskList).then(() => {
 		// 	console.log("done");
 		// });	
@@ -103,7 +103,7 @@ const run = async ()=>{
 		},{
 			ignoreErrors:true
 		});
-		fntasks.run("开始执行任务2").then(() => {
+		fntasks.run().then(() => {
 			console.log("done");
 		});
 	},{
