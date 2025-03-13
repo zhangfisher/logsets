@@ -124,9 +124,22 @@ function shwoErrorStack(error, indent = "  ") {
     console.log(
       error.stack
         .split("\n")
-        .map((line) => {
+        .reduce((lines, cur) =>{
+          if(cur.length>80){
+            let index = 0
+            while(index<cur.length){
+              lines.push(cur.substring(index,80))
+              index+=80
+            }
+          }else{
+            lines.push(cur)
+          }
+          return lines
+        },[])
+        .map((line) => {        
           return ansicolor.red(indent + "  " + line);
         })
+                
         .join("\n")
     );
   }
