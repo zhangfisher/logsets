@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.30
+
+### Patch Changes
+
+- ed13298: fix tasks end flag
+
 ## 1.3.29
 
 ### Patch Changes
