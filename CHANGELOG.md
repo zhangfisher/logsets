@@ -1,5 +1,11 @@
 # logsets
 
+## 1.3.31
+
+### Patch Changes
+
+- 3b9f3c0: 优化超长错误栈信息的显示
+
 ## 1.3.30
 
 ### Patch Changes
